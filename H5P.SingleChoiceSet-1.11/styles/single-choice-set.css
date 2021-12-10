@@ -404,6 +404,7 @@ li.h5p-sc-alternative .h5p-sc-status {
   padding-left: 1.75em;
   border-bottom: 1px solid #ccc;
   position: relative;
+  clear: left;
 }
 .h5p-sc-solution-answer p {
   margin: 0.75em 0;
