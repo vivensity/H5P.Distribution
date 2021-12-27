@@ -117,7 +117,7 @@ H5P.QuestionSet = function (options, contentId, contentData) {
     '    <button type="button" class="h5p-joubelui-button h5p-button qs-retrybutton"><%= retryButtonText %></button>':
     '';
 
-  // const submitButtonTemplate = '<button type="button" class="h5p-joubelui-button h5p-button qs-submitbutton"><%= submitButtonText %></button>';
+  const submitButtonTemplate = '<button type="button" class="h5p-joubelui-button h5p-button qs-submitbutton"><%= submitButtonText %></button>';
 
   var resulttemplate =
           '<div class="questionset-results">' +
@@ -135,7 +135,7 @@ H5P.QuestionSet = function (options, contentId, contentData) {
           '  <div class="buttons">' +
           solutionButtonTemplate +
           retryButtonTemplate +
-          // submitButtonTemplate +
+          submitButtonTemplate +
           '  </div>' +
           '</div>';
 
@@ -787,7 +787,7 @@ H5P.QuestionSet = function (options, contentId, contentData) {
           }
         });
         hookUpButton('.qs-submitbutton', function () {
-          // self.triggerXAPIScored(self.getScore(), self.getMaxScore(), "submitted-curriki");
+          self.triggerXAPIScored(self.getScore(), self.getMaxScore(), "submitted-curriki");
         });
 
         if (scoreBar === undefined) {
