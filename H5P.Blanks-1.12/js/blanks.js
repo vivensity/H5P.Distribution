@@ -726,7 +726,7 @@ H5P.Blanks = (function ($, Question) {
    * Trigger xAPI completed event
    */
    Blanks.prototype.triggerCompleted = function () {
-    self.triggerXAPIScored(self.getScore(), self.getMaxScore(), 'completed');
+    this.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'completed');
   };
 
 
