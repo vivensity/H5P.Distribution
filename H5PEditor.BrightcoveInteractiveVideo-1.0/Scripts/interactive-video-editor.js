@@ -13,6 +13,8 @@ H5PEditor.widgets.interactiveVideo = H5PEditor.BrightcoveInteractiveVideo = (fun
    * @param {function} setValue
    */
   function InteractiveVideoEditor(parent, field, params, setValue) {
+    $('a.h5peditor-tab-summary').parent().hide();
+    $('a.h5peditor-tab-video').parent().hide();
     var that = this;
     H5P.DragNBar.FormManager.call(this, parent.parent, {
       doneButtonLabel: t('done'),
@@ -85,7 +87,7 @@ H5PEditor.widgets.interactiveVideo = H5PEditor.BrightcoveInteractiveVideo = (fun
     });
 
     // Tour de editor
-    this.currentTabIndex = 0;
+    this.currentTabIndex = 1;
 
     // When wizard changes step
     parent.on('stepChanged', function (event) {

@@ -749,3 +749,7 @@ body .h5p.shepherd-element.shepherd-theme-arrows {
 .h5p-brightcoveinteractivevideo-editor .content .video,.field-name-textTracks {
   display: none;
 }
+
+.h5peditor-wizard-navigation-buttons div {
+  display:none !important;
+}
