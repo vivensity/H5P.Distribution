@@ -1,5 +1,9 @@
-window.brightcoveAccountId = '2985902027001';
-// window.brightcoveAccountId = '6282550302001';
+if (window.parent.brightcoveAccountId || window.brightcoveAccountId) {
+  window.brightcoveAccountId = window.parent.brightcoveAccountId;
+} else {
+  window.brightcoveAccountId ='6282550302001';
+}
+
 
 /** @namespace H5P */
 H5P.VideoBrightcove = (function ($) {
@@ -99,24 +103,9 @@ H5P.VideoBrightcove = (function ($) {
       //************[end full screen]*********************
       
       if (window.bcPlayerExternal) {
-        var playerReadyStateTime = setInterval(function(e) {
-          if (player.readyState() === 3 || player.readyState() === 4) {
-            clearInterval(playerReadyStateTime);
-            if (player.hasStarted()) {
-              player.autoplay(true);
-              player.pause();
-              initializePlayerEvents();
-              self.trigger('ready');
-              self.trigger('loaded');
-              player.play();
-              player.autoplay(false);
-            } else {
-              initializePlayerEvents();
-              self.trigger('ready');
-              self.trigger('loaded');
-            }
-          }
-        }, 200);
+        initializePlayerEvents();
+        self.trigger('ready');
+        self.trigger('loaded');
       } else {
         player.on('loadedmetadata', function() {
           initializePlayerEvents();
@@ -447,7 +436,7 @@ H5P.VideoBrightcove = (function ($) {
 
       $wrapper.css({
         width: '100%',
-        height: 'inherit'
+        height: 'auto'
       });
     });
   }
@@ -504,7 +493,6 @@ H5P.VideoBrightcove = (function ($) {
       css += ' .h5p-controls { display: none !important; }';
       css += ' .h5p-actions { display: none !important; }';
       css += ' .vjs-has-started .vjs-control-bar { z-index: 2 !important; }';
-      css += ' .curriki-player-wrapper, .h5p-video-wrapper, .h5p-container, .h5p-content { height: inherit !important; }';
       let head = document.head || document.getElementsByTagName('head')[0];
       let style = document.createElement('style');
       head.appendChild(style);
