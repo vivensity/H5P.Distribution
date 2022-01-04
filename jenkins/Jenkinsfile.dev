@@ -1,4 +1,7 @@
 node('currikidev') {
+    stage('Clone repository') {               
+        checkout scm    
+    }  
     stage ('Copy H5P to currikidev') {
             echo 'Copy'
             sh "yes | rm -rf /tmp/h5p-dist2" 
