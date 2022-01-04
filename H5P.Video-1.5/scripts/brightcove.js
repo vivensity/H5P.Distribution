@@ -435,8 +435,8 @@ H5P.VideoBrightcove = (function ($) {
       }
 
       $wrapper.css({
-        width: '100%',
-        height: 'auto'
+        width: 'inherit',
+        height: 'inherit'
       });
     });
   }
