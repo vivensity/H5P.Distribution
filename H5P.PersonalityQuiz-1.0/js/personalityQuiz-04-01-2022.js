@@ -525,9 +525,7 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
         });
         addButtonListener($button1, function () {
          
-            self.triggerXAPIScored(1, 1, 'submitted-curriki');
-            self.triggerXAPIScored(1, 1, 'answered');
-            triggerXAPIScored(1, 1, 'completed');
+            self.triggerXAPIScored(0, 1, 'submitted-curriki');
           
             H5P.jQuery('.h5p-personality-quiz-button').hide();
             var $submit_message= "<h1>Result has been submitted successfully</h1>";
