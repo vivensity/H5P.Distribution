@@ -206,13 +206,16 @@ H5P.Blanks = (function ($, Question) {
         self.toggleButtonVisibility(STATE_CHECKING);
 
         if(typeof self.parent == "undefined") {
+          // trigger completed
+          self.triggerCompleted();
+          
           self.triggerXAPIScored(self.getScore(), self.getMaxScore(), 'submitted-curriki');
         }
         self.markResults();
         self.showEvaluation();
         
         self.triggerAnswered();
-        
+
       }, true, {
         'aria-label': self.params.a11yCheck,
       }, {
@@ -404,6 +407,8 @@ H5P.Blanks = (function ($, Question) {
             self.toggleButtonVisibility(STATE_CHECKING);
             self.showEvaluation();
             self.triggerAnswered();
+            // trigger completed
+            self.triggerCompleted();
             self.done = true;
           }
         };
@@ -716,6 +721,14 @@ H5P.Blanks = (function ($, Question) {
     this.addResponseToXAPI(xAPIEvent);
     this.trigger(xAPIEvent);
   };
+
+  /**
+   * Trigger xAPI completed event
+   */
+   Blanks.prototype.triggerCompleted = function () {
+    self.triggerXAPIScored(self.getScore(), self.getMaxScore(), 'completed');
+  };
+
 
   /**
    * Get xAPI data.
