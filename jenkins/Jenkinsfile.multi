@@ -1,4 +1,7 @@
 node('currikimultitenancy') {
+    stage('Clone repository') {               
+        checkout scm    
+    }  
     stage ('Copy H5P to multitenancy') {
     
             echo 'Copy'
