@@ -41,8 +41,9 @@ H5P.VideoBrightcove = (function ($) {
         window.videojs = undefined;
       }
       var $placeholder = $('<div/>', {id});
+      H5P.jQuery($placeholder).hide();
       window.videoJsTagIdGlobal = videoJsTagId;
-      H5P.jQuery('<video-js id="' + videoJsTagId + '" data-account="'+brightcoveData.dataAccount+'" data-player="'+brightcoveData.dataPlayer+'" data-embed="' + brightcoveData.dataEmbed +'" controls="" data-video-id="'+brightcoveData.dataVideoId+'" data-playlist-id="" data-application-id="" class="vjs-fluid"></video-js>').hide().appendTo($placeholder);
+      H5P.jQuery('<video-js id="' + videoJsTagId + '" data-account="'+brightcoveData.dataAccount+'" data-player="'+brightcoveData.dataPlayer+'" data-embed="' + brightcoveData.dataEmbed +'" controls="" data-video-id="'+brightcoveData.dataVideoId+'" data-playlist-id="" data-application-id="" class="vjs-fluid"></video-js>').appendTo($placeholder);
       $placeholder.appendTo($wrapper);
       
       if (window.H5PEditor !== undefined) {
@@ -113,7 +114,7 @@ H5P.VideoBrightcove = (function ($) {
           H5P.jQuery('.loading-wrapper').remove();
           self.trigger('ready');
           self.trigger('loaded');
-          H5P.jQuery('video-js').show();
+          H5P.jQuery($placeholder).show();
         });
       }
       
