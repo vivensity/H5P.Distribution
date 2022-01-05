@@ -1,9 +1,10 @@
-if (window.parent.brightcoveAccountId || window.brightcoveAccountId) {
-  window.brightcoveAccountId = window.parent.brightcoveAccountId;
-} else {
-  window.brightcoveAccountId ='6282550302001';
+if (window.bcPlayerExternal === undefined) {
+    if (window.parent.brightcoveAccountId || window.brightcoveAccountId) {
+      window.brightcoveAccountId = window.parent.brightcoveAccountId;
+    } else {
+      window.brightcoveAccountId ='6282550302001';
+    }
 }
-
 
 /** @namespace H5P */
 H5P.VideoBrightcove = (function ($) {
