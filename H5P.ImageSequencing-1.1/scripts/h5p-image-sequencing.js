@@ -391,6 +391,16 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
       that.addQuestionToXAPI(xAPIEvent);
       that.addResponseToXAPI(xAPIEvent);
       that.trigger(xAPIEvent);
+
+      // trigger submitted-curriki XAPI
+      that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'submitted-curriki');
+
+      // trigger completed XAPI
+      let completedEvent = that.createXAPIEventTemplate('completed');
+      completedEvent.setScoredResult(that.getScore(), that.getMaxScore(), that, true, that.score === that.numCards);
+      completedEvent.data.statement.result.duration = 'PT' + (Math.round(that.timer.getTime() / 10) / 100) + 'S';
+      that.trigger(completedEvent);
+
       that.trigger('resize');
     };
 
