@@ -478,7 +478,7 @@ H5P.Flashcards = (function ($, XapiGenerator) {
     }).join('[,]');
 
     definition.correctResponsesPattern[0] += crpAnswers;
-
+    const placeHolder = '__________';
     const cardDescriptions = this.options.cards.map(function (card) {
       return '<p>' + card.text + ' ' + placeHolder + '</p>';
     }).join('');
