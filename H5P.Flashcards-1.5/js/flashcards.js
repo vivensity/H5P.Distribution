@@ -447,7 +447,7 @@ H5P.Flashcards = (function ($, XapiGenerator) {
     }).on('click', function () {
       const xAPIEvent = that.createXAPIEventTemplate('answered');
       const definition = xAPIEvent.getVerifiedStatementValue(['object', 'definition']);
-      $.extend(definition, getxAPIDefinition(that));
+      $.extend(definition, that.getxAPIDefinition(that));
       xAPIEvent.setScoredResult(
         that.getScore(),
         that.getMaxScore(),
