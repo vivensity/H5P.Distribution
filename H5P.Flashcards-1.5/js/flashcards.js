@@ -453,7 +453,7 @@ H5P.Flashcards = (function ($, XapiGenerator) {
         that.getMaxScore(),
         that
       );
-      xAPIEvent.data.statement.result.response = instance.answers.join('[,]');
+      xAPIEvent.data.statement.result.response = that.answers.join('[,]');
       // const xAPIEvent = XapiGenerator.getXapiEvent(this);
       that.trigger(xAPIEvent);
       // that.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'answered');
