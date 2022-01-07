@@ -445,19 +445,19 @@ H5P.Flashcards = (function ($, XapiGenerator) {
       'class': 'h5p-results-retry-button h5p-visible h5p-button',
       'text': "Submit Results"
     }).on('click', function () {
-      const xAPIEvent = this.createXAPIEventTemplate('answered');
+      const xAPIEvent = that.createXAPIEventTemplate('answered');
       const definition = xAPIEvent.getVerifiedStatementValue(['object', 'definition']);
-      $.extend(definition, getxAPIDefinition(this));
+      $.extend(definition, getxAPIDefinition(that));
       xAPIEvent.setScoredResult(
-        this.getScore(),
-        this.getMaxScore(),
-        this
+        that.getScore(),
+        that.getMaxScore(),
+        that
       );
       xAPIEvent.data.statement.result.response = instance.answers.join('[,]');
       // const xAPIEvent = XapiGenerator.getXapiEvent(this);
-      this.trigger(xAPIEvent);
+      that.trigger(xAPIEvent);
       // that.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'answered');
-      that.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'submitted-curriki');
+      that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'submitted-curriki');
       // self.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'completed');
     }).appendTo(this.$resultScreen);
     
