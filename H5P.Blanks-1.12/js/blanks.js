@@ -276,7 +276,7 @@ H5P.Blanks = (function ($, Question) {
         self.toggleButtonVisibility(STATE_SUBMITTED_SOLUTION);
         self.triggerXAPIScored(self.getScore(), self.getMaxScore(), 'submitted-curriki');
         var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
-        $container.append($submit_message)
+        H5P.jQuery('.h5p-question-buttons').after($submit_message);
         }, true
       );
     }
