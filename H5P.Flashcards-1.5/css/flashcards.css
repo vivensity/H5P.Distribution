@@ -955,5 +955,6 @@ button::-moz-focus-inner {
 }
 .inner-div
 {
-    display: inline-block;
+    display: inline-block !important;
+    margin: 15px !important;
 }

@@ -451,8 +451,8 @@ H5P.Flashcards = (function ($, XapiGenerator) {
 
 
     this.$submitButton = $('<button/>', {
-      'class': 'h5p-results-button h5p-visible h5p-button',
-      'text': "Submit Results"
+      'class': 'h5p-results-button h5p-visible h5p-button inner-div',
+      'text': that.options.submitAnswers
     }).on('click', function () {
       const xAPIEvent = that.createXAPIEventTemplate('answered');
       const definition = xAPIEvent.getVerifiedStatementValue(['object', 'definition']);
