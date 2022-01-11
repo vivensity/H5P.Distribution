@@ -273,6 +273,7 @@ H5P.Blanks = (function ($, Question) {
     if (!self.params.behaviour.disableSubmitButton && typeof self.parent == "undefined") {
       // Show submit button
       self.addButton('submit-answer', self.params.submitAnswer,  function () {
+        self.submitted = true;
         self.toggleButtonVisibility(STATE_SUBMITTED_SOLUTION);
         self.triggerXAPIScored(self.getScore(), self.getMaxScore(), 'submitted-curriki');
         var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
@@ -283,6 +284,8 @@ H5P.Blanks = (function ($, Question) {
 
     // Show solution button
     self.addButton('show-solution', self.params.showSolutions, function () {
+      self.solutionMode = true;
+      H5P.jQuery('.submit-answer-feedback').remove();
       self.showCorrectAnswers(false);
     }, self.params.behaviour.enableSolutionsButton, {
       'aria-label': self.params.a11yShowSolution,
@@ -575,7 +578,7 @@ H5P.Blanks = (function ($, Question) {
     }
 
     if (this.params.behaviour.enableSolutionsButton) {
-      if (state === STATE_CHECKING && !allCorrect) {
+      if (!this.solutionMode && (state === STATE_CHECKING && !allCorrect || state === STATE_SUBMITTED_SOLUTION)) {
         this.showButton('show-solution');
       }
       else {
@@ -593,7 +596,7 @@ H5P.Blanks = (function ($, Question) {
     }
 
     if(!this.params.behaviour.disableSubmitButton) {
-      if(state === STATE_CHECKING || state === STATE_SHOWING_SOLUTION) {
+      if(!this.submitted && (state === STATE_CHECKING || state === STATE_SHOWING_SOLUTION)) {
         this.showButton('submit-answer');
       } else {
         this.hideButton('submit-answer');
@@ -714,6 +717,8 @@ H5P.Blanks = (function ($, Question) {
    */
   Blanks.prototype.resetTask = function () {
     this.answered = false;
+    this.submitted = false;
+    this.solutionMode = false;
     this.hideEvaluation();
     this.hideSolutions();
     this.clearAnswers();
