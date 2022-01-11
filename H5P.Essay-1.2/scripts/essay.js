@@ -9,6 +9,7 @@ H5P.Essay = function ($, Question) {
   var SOLUTION_INTRODUCTION = 'h5p-essay-solution-introduction';
   var SOLUTION_SAMPLE = 'h5p-essay-solution-sample';
   var SOLUTION_SAMPLE_TEXT = 'h5p-essay-solution-sample-text';
+  var STATE_SUBMITTED_SOLUTION = 'submitted-solution';
 
   // The H5P feedback right now only expects true (green)/false (red) feedback, not neutral feedback
   var FEEDBACK_EMPTY= '<span class="h5p-essay-feedback-empty">...</span>';
@@ -40,12 +41,14 @@ H5P.Essay = function ($, Question) {
           minimumLength: 0,
           inputFieldSize: 10,
           enableRetry: true,
+          disableSubmitButton: false,
           ignoreScoring: false,
           pointsHost: 1
         },
         checkAnswer: 'Check',
         tryAgain: 'Retry',
         showSolution: 'Show solution',
+        submitAnswer: "Submit",
         viewSummary: "View Summary",
         feedbackHeader: 'Feedback',
         solutionTitle: 'Sample solution',
@@ -174,8 +177,19 @@ H5P.Essay = function ($, Question) {
       that.internalShowSolutionsCall = false;
     }, false, {}, {});
 
+    // Show submit button
+    that.addButton('submit-answer', that.params.submitAnswer,  function () {
+      console.log('addSubmitButton');
+      
+      that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'submitted-curriki');
+      that.hideButton('submit-answer');
+      var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
+      H5P.jQuery('.h5p-question-content').append($submit_message);
+      }, false
+    );
+
     // Check answer button
-    that.addButton('check-answer', "Submit Reuslt", function () {
+    that.addButton('check-answer', that.params.checkAnswer, function () {
       // Show message if the minimum number of characters has not been met
       if (that.inputField.getText().length < that.params.behaviour.minimumLength) {
         var message = that.params.notEnoughChars.replace(/@chars/g, that.params.behaviour.minimumLength);
@@ -184,9 +198,7 @@ H5P.Essay = function ($, Question) {
         
         return;
       }
-      if(typeof that.parent == "undefined") {
-        that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'submitted-curriki');
-      }
+      
       
 
       that.inputField.disable();
@@ -201,11 +213,18 @@ H5P.Essay = function ($, Question) {
       if (that.params.behaviour.enableSolutionsButton === true) {
         that.showButton('show-solution');
       }
+
+      if (that.params.behaviour.disableSubmitButton === false && typeof that.parent == "undefined") {
+          that.showButton('submit-answer');
+      }
       that.hideButton('check-answer');
     }, true, {}, {});
 
+    
+
     // Retry button
     that.addButton('try-again', that.params.tryAgain, function () {
+      H5P.jQuery('.submit-answer-feedback').remove();
       that.resetTask();
     }, false, {}, {});
 
@@ -583,7 +602,7 @@ H5P.Essay = function ($, Question) {
     }
 
     // We need the retry button if the mastering score has not been reached or scoring is irrelevant
-    if (score < this.getMaxScore() || this.params.behaviour.ignoreScoring) {
+    if (score < this.getMaxScore() || this.params.behaviour.ignoreScoring || state === STATE_SUBMITTED_SOLUTION) {
       if (this.params.behaviour.enableRetry) {
         this.showButton('try-again');
       }
@@ -658,7 +677,7 @@ H5P.Essay = function ($, Question) {
     var max_score = this.getMaxScore();
 
     if(max_score === raw_score) {
-      max_score += 1;
+      //max_score += 1;
     }
     xAPIEvent.setScoredResult(raw_score, max_score, this, true, this.isPassed());
     xAPIEvent.data.statement.result.response = this.inputField.getText();
