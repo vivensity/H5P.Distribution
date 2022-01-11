@@ -7,6 +7,7 @@ H5P.Blanks = (function ($, Question) {
   var STATE_ONGOING = 'ongoing';
   var STATE_CHECKING = 'checking';
   var STATE_SHOWING_SOLUTION = 'showing-solution';
+  var STATE_SUBMITTED_SOLUTION = 'submitted-solution';
   var STATE_FINISHED = 'finished';
 
   const XAPI_ALTERNATIVE_EXTENSION = 'https://h5p.org/x-api/alternatives';
@@ -63,6 +64,7 @@ H5P.Blanks = (function ($, Question) {
       showSolutions: "Show solution",
       tryAgain: "Try again",
       checkAnswer: "Check",
+      submitAnswer: "Submit",
       viewSummary: "View Summary",
       changeAnswer: "Change answer",
       notFilledOut: "Please fill in all blanks to view solution",
@@ -79,6 +81,7 @@ H5P.Blanks = (function ($, Question) {
         enableRetry: true,
         enableSolutionsButton: true,
         enableCheckButton: true,
+        disableSubmitButton: false,
         caseSensitive: true,
         showSolutionsRequiresInput: true,
         autoCheck: false,
@@ -206,13 +209,14 @@ H5P.Blanks = (function ($, Question) {
         self.toggleButtonVisibility(STATE_CHECKING);
 
         if(typeof self.parent == "undefined") {
-          self.triggerXAPIScored(self.getScore(), self.getMaxScore(), 'submitted-curriki');
+          // trigger completed
+          self.triggerCompleted();
         }
         self.markResults();
         self.showEvaluation();
         
         self.triggerAnswered();
-        
+
       }, true, {
         'aria-label': self.params.a11yCheck,
       }, {
@@ -266,8 +270,22 @@ H5P.Blanks = (function ($, Question) {
       
     }
 
+    if (!self.params.behaviour.disableSubmitButton && typeof self.parent == "undefined") {
+      // Show submit button
+      self.addButton('submit-answer', self.params.submitAnswer,  function () {
+        self.submitted = true;
+        self.toggleButtonVisibility(STATE_SUBMITTED_SOLUTION);
+        self.triggerXAPIScored(self.getScore(), self.getMaxScore(), 'submitted-curriki');
+        var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
+        H5P.jQuery('.h5p-question-buttons').after($submit_message);
+        }, true
+      );
+    }
+
     // Show solution button
     self.addButton('show-solution', self.params.showSolutions, function () {
+      self.solutionMode = true;
+      H5P.jQuery('.submit-answer-feedback').remove();
       self.showCorrectAnswers(false);
     }, self.params.behaviour.enableSolutionsButton, {
       'aria-label': self.params.a11yShowSolution,
@@ -279,6 +297,7 @@ H5P.Blanks = (function ($, Question) {
         self.a11yHeader.innerHTML = '';
         self.resetTask();
         self.$questions.filter(':first').find('input:first').focus();
+        H5P.jQuery('.submit-answer-feedback').remove();
       }, true, {
         'aria-label': self.params.a11yRetry,
       }, {
@@ -404,6 +423,8 @@ H5P.Blanks = (function ($, Question) {
             self.toggleButtonVisibility(STATE_CHECKING);
             self.showEvaluation();
             self.triggerAnswered();
+            // trigger completed
+            self.triggerCompleted();
             self.done = true;
           }
         };
@@ -557,7 +578,7 @@ H5P.Blanks = (function ($, Question) {
     }
 
     if (this.params.behaviour.enableSolutionsButton) {
-      if (state === STATE_CHECKING && !allCorrect) {
+      if (!this.solutionMode && (state === STATE_CHECKING && !allCorrect || state === STATE_SUBMITTED_SOLUTION)) {
         this.showButton('show-solution');
       }
       else {
@@ -566,11 +587,19 @@ H5P.Blanks = (function ($, Question) {
     }
 
     if (this.params.behaviour.enableRetry) {
-      if ((state === STATE_CHECKING && !allCorrect) || state === STATE_SHOWING_SOLUTION) {
+      if ((state === STATE_CHECKING && !allCorrect) || state === STATE_SHOWING_SOLUTION || state === STATE_SUBMITTED_SOLUTION) {
         this.showButton('try-again');
       }
       else {
         this.hideButton('try-again');
+      }
+    }
+
+    if(!this.params.behaviour.disableSubmitButton) {
+      if(!this.submitted && (state === STATE_CHECKING || state === STATE_SHOWING_SOLUTION)) {
+        this.showButton('submit-answer');
+      } else {
+        this.hideButton('submit-answer');
       }
     }
 
@@ -688,6 +717,8 @@ H5P.Blanks = (function ($, Question) {
    */
   Blanks.prototype.resetTask = function () {
     this.answered = false;
+    this.submitted = false;
+    this.solutionMode = false;
     this.hideEvaluation();
     this.hideSolutions();
     this.clearAnswers();
@@ -716,6 +747,14 @@ H5P.Blanks = (function ($, Question) {
     this.addResponseToXAPI(xAPIEvent);
     this.trigger(xAPIEvent);
   };
+
+  /**
+   * Trigger xAPI completed event
+   */
+   Blanks.prototype.triggerCompleted = function () {
+    this.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'completed');
+  };
+
 
   /**
    * Get xAPI data.

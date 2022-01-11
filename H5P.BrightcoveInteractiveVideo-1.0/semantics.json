@@ -7,146 +7,6 @@
     "importance": "high",
     "fields": [
       {
-        "name": "video",
-        "type": "group",
-        "label": "Upload/embed video",
-        "importance": "high",
-        "fields": [
-          {
-            "name": "files",
-            "type": "video",
-            "label": "Add a video",
-            "importance": "high",
-            "description": "Click below to add a video you wish to use in your interactive video. You can add a video link or upload video files. It is possible to add several versions of the video with different qualities. To ensure maximum support in browsers at least add a version in webm and mp4 formats.",
-            "extraAttributes": [
-              "metadata"
-            ],
-            "enableCustomQualityLabel": true
-          },
-          {
-            "name": "startScreenOptions",
-            "type": "group",
-            "label": "Start screen options (unsupported for YouTube videos)",
-            "importance": "low",
-            "fields": [
-              {
-                "name": "title",
-                "type": "text",
-                "label": "The title of this interactive video",
-                "importance": "low",
-                "maxLength": 60,
-                "default": "BrightCove Interactive Video",
-                "description": "Used in summaries, statistics etc."
-              },
-              {
-                "name": "hideStartTitle",
-                "type": "boolean",
-                "label": "Hide title on video start screen",
-                "importance": "low",
-                "optional": true,
-                "default": false
-              },
-              {
-                "name": "shortStartDescription",
-                "type": "text",
-                "label": "Short description (Optional)",
-                "importance": "low",
-                "optional": true,
-                "maxLength": 120,
-                "description": "Optional. Display a short description text on the video start screen. Does not work for YouTube videos."
-              },
-              {
-                "name": "poster",
-                "type": "image",
-                "label": "Poster image",
-                "importance": "low",
-                "optional": true,
-                "description": "Image displayed before the user launches the video. Does not work for YouTube Videos."
-              }
-            ]
-          },
-          {
-            "name": "textTracks",
-            "type": "group",
-            "label": "Text tracks (unsupported for YouTube videos)",
-            "importance": "low",
-            "fields": [
-              {
-                "name": "videoTrack",
-                "type": "list",
-                "label": "Available text tracks",
-                "importance": "low",
-                "optional": true,
-                "entity": "Track",
-                "min": 0,
-                "defaultNum": 1,
-                "field": {
-                  "name": "track",
-                  "type": "group",
-                  "label": "Track",
-                  "importance": "low",
-                  "expanded": false,
-                  "fields": [
-                    {
-                      "name": "label",
-                      "type": "text",
-                      "label": "Track label",
-                      "description": "Used if you offer multiple tracks and the user has to choose a track. For instance 'Spanish subtitles' could be the label of a Spanish subtitle track.",
-                      "importance": "low",
-                      "default": "Subtitles",
-                      "optional": true
-                    },
-                    {
-                      "name": "kind",
-                      "type": "select",
-                      "label": "Type of text track",
-                      "importance": "low",
-                      "default": "subtitles",
-                      "options": [
-                        {
-                          "value": "subtitles",
-                          "label": "Subtitles"
-                        },
-                        {
-                          "value": "captions",
-                          "label": "Captions"
-                        },
-                        {
-                          "value": "descriptions",
-                          "label": "Descriptions"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "srcLang",
-                      "type": "text",
-                      "label": "Source language, must be defined for subtitles",
-                      "importance": "low",
-                      "default": "en",
-                      "description": "Must be a valid BCP 47 language tag. If 'Subtitles' is the type of text track selected, the source language of the track must be defined."
-                    },
-                    {
-                      "name": "track",
-                      "type": "file",
-                      "label": "Track source (WebVTT file)",
-                      "importance": "low"
-                    }
-                  ]
-                }
-              },
-              {
-                "name": "defaultTrackLabel",
-                "type": "text",
-                "label": "Default text track",
-                "description": "If left empty or not matching any of the text tracks the first text track will be used as the default.",
-                "importance": "low",
-                "optional": true
-              }
-            ]
-          }
-        ]
-      },
-      {
         "name": "assets",
         "type": "group",
         "label": "Add interactions",
@@ -472,7 +332,7 @@
                       "type": "text",
                       "label": "Text color",
                       "widget": "colorSelector",
-                      "default": "rgb(255, 255, 255)",
+                      "default": "rgb(67, 67, 67)",
                       "spectrum": {
                         "showInput": true,
                         "showAlpha": true,
@@ -561,7 +421,7 @@
                       "type": "text",
                       "label": "Submit button color",
                       "widget": "colorSelector",
-                      "default": "rgb(255, 255, 255)",
+                      "default": "rgb(45, 109, 179)",
                       "spectrum": {
                         "showInput": true,
                         "showAlpha": true,
@@ -651,6 +511,95 @@
                       "label": "Submit text color",
                       "widget": "colorSelector",
                       "default": "rgb(255, 255, 255)",
+                      "spectrum": {
+                        "showInput": true,
+                        "showAlpha": true,
+                        "preferredFormat": "rgb",
+                        "showPalette": true,
+                        "palette": [
+                          [
+                            "rgba(0, 0, 0, 0)"
+                          ],
+                          [
+                            "rgb(67, 67, 67)",
+                            "rgb(102, 102, 102)",
+                            "rgb(204, 204, 204)",
+                            "rgb(217, 217, 217)",
+                            "rgb(255, 255, 255)"
+                          ],
+                          [
+                            "rgb(152, 0, 0)",
+                            "rgb(255, 0, 0)",
+                            "rgb(255, 153, 0)",
+                            "rgb(255, 255, 0)",
+                            "rgb(0, 255, 0)",
+                            "rgb(0, 255, 255)",
+                            "rgb(74, 134, 232)",
+                            "rgb(0, 0, 255)",
+                            "rgb(153, 0, 255)",
+                            "rgb(255, 0, 255)"
+                          ],
+                          [
+                            "rgb(230, 184, 175)",
+                            "rgb(244, 204, 204)",
+                            "rgb(252, 229, 205)",
+                            "rgb(255, 242, 204)",
+                            "rgb(217, 234, 211)",
+                            "rgb(208, 224, 227)",
+                            "rgb(201, 218, 248)",
+                            "rgb(207, 226, 243)",
+                            "rgb(217, 210, 233)",
+                            "rgb(234, 209, 220)",
+                            "rgb(221, 126, 107)",
+                            "rgb(234, 153, 153)",
+                            "rgb(249, 203, 156)",
+                            "rgb(255, 229, 153)",
+                            "rgb(182, 215, 168)",
+                            "rgb(162, 196, 201)",
+                            "rgb(164, 194, 244)",
+                            "rgb(159, 197, 232)",
+                            "rgb(180, 167, 214)",
+                            "rgb(213, 166, 189)",
+                            "rgb(204, 65, 37)",
+                            "rgb(224, 102, 102)",
+                            "rgb(246, 178, 107)",
+                            "rgb(255, 217, 102)",
+                            "rgb(147, 196, 125)",
+                            "rgb(118, 165, 175)",
+                            "rgb(109, 158, 235)",
+                            "rgb(111, 168, 220)",
+                            "rgb(142, 124, 195)",
+                            "rgb(194, 123, 160)",
+                            "rgb(166, 28, 0)",
+                            "rgb(204, 0, 0)",
+                            "rgb(230, 145, 56)",
+                            "rgb(241, 194, 50)",
+                            "rgb(106, 168, 79)",
+                            "rgb(69, 129, 142)",
+                            "rgb(60, 120, 216)",
+                            "rgb(61, 133, 198)",
+                            "rgb(103, 78, 167)",
+                            "rgb(166, 77, 121)",
+                            "rgb(91, 15, 0)",
+                            "rgb(102, 0, 0)",
+                            "rgb(120, 63, 4)",
+                            "rgb(127, 96, 0)",
+                            "rgb(39, 78, 19)",
+                            "rgb(12, 52, 61)",
+                            "rgb(28, 69, 135)",
+                            "rgb(7, 55, 99)",
+                            "rgb(32, 18, 77)",
+                            "rgb(76, 17, 48)"
+                          ]
+                        ]
+                      }
+                    },
+                    {
+                      "name": "iconbackgroundColor",
+                      "type": "text",
+                      "label": "Icon Background color",
+                      "widget": "colorSelector",
+                      "default": "rgb(152, 29, 153)",
                       "spectrum": {
                         "showInput": true,
                         "showAlpha": true,
@@ -896,6 +845,152 @@
             "default": 3
           }
         ]
+      },
+      {
+        "name": "video",
+        "type": "group",
+        "label": "Setup video",
+        "importance": "high",
+        "fields": [
+          {
+            "name": "brightcoveVideoID",
+            "type": "text",
+            "label": "Video ID",
+            "description": "Brightcove Video ID",
+            "importance": "high"
+          },
+          {
+            "name": "files",
+            "type": "video",
+            "label": "Add a video",
+            "description": "Click below to add a video you wish to use in your interactive video. You can add a video link or upload video files. It is possible to add several versions of the video with different qualities. To ensure maximum support in browsers at least add a version in webm and mp4 formats.",
+            "extraAttributes": [
+              "metadata"
+            ],
+            "enableCustomQualityLabel": true
+          },
+          {
+            "name": "startScreenOptions",
+            "type": "group",
+            "label": "Start screen options (unsupported for YouTube videos)",
+            "importance": "low",
+            "fields": [
+              {
+                "name": "title",
+                "type": "text",
+                "label": "The title of this interactive video",
+                "importance": "low",
+                "maxLength": 60,
+                "default": "Brightcove Interactive Video",
+                "description": "Used in summaries, statistics etc."
+              },
+              {
+                "name": "hideStartTitle",
+                "type": "boolean",
+                "label": "Hide title on video start screen",
+                "importance": "low",
+                "optional": true,
+                "default": false
+              },
+              {
+                "name": "shortStartDescription",
+                "type": "text",
+                "label": "Short description (Optional)",
+                "importance": "low",
+                "optional": true,
+                "maxLength": 120,
+                "description": "Optional. Display a short description text on the video start screen. Does not work for YouTube videos."
+              },
+              {
+                "name": "poster",
+                "type": "image",
+                "label": "Poster image",
+                "importance": "low",
+                "optional": true,
+                "description": "Image displayed before the user launches the video. Does not work for YouTube Videos."
+              }
+            ]
+          },
+          {
+            "name": "textTracks",
+            "type": "group",
+            "label": "Text tracks (unsupported for YouTube videos)",
+            "importance": "low",
+            "fields": [
+              {
+                "name": "videoTrack",
+                "type": "list",
+                "label": "Available text tracks",
+                "importance": "low",
+                "optional": true,
+                "entity": "Track",
+                "min": 0,
+                "defaultNum": 1,
+                "field": {
+                  "name": "track",
+                  "type": "group",
+                  "label": "Track",
+                  "importance": "low",
+                  "expanded": false,
+                  "fields": [
+                    {
+                      "name": "label",
+                      "type": "text",
+                      "label": "Track label",
+                      "description": "Used if you offer multiple tracks and the user has to choose a track. For instance 'Spanish subtitles' could be the label of a Spanish subtitle track.",
+                      "importance": "low",
+                      "default": "Subtitles",
+                      "optional": true
+                    },
+                    {
+                      "name": "kind",
+                      "type": "select",
+                      "label": "Type of text track",
+                      "importance": "low",
+                      "default": "subtitles",
+                      "options": [
+                        {
+                          "value": "subtitles",
+                          "label": "Subtitles"
+                        },
+                        {
+                          "value": "captions",
+                          "label": "Captions"
+                        },
+                        {
+                          "value": "descriptions",
+                          "label": "Descriptions"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "srcLang",
+                      "type": "text",
+                      "label": "Source language, must be defined for subtitles",
+                      "importance": "low",
+                      "default": "en",
+                      "description": "Must be a valid BCP 47 language tag. If 'Subtitles' is the type of text track selected, the source language of the track must be defined."
+                    },
+                    {
+                      "name": "track",
+                      "type": "file",
+                      "label": "Track source (WebVTT file)",
+                      "importance": "low"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "defaultTrackLabel",
+                "type": "text",
+                "label": "Default text track",
+                "description": "If left empty or not matching any of the text tracks the first text track will be used as the default.",
+                "importance": "low",
+                "optional": true
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -997,6 +1092,19 @@
         "label": "Deactivate sound",
         "importance": "low",
         "description": "Enabling this option will deactivate the video's sound and prevent it from being switched on."
+      },
+      {
+        "name": "hideh5pactionoption",
+        "type": "boolean",
+        "default": false,
+        "label": "Hide H5P Bottom Action Bar",
+        "importance": "low"
+      },
+      {
+        "name": "attachcustomcss",
+        "type": "text",
+        "widget":"textarea",
+        "label": "Input Custom Css"
       }
     ]
   },
