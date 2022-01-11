@@ -472,7 +472,7 @@ H5P.Flashcards = (function ($, XapiGenerator) {
 
     this.$outder_div.appendTo(this.$resultScreen);
 
-    if(that.options.showSubmitAnswersButton)
+    if(!that.options.showSubmitAnswersButton)
     {
       this.$submitButton.removeClass('h5p-visible');
       this.$submitButton.addClass('h5p-invisible');
