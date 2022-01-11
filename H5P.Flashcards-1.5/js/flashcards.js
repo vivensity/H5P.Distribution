@@ -39,9 +39,9 @@ H5P.Flashcards = (function ($, XapiGenerator) {
       retry : "Retry",
       cardAnnouncement: 'Incorrect answer. Correct answer was @answer',
       pageAnnouncement: 'Page @current of @total',
-      behaviour: {
+      // behaviour: {
         showSubmitAnswersButton: true
-      }
+      // }
     }, options);
     this.$images = [];
     this.hasBeenReset = false;
@@ -472,7 +472,7 @@ H5P.Flashcards = (function ($, XapiGenerator) {
 
     this.$outder_div.appendTo(this.$resultScreen);
 
-    if(that.params.behaviour.showSubmitAnswersButton)
+    if(that.params.showSubmitAnswersButton)
     {
       this.$submitButton.removeClass('h5p-visible');
       this.$submitButton.addClass('h5p-invisible');
