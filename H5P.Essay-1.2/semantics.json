@@ -338,6 +338,16 @@
         "optional": true,
         "min": "0"
       },
+      
+      {
+        "label": "Do not Show Submit Button",
+        "importance": "low",
+        "name": "disableSubmitButton",
+        "type": "boolean",
+        "default": false,
+        "optional": true,
+        "description": "This options is compatible only with the standalone activities"
+      },
       {
         "name": "inputFieldSize",
         "label": "Input field size",
@@ -485,6 +495,15 @@
     "importance": "low",
     "default": "Retry",
     "common": true
+  },
+  {
+    "label": "Text for \"Submit\" button",
+    "importance": "low",
+    "name": "submitAnswer",
+    "type": "text",
+    "default": "Submit",
+    "common": true,
+    "optional": true
   },
   {
     "name": "showSolution",
