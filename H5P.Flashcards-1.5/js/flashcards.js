@@ -433,12 +433,17 @@ H5P.Flashcards = (function ($, XapiGenerator) {
       'class': 'h5p-results-list'
     }).appendTo(this.$resultScreen);
 
+    this.$outder_div = $('<div/>', {
+      'class': 'outer-div'
+    });
+
+
     this.$retryButton = $('<button/>', {
-      'class': 'h5p-results-retry-button h5p-invisible h5p-button',
+      'class': 'h5p-results-retry-button h5p-invisible h5p-button inner-div',
       'text': this.options.retry
     }).on('click', function () {
       that.resetTask();
-    }).appendTo(this.$resultScreen);
+    }).appendTo(this.$outder_div);
 
 
     this.$submitButton = $('<button/>', {
@@ -459,7 +464,9 @@ H5P.Flashcards = (function ($, XapiGenerator) {
       // that.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'answered');
       that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'submitted-curriki');
       // self.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'completed');
-    }).appendTo(this.$resultScreen);
+    }).appendTo(this.$outder_div);
+
+    this.$outder_div.appendTo(this.$resultScreen);
     
   };
 
