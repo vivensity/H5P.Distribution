@@ -1,7 +1,7 @@
 if (window.bcPlayerExternal === undefined) {
-    if (window.parent.brightcoveAccountId || window.brightcoveAccountId) {
+    if (window.parent.brightcoveAccountId) {
       window.brightcoveAccountId = window.parent.brightcoveAccountId;
-    } else {
+    } else if (window.brightcoveAccountId === undefined && window.parent.brightcoveAccountId === undefined) {
       window.brightcoveAccountId ='6282550302001';
     }
 }
@@ -17,8 +17,15 @@ H5P.VideoBrightcove = (function ($) {
    * @param {Object} options Settings for the player
    * @param {Object} l10n Localization strings
    */
+
   function Brightcove(sources, options, l10n) {
     
+    var loaderEl = H5P.jQuery('#activity-loader-alert', window.parent.document);
+    if (!loaderEl) {
+      loaderEl = H5P.jQuery('#activity-loader-alert');
+    }
+    loaderEl.html("Loading Brightcove Video ...").show();
+
     var self = this;
     var player;
     var playbackRate = 1;
@@ -115,6 +122,7 @@ H5P.VideoBrightcove = (function ($) {
           self.trigger('ready');
           self.trigger('loaded');
           H5P.jQuery($placeholder).show();
+          loaderEl.hide();
         });
       }
       

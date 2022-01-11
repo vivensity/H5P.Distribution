@@ -274,8 +274,6 @@ H5P.Flashcards = (function ($, XapiGenerator) {
       .appendTo($inner.parent());
   };
 
-
-
   /**
    * Add card
    * @param {number} index
@@ -433,66 +431,12 @@ H5P.Flashcards = (function ($, XapiGenerator) {
       'class': 'h5p-results-list'
     }).appendTo(this.$resultScreen);
 
-    this.$outder_div = $('<div/>', {
-      'class': 'outer-div'
-    });
-
-
     this.$retryButton = $('<button/>', {
-      'class': 'h5p-results-retry-button h5p-invisible h5p-button inner-div',
+      'class': 'h5p-results-retry-button h5p-invisible h5p-button',
       'text': this.options.retry
     }).on('click', function () {
       that.resetTask();
-    }).appendTo(this.$outder_div);
-
-
-    this.$submitButton = $('<button/>', {
-      'class': 'h5p-results-button h5p-visible h5p-button',
-      'text': "Submit Results"
-    }).on('click', function () {
-      const xAPIEvent = that.createXAPIEventTemplate('answered');
-      const definition = xAPIEvent.getVerifiedStatementValue(['object', 'definition']);
-      $.extend(definition, that.getxAPIDefinition(that));
-      xAPIEvent.setScoredResult(
-        that.getScore(),
-        that.getMaxScore(),
-        that
-      );
-      xAPIEvent.data.statement.result.response = that.answers.join('[,]');
-      // const xAPIEvent = XapiGenerator.getXapiEvent(this);
-      that.trigger(xAPIEvent);
-      // that.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'answered');
-      that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'submitted-curriki');
-      // self.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'completed');
-    }).appendTo(this.$outder_div);
-
-    this.$outder_div.appendTo(this.$resultScreen);
-    
-  };
-
-  C.prototype.getxAPIDefinition = function () {
-    //'en-US': '<p>' + this.options.description + '</p>'
-    const definition = {};
-    definition.description = {
-       'en-US': '<p> </p>'
-    };
-    definition.type = 'http://adlnet.gov/expapi/activities/cmi.interaction';
-    definition.interactionType = 'fill-in';
-    definition.correctResponsesPattern = [
-      '{case_matters=' + this.options.caseSensitive + '}'
-    ];
-    const crpAnswers = this.options.cards.map(function (card) {
-      return card.answer;
-    }).join('[,]');
-
-    definition.correctResponsesPattern[0] += crpAnswers;
-    const placeHolder = '__';
-    const cardDescriptions = this.options.cards.map(function (card) {
-      return '<p>' + card.text + ' ' + placeHolder + '</p>';
-    }).join('');
-
-    definition.description['en-US'] += cardDescriptions;
-    return definition;
+    }).appendTo(this.$resultScreen);
   };
 
   /**
