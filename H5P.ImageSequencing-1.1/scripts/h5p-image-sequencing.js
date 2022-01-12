@@ -65,21 +65,25 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
       definition.correctResponsesPattern = [];
       definition.choices = [];
 
+      // set the choices
       that.sequencingCards.forEach(function (card, index) {
-        definition.choices[index] = {
-          'id': 'item_' + card.seqNo + '',
-          'description': {
-            'en-US':  card.imageDesc
+          definition.choices[index] = {
+            'id': 'item_' + card.seqNo + '',
+            'description': {
+              'en-US': card.imageDesc
+            }
           }
-        };
+        });
 
+      // set correct response pattern
+      that.sequencingCards.slice().sort(function (a, b) {
+        return a.seqNo - b.seqNo;
+      }).forEach(function (card, index) {
         if (index === 0) {
           definition.correctResponsesPattern[0] = 'item_' + card.seqNo + '[,]';
-        }
-        else if (index === that.sequencingCards.length - 1) {
+        } else if (index === that.sequencingCards.length - 1) {
           definition.correctResponsesPattern[0] += 'item_' + card.seqNo;
-        }
-        else {
+        } else {
           definition.correctResponsesPattern[0] += 'item_' + card.seqNo + '[,]';
         }
       });
