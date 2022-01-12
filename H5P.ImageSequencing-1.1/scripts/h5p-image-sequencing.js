@@ -67,20 +67,20 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
 
       that.sequencingCards.forEach(function (card, index) {
         definition.choices[index] = {
-          'id': 'item_' + card.uniqueId + '',
+          'id': 'item_' + card.seqNo + '',
           'description': {
             'en-US':  card.imageDesc
           }
         };
 
         if (index === 0) {
-          definition.correctResponsesPattern[0] = 'item_' + card.uniqueId + '[,]';
+          definition.correctResponsesPattern[0] = 'item_' + card.seqNo + '[,]';
         }
         else if (index === that.sequencingCards.length - 1) {
-          definition.correctResponsesPattern[0] += 'item_' + card.uniqueId;
+          definition.correctResponsesPattern[0] += 'item_' + card.seqNo;
         }
         else {
-          definition.correctResponsesPattern[0] += 'item_' + card.uniqueId + '[,]';
+          definition.correctResponsesPattern[0] += 'item_' + card.seqNo + '[,]';
         }
       });
     };
