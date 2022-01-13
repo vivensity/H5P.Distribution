@@ -42,7 +42,6 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
       const xAPIEvent = that.createXAPIEventTemplate('answered');
       that.addQuestionToXAPI(xAPIEvent);
       that.addResponseToXAPI(xAPIEvent);
-      xAPIEvent.data.statement.result.duration = 'PT' + (Math.round(that.timer.getTime() / 10) / 100) + 'S';
       return {
         statement: xAPIEvent.data.statement
       };
@@ -110,6 +109,7 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
 
       xAPIEvent.setScoredResult(score, maxScore, that, true, success);
       xAPIEvent.data.statement.result.response = response;
+      xAPIEvent.data.statement.result.duration = 'PT' + (Math.round(that.timer.getTime() / 10) / 100) + 'S';
     };
 
     // implementing question contract.
