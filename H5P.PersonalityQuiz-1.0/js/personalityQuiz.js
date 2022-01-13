@@ -15,7 +15,7 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
     @constructor
   */
   function PersonalityQuiz(params, id) {
-    //console.log(params);
+    console.log(params);
     //console.log(id);
 
     var self = this;
