@@ -28,6 +28,8 @@ H5P.VideoBrightcove = (function ($) {
 
     var self = this;
     var player;
+    self.getPlayer = function() { return player; }
+    self.nullifyPlayer = function() { player = null; }
     var playbackRate = 1;
     var id = 'h5p-brightcove-' + numInstances;
     numInstances++;

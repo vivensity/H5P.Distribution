@@ -65,22 +65,26 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
       definition.correctResponsesPattern = [];
       definition.choices = [];
 
+      // set the choices
       that.sequencingCards.forEach(function (card, index) {
-        definition.choices[index] = {
-          'id': 'item_' + card.uniqueId + '',
-          'description': {
-            'en-US':  card.imageDesc
+          definition.choices[index] = {
+            'id': 'item_' + card.seqNo + '',
+            'description': {
+              'en-US': card.imageDesc
+            }
           }
-        };
+        });
 
+      // set correct response pattern
+      that.sequencingCards.slice().sort(function (a, b) {
+        return a.seqNo - b.seqNo;
+      }).forEach(function (card, index) {
         if (index === 0) {
-          definition.correctResponsesPattern[0] = 'item_' + card.uniqueId + '[,]';
-        }
-        else if (index === that.sequencingCards.length - 1) {
-          definition.correctResponsesPattern[0] += 'item_' + card.uniqueId;
-        }
-        else {
-          definition.correctResponsesPattern[0] += 'item_' + card.uniqueId + '[,]';
+          definition.correctResponsesPattern[0] = 'item_' + card.seqNo + '[,]';
+        } else if (index === that.sequencingCards.length - 1) {
+          definition.correctResponsesPattern[0] += 'item_' + card.seqNo;
+        } else {
+          definition.correctResponsesPattern[0] += 'item_' + card.seqNo + '[,]';
         }
       });
     };
@@ -105,6 +109,7 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
 
       xAPIEvent.setScoredResult(score, maxScore, that, true, success);
       xAPIEvent.data.statement.result.response = response;
+      xAPIEvent.data.statement.result.duration = 'PT' + (Math.round(that.timer.getTime() / 10) / 100) + 'S';
     };
 
     // implementing question contract.
