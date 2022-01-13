@@ -15,7 +15,7 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
     @constructor
   */
   function PersonalityQuiz(params, id) {
-    console.log(params);
+    //console.log(params);
     //console.log(id);
 
     var self = this;
@@ -27,6 +27,7 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
     self.progressText = params.progressText;
     self.personalities = params.personalities;
     self.numQuestions = params.questions.length;
+    
 
     self.slidePercentage = 100 / self.numQuestions;
 
@@ -517,9 +518,9 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
         'class': classes('button', 'retake-button'),
         'type': 'button'
       });
-      if(typeof self.parent =='undefined'){
+      if(typeof self.parent =='undefined' && self.params.showSubmitAnswersButton){
         var $button1    = createButton('button', {
-          'html': "Submit Results",
+          'html': self.params.submitAnswers,
           'class': classes('button', 'submit-result'),
           'type': 'button'
         });
