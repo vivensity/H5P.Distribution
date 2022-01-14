@@ -211,7 +211,7 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
         $slides.append($canvas);
       }
 
-      $result = createResult(quiz, data.resultScreen, data.retakeText);
+      $result = createResult(quiz, data.resultScreen, data.retakeText, data.showSubmitAnswersButton, data.submitAnswers);
 
       $slides.append($result);
       $container.append($bar, $slides);
@@ -509,7 +509,7 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
       @param {string} retakeText The UI text for the button to retake the quiz
       @return {jQuery}
     */
-    function createResult(quiz, data, retakeText) {
+    function createResult(quiz, data, retakeText, showButton, submitButtontext) {
       var $result    = $('<div>', { 'class': classes('result', 'slide')       });
       var $wrapper   = $('<div>', { 'class': classes('personality-wrapper')   });
       var $container = $('<div>', { 'class': classes('retake-button-wrapper') });
@@ -518,9 +518,9 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
         'class': classes('button', 'retake-button'),
         'type': 'button'
       });
-      if(typeof self.parent =='undefined' && self.params.showSubmitAnswersButton){
+      if(typeof self.parent =='undefined' && showButton){
         var $button1    = createButton('button', {
-          'html': self.params.submitAnswers,
+          'html': submitButtontext,
           'class': classes('button', 'submit-result'),
           'type': 'button'
         });
