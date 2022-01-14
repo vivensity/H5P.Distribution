@@ -181,6 +181,7 @@ H5P.Essay = function ($, Question) {
     that.addButton('submit-answer', that.params.submitAnswer,  function () {
       console.log('addSubmitButton');
       
+      that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'completed');
       that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'submitted-curriki');
       that.hideButton('submit-answer');
       var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
