@@ -28,6 +28,8 @@ H5P.VideoBrightcove = (function ($) {
 
     var self = this;
     var player;
+    self.getPlayer = function() { return player; }
+    self.nullifyPlayer = function() { player = null; }
     var playbackRate = 1;
     var id = 'h5p-brightcove-' + numInstances;
     numInstances++;
@@ -52,10 +54,6 @@ H5P.VideoBrightcove = (function ($) {
       window.videoJsTagIdGlobal = videoJsTagId;
       H5P.jQuery('<video-js id="' + videoJsTagId + '" data-account="'+brightcoveData.dataAccount+'" data-player="'+brightcoveData.dataPlayer+'" data-embed="' + brightcoveData.dataEmbed +'" controls="" data-video-id="'+brightcoveData.dataVideoId+'" data-playlist-id="" data-application-id="" class="vjs-fluid"></video-js>').appendTo($placeholder);
       $placeholder.appendTo($wrapper);
-      
-      if (window.H5PEditor !== undefined) {
-        H5P.jQuery($wrapper).append('<div class="loading-wrapper" style="position: absolute;top: 0;z-index:5;background: green;text-align: center;width: 100%;">' + l10n.loading + '</div>');
-      }
     }
     
     self.brightcoveUrlParts = null;
@@ -116,14 +114,17 @@ H5P.VideoBrightcove = (function ($) {
         self.trigger('ready');
         self.trigger('loaded');
       } else {
-        player.on('loadedmetadata', function() {
-          initializePlayerEvents();
-          H5P.jQuery('.loading-wrapper').remove();
-          self.trigger('ready');
-          self.trigger('loaded');
-          H5P.jQuery($placeholder).show();
-          loaderEl.hide();
-        });
+        var playerTime = player.setInterval(function(e) {
+          if (player.readyState() > 1) {
+            initializePlayerEvents();
+            H5P.jQuery('.loading-wrapper').remove();
+            self.trigger('ready');
+            self.trigger('loaded');
+            H5P.jQuery($placeholder).show();
+            loaderEl.hide();
+            player.clearInterval(playerTime);
+          }
+        }, 300);
       }
       
     }
