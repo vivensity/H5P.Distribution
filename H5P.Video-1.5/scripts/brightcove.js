@@ -24,7 +24,7 @@ H5P.VideoBrightcove = (function ($) {
     if (!loaderEl) {
       loaderEl = H5P.jQuery('#activity-loader-alert');
     }
-    loaderEl.html("Loading Brightcove Video ...").show();
+    loaderEl.html("<strong>Loading Brightcove Video ...</strong>").show();
 
     var self = this;
     var player;
