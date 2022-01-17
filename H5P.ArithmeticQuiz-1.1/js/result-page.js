@@ -75,7 +75,7 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
           'class': 'h5p-baq-result-page-header custom-submit-message',
           'html':"Result has been submitted successfully"
         }));
-        console.log(this.maxScore);
+        console.log(maxScore);
         console.log(ResultPage.maxScore);
         self.triggerXAPIScored(ResultPage.score, ResultPage.maxScore, 'submitted-curriki');
         $(this).hide();
