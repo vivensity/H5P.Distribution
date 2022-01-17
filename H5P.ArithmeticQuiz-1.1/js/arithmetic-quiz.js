@@ -56,8 +56,10 @@ H5P.ArithmeticQuiz = (function ($) {
     self.gamePage = new H5P.ArithmeticQuiz.GamePage(self.options.quizType, self.options, id);
     
     self.gamePage.on('last-slide', function (e) {
-      self.triggerXAPIScored(e.data.score, e.data.numQuestions, 'answered');
-      /*const customProgressedEvent = self.createXAPIEventTemplate('submitted-curriki');
+      const customProgressedEvent = self.createXAPIEventTemplate('submitted-curriki');
+      console.log(customProgressedEvent.data.statement.object);
+      console.log(customProgressedEvent.data.statement.context);
+      console.log(customProgressedEvent.data.statement.result);
       localStorage.setItem("XAPIEventObject",JSON.stringify(customProgressedEvent.data.statement.object));
       localStorage.setItem("XAPIEventContext",JSON.stringify(customProgressedEvent.data.statement.context));
       
@@ -75,7 +77,7 @@ H5P.ArithmeticQuiz = (function ($) {
 
         customEvent.data.statement.result["response"] = localStorage.getItem("userInputwa");
         this.trigger(customEvent);
-      }*/
+      }
       //self.triggerXAPIScored(0, 1, 'submitted-curriki');
     });
 
