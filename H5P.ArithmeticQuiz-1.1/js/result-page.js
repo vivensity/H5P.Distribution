@@ -76,8 +76,28 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
           'html':"Result has been submitted successfully"
         }));
         var score = Number($('.h5p-joubelui-score-number-counter').html());
-        self.triggerXAPIScored(score, maxScore, 'completed');
-        self.triggerXAPIScored(score, maxScore, 'submitted-curriki');
+        //self.triggerXAPIScored(score, maxScore, 'completed');
+        //self.triggerXAPIScored(score, maxScore, 'submitted-curriki');
+
+        const customProgressedEvent = self.createXAPIEventTemplate('submitted-curriki');
+      localStorage.setItem("XAPIEventObject",JSON.stringify(customProgressedEvent.data.statement.object));
+      localStorage.setItem("XAPIEventContext",JSON.stringify(customProgressedEvent.data.statement.context));
+      
+      //self.triggerXAPIScored(e.data.score, e.data.numQuestions, 'answered');
+      const customEvent =
+      self.createXAPIEventTemplate("answered");
+      if (customEvent.data.statement.object) {
+        
+        customProgressedEvent.setScoredResult(
+         score,
+          maxScore
+        );
+
+        customProgressedEvent.data.statement.result["response"] = localStorage.getItem("userInputwa");
+        this.trigger(customProgressedEvent);
+      }
+      //self.triggerXAPIScored(0, 1, 'submitted-curriki');
+
         $(this).hide();
       }
     }).appendTo(this.$feedbackContainer);
