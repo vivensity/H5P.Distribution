@@ -75,7 +75,7 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
           'class': 'h5p-baq-result-page-header custom-submit-message',
           'html':"Result has been submitted successfully"
         }));
-        H5P.ArithmeticQuiz.triggerXAPIScored(0, 1, 'submitted-curriki');
+        self.triggerXAPIScored(0, 1, 'submitted-curriki');
         $(this).hide();
       }
     }).appendTo(this.$feedbackContainer);
