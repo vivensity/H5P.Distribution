@@ -80,8 +80,8 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
         const customProgressedEvent = self.createXAPIEventTemplate('submitted-curriki');
         
         
-        customProgressedEvent.data.statement.object = localStorage.getItem("XAPIEventObject");
-        customProgressedEvent.data.statement.context = localStorage.getItem("XAPIEventContext");
+        customProgressedEvent.data.statement.object = JSON.parse(localStorage.getItem("XAPIEventObject"));
+        customProgressedEvent.data.statement.context = JSON.parse(localStorage.getItem("XAPIEventContext"));;
       
       
       if (customProgressedEvent.data.statement.object) {
