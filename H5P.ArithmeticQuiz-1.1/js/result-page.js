@@ -94,7 +94,7 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
         );
 
         customProgressedEvent.data.statement.result["response"] = localStorage.getItem("userInputwa");
-        this.trigger(customProgressedEvent);
+        self.trigger(customProgressedEvent);
       }
       //self.triggerXAPIScored(0, 1, 'submitted-curriki');
 
