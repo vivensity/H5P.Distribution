@@ -76,6 +76,7 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
           'html':"Result has been submitted successfully"
         }));
         var score = Number($('.h5p-joubelui-score-number-counter').html());
+        self.triggerXAPIScored(score, maxScore, 'completed');
         self.triggerXAPIScored(score, maxScore, 'submitted-curriki');
         $(this).hide();
       }
