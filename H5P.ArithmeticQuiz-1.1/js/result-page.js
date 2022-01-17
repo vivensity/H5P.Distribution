@@ -77,26 +77,38 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
         }));
         var score = Number($('.h5p-joubelui-score-number-counter').html());
         
-        const customProgressedEvent = self.createXAPIEventTemplate('submitted-curriki');
-        
-        
+        // trigger completed
+        const customProgressedEvent = self.createXAPIEventTemplate('completed');
         customProgressedEvent.data.statement.object = JSON.parse(localStorage.getItem("XAPIEventObject"));
         customProgressedEvent.data.statement.context = JSON.parse(localStorage.getItem("XAPIEventContext"));;
       
       
-      if (customProgressedEvent.data.statement.object) {
-        // customProgressedEvent.data.statement.object.definition["name"] = {
-        //   "en-US": this.contentData.metadata.title,
-        // };
-        console.log(customProgressedEvent);
-        customProgressedEvent.setScoredResult(
-          score,
-          maxScore
-        );
+        if (customProgressedEvent.data.statement.object) {
+          customProgressedEvent.setScoredResult(
+            score,
+            maxScore
+          );
 
-        customProgressedEvent.data.statement.result["response"] = localStorage.getItem("userInputwa");
-        self.trigger(customProgressedEvent);
-      }
+          customProgressedEvent.data.statement.result["response"] = localStorage.getItem("userInputwa");
+          self.trigger(customProgressedEvent);
+        }
+
+        // trigger submitted-curriki
+
+        const customProgressedEventCompleted = self.createXAPIEventTemplate('submitted-curriki');
+        customProgressedEventCompleted.data.statement.object = JSON.parse(localStorage.getItem("XAPIEventObject"));
+        customProgressedEventCompleted.data.statement.context = JSON.parse(localStorage.getItem("XAPIEventContext"));;
+      
+      
+        if (customProgressedEventCompleted.data.statement.object) {
+          customProgressedEventCompleted.setScoredResult(
+            score,
+            maxScore
+          );
+
+          customProgressedEventCompleted.data.statement.result["response"] = localStorage.getItem("userInputwa");
+          self.trigger(customProgressedEventCompleted);
+        }
 
         $(this).hide();
       }
