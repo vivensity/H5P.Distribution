@@ -58,9 +58,25 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
       text: t.retryButton,
       'class': 'mq-control-button',
       click: function () {
+        $('.submit-button').show();
+        $('.custom-submit-message').hide();
         self.trigger('retry');
         self.update(0, '00:00');
         self.scoreBar.reset();
+      }
+    }).appendTo(this.$feedbackContainer);
+
+    UI.createButton({
+      text: t.submitAnswer,
+      'class': 'mq-control-button submit-button',
+      click: function () {
+        //var message = "Result has been submitted successfully"
+        H5P.jQuery('.h5p-baq-result-page-score-status').append($('<div>', {
+          'class': 'h5p-baq-result-page-header custom-submit-message',
+          'html':"Result has been submitted successfully"
+        }));
+        H5P.ArithmeticQuiz.triggerXAPIScored(0, 1, 'submitted-curriki');
+        $(this).hide();
       }
     }).appendTo(this.$feedbackContainer);
 

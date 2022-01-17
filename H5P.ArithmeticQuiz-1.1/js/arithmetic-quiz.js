@@ -33,6 +33,7 @@ H5P.ArithmeticQuiz = (function ($) {
         time: 'Time: @time',
         resultPageHeader: 'Finished!',
         retryButton: 'Retry',
+        submitAnswer: 'Submit Answers',
         submitAnswerButton: 'Submit Answers',
         viewSummaryButton: 'View Summary',
         startButton: 'Start',
