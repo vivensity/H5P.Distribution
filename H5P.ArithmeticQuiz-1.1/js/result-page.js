@@ -70,7 +70,6 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
       text: t.submitAnswer,
       'class': 'mq-control-button submit-button',
       click: function () {
-        //var message = "Result has been submitted successfully"
         H5P.jQuery('.h5p-baq-result-page-score-status').append($('<div>', {
           'class': 'h5p-baq-result-page-header custom-submit-message',
           'html':"Result has been submitted successfully"
