@@ -33,7 +33,7 @@ H5P.ArithmeticQuiz = (function ($) {
         time: 'Time: @time',
         resultPageHeader: 'Finished!',
         retryButton: 'Retry',
-        submitAnswerButton: 'Submit Answers',
+        submitAnswer: 'Submit',
         viewSummaryButton: 'View Summary',
         startButton: 'Start',
         go: 'GO!',
@@ -57,19 +57,12 @@ H5P.ArithmeticQuiz = (function ($) {
     
     self.gamePage.on('last-slide', function (e) {
       const customProgressedEvent = self.createXAPIEventTemplate('submitted-curriki');
-      console.log(customProgressedEvent.data.statement.object);
-      console.log(customProgressedEvent.data.statement.context);
-      console.log(customProgressedEvent.data.statement.result);
       localStorage.setItem("XAPIEventObject",JSON.stringify(customProgressedEvent.data.statement.object));
       localStorage.setItem("XAPIEventContext",JSON.stringify(customProgressedEvent.data.statement.context));
       
-      //self.triggerXAPIScored(e.data.score, e.data.numQuestions, 'answered');
       const customEvent =
       this.createXAPIEventTemplate("answered");
       if (customEvent.data.statement.object) {
-        // customProgressedEvent.data.statement.object.definition["name"] = {
-        //   "en-US": this.contentData.metadata.title,
-        // };
         customEvent.setScoredResult(
           e.data.score,
           e.data.numQuestions
@@ -78,7 +71,6 @@ H5P.ArithmeticQuiz = (function ($) {
         customEvent.data.statement.result["response"] = localStorage.getItem("userInputwa");
         this.trigger(customEvent);
       }
-      //self.triggerXAPIScored(0, 1, 'submitted-curriki');
     });
 
     self.gamePage.on('started-quiz', function () {

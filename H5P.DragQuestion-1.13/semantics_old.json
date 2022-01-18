@@ -8,14 +8,6 @@
     "common": true
   },
   {
-    "name": "submitAnswers",
-    "type": "text",
-    "label": "submit answer button",
-    "importance": "low",
-    "default": "Submit Answers",
-    "common": true
-  },
-  {
     "name": "tryAgain",
     "type": "text",
     "label": "Retry button",
@@ -359,13 +351,6 @@
         "name": "enableRetry",
         "type": "boolean",
         "label": "Enable \"Retry\"",
-        "importance": "low",
-        "default": true
-      },
-      {
-        "name": "showSubmitAnswersButton",
-        "type": "boolean",
-        "label": "Enable \"Submit Answers\"",
         "importance": "low",
         "default": true
       },
