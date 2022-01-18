@@ -19,12 +19,14 @@ H5P.VideoBrightcove = (function ($) {
    */
 
   function Brightcove(sources, options, l10n) {
-    
-    var loaderEl = H5P.jQuery('#activity-loader-alert', window.parent.document);
-    if (!loaderEl) {
-      loaderEl = H5P.jQuery('#activity-loader-alert');
+    var loaderEl = null;
+    if (window.bcPlayerExternal === undefined) {
+      var loaderEl = H5P.jQuery('#activity-loader-alert', window.parent.document);
+      if (!loaderEl) {
+        loaderEl = H5P.jQuery('#activity-loader-alert');
+      }
+      loaderEl.html("<strong>Loading Brightcove Video ...</strong>").show();
     }
-    loaderEl.html("<strong>Loading Brightcove Video ...</strong>").show();
 
     var self = this;
     var player;
@@ -121,7 +123,9 @@ H5P.VideoBrightcove = (function ($) {
             self.trigger('ready');
             self.trigger('loaded');
             H5P.jQuery($placeholder).show();
-            loaderEl.hide();
+            if (loaderEl) {
+              loaderEl.hide();
+            }
             player.clearInterval(playerTime);
           }
         }, 300);
