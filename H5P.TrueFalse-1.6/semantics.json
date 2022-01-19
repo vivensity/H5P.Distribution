@@ -95,6 +95,14 @@
         "default": "False"
       },
       {
+        "label": "Text for \"Submit\" button",
+        "importance": "low",
+        "name": "submitAnswer",
+        "type": "text",
+        "default": "Submit",
+        "optional": true
+      },
+      {
         "label": "Feedback text",
         "importance": "low",
         "name": "score",
@@ -218,6 +226,15 @@
         "name": "autoCheck",
         "type": "boolean",
         "default": false
+      },
+      {
+        "label": "Do not Show Submit Button",
+        "importance": "low",
+        "name": "disableSubmitButton",
+        "type": "boolean",
+        "default": false,
+        "optional": true,
+        "description": "This option is only applies to a standalone activity. The Submit button is required for grade passback to an LMS."
       },
       {
         "name": "feedbackOnCorrect",

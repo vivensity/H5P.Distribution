@@ -50,6 +50,7 @@ H5P.TrueFalse = (function ($, Question) {
         falseText: 'False',
         score: 'You got @score of @total points',
         checkAnswer: 'Check',
+        submitAnswer: "Submit",
         showSolutionButton: 'Show solution',
         tryAgain: 'Retry',
         wrongAnswerMessage: 'Wrong answer',
@@ -63,6 +64,7 @@ H5P.TrueFalse = (function ($, Question) {
         enableRetry: true,
         enableSolutionsButton: true,
         enableCheckButton: true,
+        disableSubmitButton: true,
         confirmCheckDialog: false,
         confirmRetryDialog: false,
         autoCheck: false
@@ -137,15 +139,29 @@ H5P.TrueFalse = (function ($, Question) {
         });
       }
 
+      // submit button
+      if (!params.behaviour.disableSubmitButton && typeof self.parent == "undefined") {
+        self.addButton(Button.SUBMIT_ANSWER, params.l10n.submitAnswer, function () {
+          
+          H5P.jQuery('.h5p-question-submit-answers').hide();
+          toggleButtonState(State.FINISHED_WRONG);
+          self.triggerXAPIScored(self.getScore(), self.getMaxScore(), 'completed');
+          self.triggerXAPIScored(self.getScore(), self.getMaxScore(), 'submitted-curriki');
+          var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
+          H5P.jQuery('.h5p-question-buttons').after($submit_message);
+        }, false, {
+          'aria-label': params.l10n.a11yCheck
+        });
+
+      }
+
       // Check button
       if (!params.behaviour.autoCheck && params.behaviour.enableCheckButton) {
-        self.addButton(Button.CHECK, "Submit Answers", function () {
+        self.addButton(Button.CHECK, params.l10n.checkAnswer, function () {
           checkAnswer();
           triggerXAPIAnswered();
-          if(typeof self.parent == "undefined") {
-            console.log('146');
-            self.triggerXAPIScored(self.getScore(), self.getMaxScore(), 'submitted-curriki');
-          }
+          H5P.jQuery('.h5p-question-submit-answers').show();
+          
         }, true, {
           'aria-label': params.l10n.a11yCheck
         }, {
@@ -159,22 +175,7 @@ H5P.TrueFalse = (function ($, Question) {
       }
 
 
-      // Check button
-      /*if(typeof self.parent == "undefined") {
-        self.addButton(Button.SUBMIT_ANSWER, "Submit Answers", function () {
-          self.triggerXAPIScored(0, 1, 'submitted-curriki');
-        }, true, {
-          'aria-label': params.l10n.a11yCheck
-        }, {
-          confirmationDialog: {
-            enable: params.behaviour.confirmCheckDialog,
-            l10n: params.confirmCheck,
-            instance: self,
-            $parentElement: $container
-          }
-        });
-
-      }*/
+      
       
 
       // Try again button
@@ -290,6 +291,7 @@ H5P.TrueFalse = (function ($, Question) {
      */
     var toggleButtonState = function (state) {
       toggleButtonVisibility(Button.SHOW_SOLUTION, state === State.FINISHED_WRONG);
+      toggleButtonVisibility(Button.SUBMIT_ANSWER, state === State.FINISHED_WRONG || state === State.FINISHED_CORRECT);
       toggleButtonVisibility(Button.CHECK, state === State.ONGOING);
       toggleButtonVisibility(Button.TRYAGAIN, state === State.FINISHED_WRONG || state === State.INTERNAL_SOLUTION);
     };
@@ -433,6 +435,7 @@ H5P.TrueFalse = (function ($, Question) {
     self.showSolutions = function (internal) {
       checkAnswer();
       answerGroup.showSolution();
+      H5P.jQuery('.submit-answer-feedback').hide();
       toggleButtonState(internal ? State.INTERNAL_SOLUTION : State.EXTERNAL_SOLUTION);
     };
 
@@ -446,6 +449,7 @@ H5P.TrueFalse = (function ($, Question) {
     self.resetTask = function () {
       answerGroup.reset();
       self.removeFeedback();
+      H5P.jQuery('.submit-answer-feedback').hide();
       toggleButtonState(State.ONGOING);
     };
 
