@@ -23,9 +23,13 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
     that.params = $.extend(true, {}, {
       l10n:{
         showSolution: "ShowSolution",
-        submitAnswer: "Submit",
         resume: "Resume",
         audioNotSupported: "Audio Error"
+      },
+      currikisettings:{
+        currikil10n: {
+          submitAnswer: 'Submit'
+        }
       }
     }, parameters);
 
@@ -282,8 +286,8 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
       if (that.params.behaviour.enableSolution) {
         that.$showSolutionButton = that.createButton('solution', 'eye', that.params.l10n.showSolution, that.showSolutions);
       }
-      if(!that.params.behaviour.disableSubmitButton) {
-        that.$submitButton = that.createButton('submit', 'submit', that.params.l10n.submitAnswer, that.answersSubmitted);
+      if(!that.params.currikisettings.disableSubmitButton) {
+        that.$submitButton = that.createButton('submit', 'submit', that.params.currikisettings.currikil10n.submitAnswer, that.answersSubmitted);
       }
       if (that.params.behaviour.enableRetry) {
         that.$retryButton = that.createButton('retry', 'undo', that.params.l10n.tryAgain, that.resetTask);
@@ -393,7 +397,7 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
         }
       }
 
-      if (!that.params.behaviour.disableSubmitButton) {
+      if (!that.params.currikisettings.disableSubmitButton) {
         that.$submitButton.appendTo(that.$buttonContainer);
       }
 
@@ -462,7 +466,7 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
       if (that.params.behaviour.enableRetry) {
         that.$retryButton.appendTo(that.$buttonContainer);
       }
-      if (!that.isSubmitted && !that.params.behaviour.disableSubmitButton) {
+      if (!that.isSubmitted && !that.params.currikisettings.disableSubmitButton) {
         that.$submitButton.appendTo(that.$buttonContainer);
       }
       that.rebuildDOM();
