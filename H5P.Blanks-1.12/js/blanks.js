@@ -64,6 +64,7 @@ H5P.Blanks = (function ($, Question) {
       showSolutions: "Show solution",
       tryAgain: "Try again",
       checkAnswer: "Check",
+      submitAnswer: "Submit",
       viewSummary: "View Summary",
       changeAnswer: "Change answer",
       notFilledOut: "Please fill in all blanks to view solution",
@@ -80,16 +81,11 @@ H5P.Blanks = (function ($, Question) {
         enableRetry: true,
         enableSolutionsButton: true,
         enableCheckButton: true,
+        disableSubmitButton: false,
         caseSensitive: true,
         showSolutionsRequiresInput: true,
         autoCheck: false,
         separateLines: false
-      },
-      currikisettings: {
-        disableSubmitButton: false,
-        currikil10n: {
-          submitAnswer: "Submit"
-        }
       },
       a11yCheck: 'Check the answers. The responses will be marked as correct, incorrect, or unanswered.',
       a11yShowSolution: 'Show the solution. The task will be marked with its correct solution.',
@@ -274,9 +270,9 @@ H5P.Blanks = (function ($, Question) {
       
     }
 
-    if (!self.params.currikisettings.disableSubmitButton && typeof self.parent == "undefined") {
+    if (!self.params.behaviour.disableSubmitButton && typeof self.parent == "undefined") {
       // Show submit button
-      self.addButton('submit-answer', self.params.currikisettings.currikil10n.submitAnswer,  function () {
+      self.addButton('submit-answer', self.params.submitAnswer,  function () {
         self.submitted = true;
         self.toggleButtonVisibility(STATE_SUBMITTED_SOLUTION);
         self.triggerXAPIScored(self.getScore(), self.getMaxScore(), 'submitted-curriki');
@@ -599,7 +595,7 @@ H5P.Blanks = (function ($, Question) {
       }
     }
 
-    if(!this.params.currikisettings.disableSubmitButton) {
+    if(!this.params.behaviour.disableSubmitButton) {
       if(!this.submitted && (state === STATE_CHECKING || state === STATE_SHOWING_SOLUTION)) {
         this.showButton('submit-answer');
       } else {
