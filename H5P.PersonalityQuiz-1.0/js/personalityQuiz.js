@@ -15,7 +15,7 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
     @constructor
   */
   function PersonalityQuiz(params, id) {
-    //console.log(params);
+    console.log(params);
     //console.log(id);
 
     var self = this;
@@ -27,6 +27,7 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
     self.progressText = params.progressText;
     self.personalities = params.personalities;
     self.numQuestions = params.questions.length;
+    
 
     self.slidePercentage = 100 / self.numQuestions;
 
@@ -210,7 +211,7 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
         $slides.append($canvas);
       }
 
-      $result = createResult(quiz, data.resultScreen, data.retakeText);
+      $result = createResult(quiz, data.resultScreen, data.retakeText, data.showSubmitAnswersButton, data.submitAnswers);
 
       $slides.append($result);
       $container.append($bar, $slides);
@@ -508,7 +509,7 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
       @param {string} retakeText The UI text for the button to retake the quiz
       @return {jQuery}
     */
-    function createResult(quiz, data, retakeText) {
+    function createResult(quiz, data, retakeText, showButton, submitButtontext) {
       var $result    = $('<div>', { 'class': classes('result', 'slide')       });
       var $wrapper   = $('<div>', { 'class': classes('personality-wrapper')   });
       var $container = $('<div>', { 'class': classes('retake-button-wrapper') });
@@ -517,9 +518,9 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
         'class': classes('button', 'retake-button'),
         'type': 'button'
       });
-      if(typeof self.parent =='undefined'){
+      if(typeof self.parent =='undefined' && showButton){
         var $button1    = createButton('button', {
-          'html': "Submit Results",
+          'html': submitButtontext,
           'class': classes('button', 'submit-result'),
           'type': 'button'
         });

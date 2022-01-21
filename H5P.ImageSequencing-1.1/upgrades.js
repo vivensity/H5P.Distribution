@@ -9,12 +9,17 @@ H5PUpgrades['H5P.ImageSequencing'] = (function () {
           enableSolution: true,
           enableRetry: true,
           enableResume: true,
-          disableSubmitButton: false
+        };
+        parameters.currikisettings = {
+          disableSubmitButton: false,
+          placeholder: false,
+          currikil10n: {
+            submitAnswer: 'Submit'
+          }
         };
 
         parameters.l10n.showSolution = 'Show Solution';
         parameters.l10n.resume = 'Resume';
-        parameters.l10n.submitAnswer = 'Submit';
         parameters.l10n.audioNotSupported = 'Audio Not Supported';
         parameters.l10n.ariaPlay= 'Play the corresponding audio';
         parameters.l10n.ariaMoveDescription= 'Moved @cardDesc from @posSrc to @posDes';

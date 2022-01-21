@@ -35,9 +35,13 @@ H5P.Flashcards = (function ($, XapiGenerator) {
       results: "Results",
       ofCorrect: "@score of @total correct",
       showResults: "Show results",
+      submitAnswers: "Submit Answers",
       retry : "Retry",
       cardAnnouncement: 'Incorrect answer. Correct answer was @answer',
       pageAnnouncement: 'Page @current of @total',
+      // behaviour: {
+        showSubmitAnswersButton: true
+      // }
     }, options);
     this.$images = [];
     this.hasBeenReset = false;
@@ -447,8 +451,8 @@ H5P.Flashcards = (function ($, XapiGenerator) {
 
 
     this.$submitButton = $('<button/>', {
-      'class': 'h5p-results-button h5p-visible h5p-button',
-      'text': "Submit Results"
+      'class': 'h5p-results-button h5p-visible h5p-button inner-div',
+      'text': that.options.submitAnswers
     }).on('click', function () {
       const xAPIEvent = that.createXAPIEventTemplate('answered');
       const definition = xAPIEvent.getVerifiedStatementValue(['object', 'definition']);
@@ -467,6 +471,13 @@ H5P.Flashcards = (function ($, XapiGenerator) {
     }).appendTo(this.$outder_div);
 
     this.$outder_div.appendTo(this.$resultScreen);
+
+    if(!that.options.showSubmitAnswersButton)
+    {
+      this.$submitButton.removeClass('h5p-visible');
+      this.$submitButton.addClass('h5p-invisible');
+    }
+      
     
   };
 

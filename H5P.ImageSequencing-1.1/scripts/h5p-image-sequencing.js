@@ -23,9 +23,13 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
     that.params = $.extend(true, {}, {
       l10n:{
         showSolution: "ShowSolution",
-        submitAnswer: "Submit",
         resume: "Resume",
         audioNotSupported: "Audio Error"
+      },
+      currikisettings:{
+        currikil10n: {
+          submitAnswer: 'Submit'
+        }
       }
     }, parameters);
 
@@ -65,22 +69,26 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
       definition.correctResponsesPattern = [];
       definition.choices = [];
 
+      // set the choices
       that.sequencingCards.forEach(function (card, index) {
-        definition.choices[index] = {
-          'id': 'item_' + card.uniqueId + '',
-          'description': {
-            'en-US':  card.imageDesc
+          definition.choices[index] = {
+            'id': 'item_' + card.seqNo + '',
+            'description': {
+              'en-US': card.imageDesc
+            }
           }
-        };
+        });
 
+      // set correct response pattern
+      that.sequencingCards.slice().sort(function (a, b) {
+        return a.seqNo - b.seqNo;
+      }).forEach(function (card, index) {
         if (index === 0) {
-          definition.correctResponsesPattern[0] = 'item_' + card.uniqueId + '[,]';
-        }
-        else if (index === that.sequencingCards.length - 1) {
-          definition.correctResponsesPattern[0] += 'item_' + card.uniqueId;
-        }
-        else {
-          definition.correctResponsesPattern[0] += 'item_' + card.uniqueId + '[,]';
+          definition.correctResponsesPattern[0] = 'item_' + card.seqNo + '[,]';
+        } else if (index === that.sequencingCards.length - 1) {
+          definition.correctResponsesPattern[0] += 'item_' + card.seqNo;
+        } else {
+          definition.correctResponsesPattern[0] += 'item_' + card.seqNo + '[,]';
         }
       });
     };
@@ -105,6 +113,7 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
 
       xAPIEvent.setScoredResult(score, maxScore, that, true, success);
       xAPIEvent.data.statement.result.response = response;
+      xAPIEvent.data.statement.result.duration = 'PT' + (Math.round(that.timer.getTime() / 10) / 100) + 'S';
     };
 
     // implementing question contract.
@@ -277,8 +286,8 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
       if (that.params.behaviour.enableSolution) {
         that.$showSolutionButton = that.createButton('solution', 'eye', that.params.l10n.showSolution, that.showSolutions);
       }
-      if(!that.params.behaviour.disableSubmitButton) {
-        that.$submitButton = that.createButton('submit', 'submit', that.params.l10n.submitAnswer, that.answersSubmitted);
+      if(!that.params.currikisettings.disableSubmitButton) {
+        that.$submitButton = that.createButton('submit', 'submit', that.params.currikisettings.currikil10n.submitAnswer, that.answersSubmitted);
       }
       if (that.params.behaviour.enableRetry) {
         that.$retryButton = that.createButton('retry', 'undo', that.params.l10n.tryAgain, that.resetTask);
@@ -388,7 +397,7 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
         }
       }
 
-      if (!that.params.behaviour.disableSubmitButton) {
+      if (!that.params.currikisettings.disableSubmitButton) {
         that.$submitButton.appendTo(that.$buttonContainer);
       }
 
@@ -457,7 +466,7 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
       if (that.params.behaviour.enableRetry) {
         that.$retryButton.appendTo(that.$buttonContainer);
       }
-      if (!that.isSubmitted && !that.params.behaviour.disableSubmitButton) {
+      if (!that.isSubmitted && !that.params.currikisettings.disableSubmitButton) {
         that.$submitButton.appendTo(that.$buttonContainer);
       }
       that.rebuildDOM();
