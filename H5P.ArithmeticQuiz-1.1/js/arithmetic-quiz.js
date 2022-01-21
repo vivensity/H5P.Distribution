@@ -69,7 +69,9 @@ H5P.ArithmeticQuiz = (function ($) {
           e.data.numQuestions
         );
 
-        customEvent.data.statement.object.defination["description"] = "DEV TEST";
+        customEvent.data.statement.object.definition["description"] = {
+          "en-US":customEvent.data.statement.object.definition.name['en-US'], //  this.contentData.metadata.title
+        };
         customEvent.data.statement.result["response"] = localStorage.getItem("userInputwa");
         this.trigger(customEvent);
       }
