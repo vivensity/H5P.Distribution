@@ -292,6 +292,7 @@
           {
             "label": "Text for \"Submit\" button",
             "name": "submitAnswer",
+            "importance": "low",
             "type": "text",
             "default": "Submit",
             "optional": true
