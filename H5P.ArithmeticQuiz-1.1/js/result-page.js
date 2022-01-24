@@ -67,7 +67,7 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
     }).appendTo(this.$feedbackContainer);
     if (!options.currikisettings.disableSubmitButton) {
     UI.createButton({
-      text: options.currikisettings.currikil10n.submitAnswer.submitAnswer,
+      text: options.currikisettings.currikil10n.submitAnswer,
       'class': 'mq-control-button submit-button',
       click: function () {
         H5P.jQuery('.h5p-baq-result-page-score-status').append($('<div>', {
