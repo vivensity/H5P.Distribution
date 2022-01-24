@@ -33,7 +33,6 @@ H5P.ArithmeticQuiz = (function ($) {
         time: 'Time: @time',
         resultPageHeader: 'Finished!',
         retryButton: 'Retry',
-        submitAnswer: 'Submit',
         viewSummaryButton: 'View Summary',
         startButton: 'Start',
         go: 'GO!',
@@ -48,7 +47,13 @@ H5P.ArithmeticQuiz = (function ($) {
         multiplicationOperator: 'times',
         divisionOperator: 'divided by',
         equalitySign: 'equal',
-        slideOfTotal: 'Slide :num of :total'
+        slideOfTotal: 'Slide :num of :total',
+        currikisettings: {
+          disableSubmitButton: false,
+          currikil10n: {
+            submitAnswer: "Submit"
+          }
+        }
       }
     }, options);
     self.currentWidth = 0;
