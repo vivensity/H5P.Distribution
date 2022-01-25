@@ -790,6 +790,7 @@ H5P.QuestionSet = function (options, contentId, contentData) {
         });
         hookUpButton('.qs-submitbutton', function () {
            self.triggerXAPIScored(self.getScore(), self.getMaxScore(), "submitted-curriki");
+           self.triggerXAPIScored(self.getScore(), self.getMaxScore(), "answered");
         });
 
         if (scoreBar === undefined) {
