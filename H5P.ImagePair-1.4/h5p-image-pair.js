@@ -19,7 +19,16 @@ H5P.ImagePair = (function(EventDispatcher, $, UI, StopWatch) {
     var submitted = false;
     var solutionMode = false;
     var stopWatch;
+    self.score = 0;
 
+    parameters = $.extend(true, {}, {
+      currikisettings:{
+        disableSubmitButton: false,
+        currikil10n: {
+          submitAnswer: 'Submit'
+        }
+      }
+    }, parameters);
     /**
      * pushing the cards and mates to appropriate arrays and
      * defining various events on which each card should respondTo
@@ -308,30 +317,34 @@ H5P.ImagePair = (function(EventDispatcher, $, UI, StopWatch) {
      * @private
      */
     var prepareResult = function() {
-      var score = 0;
+      self.score = 0;
       for (var i = 0; i < mates.length; i++) {
         if (mates[i].pairingStatus === true) {
           mates[i].setCorrect();
-          score++;
+          self.score++;
         } else if (mates[i].pairingStatus === false) {
           mates[i].setIncorrect();
         }
       }
-      return score;
+      return self.score;
     };
 
     /**
-     * calculate the score
-     * @private
+     *  getScore - Return the score obtained.
+     *
+     * @return {number}
      */
-    const getScore = function () {
-      var score = 0;
-      for (var i = 0; i < mates.length; i++) {
-        if (mates[i].pairingStatus === true) {
-          score++;
-        }
-      }
-      return score;
+    var getScore = function () {
+      return self.score;
+    };
+
+    /**
+     * Turn the maximum possible score that can be obtained.
+     *
+     * @return {number}
+     */
+    var getMaxScore = function () {
+      return cards.length;
     };
 
     /**
@@ -465,6 +478,7 @@ H5P.ImagePair = (function(EventDispatcher, $, UI, StopWatch) {
       self.$footer.empty();
       self.submitted = false;
       self.solutionMode = false;
+      self.score = 0;
       self.removeSubmitAnswerFeedback();
       self.showCheckButton();
       self.resetStopWatch();
@@ -495,7 +509,7 @@ H5P.ImagePair = (function(EventDispatcher, $, UI, StopWatch) {
         self.$showSolutionButton.remove();
       }
       // trigger submitted-curriki XAPI
-      self.triggerXAPIScored(getScore(), cards.length, 'submitted-curriki');
+      self.triggerXAPIScored(getScore(), getMaxScore(), 'submitted-curriki');
       var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
       self.$footer.append($submit_message);
     };

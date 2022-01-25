@@ -56,7 +56,13 @@ H5P.Essay = function ($, Question) {
         notEnoughChars: 'You must enter at least @chars characters!',
         messageSave: 'saved',
         ariaYourResult: 'You got @score out of @total points',
-        ariaNavigatedToSolution: 'Navigated to newly included sample solution after textarea.'
+        ariaNavigatedToSolution: 'Navigated to newly included sample solution after textarea.',
+        currikisettings: {
+          disableSubmitButton: false,
+          currikil10n: {
+            submitAnswer: "Submit"
+          }
+        },
       },
       config);
     this.contentId = contentId;
@@ -178,16 +184,18 @@ H5P.Essay = function ($, Question) {
     }, false, {}, {});
 
     // Show submit button
-    that.addButton('submit-answer', that.params.submitAnswer,  function () {
-      console.log('addSubmitButton');
-      
-      that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'completed');
-      that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'submitted-curriki');
-      that.hideButton('submit-answer');
-      var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
-      H5P.jQuery('.h5p-question-content').append($submit_message);
-      }, false
-    );
+    if (!that.params.currikisettings.disableSubmitButton && typeof that.parent == "undefined") {
+        that.addButton('submit-answer', that.params.currikisettings.currikil10n.submitAnswer,  function () {
+          
+          that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'completed');
+          that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'submitted-curriki');
+          that.hideButton('submit-answer');
+          var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
+          H5P.jQuery('.h5p-question-content').append($submit_message);
+          }, false
+        );
+    }
+    
 
     // Check answer button
     that.addButton('check-answer', that.params.checkAnswer, function () {
