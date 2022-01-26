@@ -182,10 +182,9 @@ H5P.Essay = function ($, Question) {
     }, false, {}, {});
 
     // Show submit button
-    console.log(that.params.currikisettings.disableSubmitButton);
-    console.log(that.parent);
+    
     if (!that.params.currikisettings.disableSubmitButton && typeof that.parent == "undefined") {
-      console.log('186');
+    
         that.addButton('submit-answer', that.params.currikisettings.currikil10n.submitAnswer,  function () {
           
           that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'completed');
@@ -193,7 +192,7 @@ H5P.Essay = function ($, Question) {
           that.hideButton('submit-answer');
           var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
           H5P.jQuery('.h5p-question-content').append($submit_message);
-          }, false
+          }, true
         );
     }
     
