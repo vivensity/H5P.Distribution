@@ -9,8 +9,7 @@ H5P.Essay = function ($, Question) {
   var SOLUTION_INTRODUCTION = 'h5p-essay-solution-introduction';
   var SOLUTION_SAMPLE = 'h5p-essay-solution-sample';
   var SOLUTION_SAMPLE_TEXT = 'h5p-essay-solution-sample-text';
-  var STATE_SUBMITTED_SOLUTION = 'submitted-solution';
-
+  
   // The H5P feedback right now only expects true (green)/false (red) feedback, not neutral feedback
   var FEEDBACK_EMPTY= '<span class="h5p-essay-feedback-empty">...</span>';
 
@@ -613,7 +612,7 @@ H5P.Essay = function ($, Question) {
     }
 
     // We need the retry button if the mastering score has not been reached or scoring is irrelevant
-    if (score < this.getMaxScore() || this.params.behaviour.ignoreScoring || state === STATE_SUBMITTED_SOLUTION) {
+    if (score < this.getMaxScore() || this.params.behaviour.ignoreScoring) {
       if (this.params.behaviour.enableRetry) {
         this.showButton('try-again');
       }
