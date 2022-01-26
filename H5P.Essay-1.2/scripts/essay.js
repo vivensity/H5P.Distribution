@@ -199,17 +199,18 @@ H5P.Essay = function ($, Question) {
 
     // Check answer button
     that.addButton('check-answer', that.params.checkAnswer, function () {
+      console.log('202');
       // Show message if the minimum number of characters has not been met
       if (that.inputField.getText().length < that.params.behaviour.minimumLength) {
         var message = that.params.notEnoughChars.replace(/@chars/g, that.params.behaviour.minimumLength);
         that.inputField.setMessageChars(message, true);
         that.read(message);
-        
+        console.log('207');
         return;
       }
       
       
-
+      console.log('212');
       that.inputField.disable();
       /*
        * Only set true on "check". Result computation may take some time if
@@ -222,7 +223,7 @@ H5P.Essay = function ($, Question) {
       if (that.params.behaviour.enableSolutionsButton === true) {
         that.showButton('show-solution');
       }
-
+      console.log('225');
       if (that.params.currikisettings.disableSubmitButton === false && typeof that.parent == "undefined") {
           that.showButton('submit-answer');
       }
@@ -366,6 +367,7 @@ H5P.Essay = function ($, Question) {
     this.hideSolution();
 
     this.hideButton('show-solution');
+    this.hideButton('submit-answer');
     this.hideButton('try-again');
     this.showButton('check-answer');
 
@@ -374,14 +376,14 @@ H5P.Essay = function ($, Question) {
 
     this.isAnswered = false;
   };
-  console.log('300');
+  
   /**
    * Get xAPI data.
    * @return {Object} xAPI statement.
    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-6}
    */
   Essay.prototype.getXAPIData = function () {
-    console.log('307');
+    
     return {
       statement: this.getXAPIAnswerEvent().data.statement
     };
@@ -684,10 +686,7 @@ H5P.Essay = function ($, Question) {
 
     var raw_score = this.getScore();
     var max_score = this.getMaxScore();
-
-    if(max_score === raw_score) {
-      //max_score += 1;
-    }
+    
     xAPIEvent.setScoredResult(raw_score, max_score, this, true, this.isPassed());
     xAPIEvent.data.statement.result.response = this.inputField.getText();
 
