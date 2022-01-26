@@ -182,6 +182,8 @@ H5P.Essay = function ($, Question) {
     }, false, {}, {});
 
     // Show submit button
+    console.log(that.params.currikisettings.disableSubmitButton);
+    console.log(that.parent);
     if (!that.params.currikisettings.disableSubmitButton && typeof that.parent == "undefined") {
       console.log('186');
         that.addButton('submit-answer', that.params.currikisettings.currikil10n.submitAnswer,  function () {
