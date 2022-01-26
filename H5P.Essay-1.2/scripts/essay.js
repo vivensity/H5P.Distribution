@@ -223,7 +223,7 @@ H5P.Essay = function ($, Question) {
         that.showButton('show-solution');
       }
 
-      if (that.params.behaviour.disableSubmitButton === false && typeof that.parent == "undefined") {
+      if (that.params.currikisettings.disableSubmitButton === false && typeof that.parent == "undefined") {
           that.showButton('submit-answer');
       }
       that.hideButton('check-answer');
