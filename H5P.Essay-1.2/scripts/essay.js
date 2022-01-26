@@ -41,14 +41,12 @@ H5P.Essay = function ($, Question) {
           minimumLength: 0,
           inputFieldSize: 10,
           enableRetry: true,
-          disableSubmitButton: false,
           ignoreScoring: false,
           pointsHost: 1
         },
         checkAnswer: 'Check',
         tryAgain: 'Retry',
         showSolution: 'Show solution',
-        submitAnswer: "Submit",
         viewSummary: "View Summary",
         feedbackHeader: 'Feedback',
         solutionTitle: 'Sample solution',
@@ -184,7 +182,10 @@ H5P.Essay = function ($, Question) {
     }, false, {}, {});
 
     // Show submit button
+    console.log(that.params.currikisettings.disableSubmitButton);
+    console.log(that.parent);
     if (!that.params.currikisettings.disableSubmitButton && typeof that.parent == "undefined") {
+      console.log('186');
         that.addButton('submit-answer', that.params.currikisettings.currikil10n.submitAnswer,  function () {
           
           that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'completed');
