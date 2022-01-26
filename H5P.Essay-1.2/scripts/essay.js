@@ -192,7 +192,7 @@ H5P.Essay = function ($, Question) {
           that.hideButton('submit-answer');
           var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
           H5P.jQuery('.h5p-question-content').append($submit_message);
-          }, true
+          }, false
         );
     }
     
