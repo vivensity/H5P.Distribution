@@ -253,6 +253,33 @@
         "importance": "low",
         "description": "Announces current slide and total number of slides, variables are :num and :total",
         "default": "Slide :num of :total"
+      },
+      {
+        "label": "Text for \"Submit\" button",
+        "importance": "low",
+        "name": "submitAnswer",
+        "type": "text",
+        "default": "Submit",
+        "description": "Announces current slide and total number of slides, variables are :num and :total"
+      }
+    ]
+  },
+  {
+    "name": "behaviour",
+    "type": "group",
+    "label": "Behavioural settings",
+    "importance": "low",
+    "description": "These options will let you control how the task behaves.",
+    "fields": [
+      
+      {
+        "label": "Do not Show Submit Button",
+        "importance": "low",
+        "name": "disableSubmitButton",
+        "type": "boolean",
+        "default": false,
+        "optional": true,
+        "description": "This options is compatible only with the standalone activities"
       }
     ]
   }

@@ -1,5 +1,10 @@
-window.brightcoveAccountId = '2985902027001';
-// window.brightcoveAccountId = '6282550302001';
+if (window.bcPlayerExternal === undefined) {
+    if (window.parent.brightcoveAccountId) {
+      window.brightcoveAccountId = window.parent.brightcoveAccountId;
+    } else if (window.brightcoveAccountId === undefined && window.parent.brightcoveAccountId === undefined) {
+      window.brightcoveAccountId ='6282550302001';
+    }
+}
 
 /** @namespace H5P */
 H5P.VideoBrightcove = (function ($) {
@@ -12,10 +17,21 @@ H5P.VideoBrightcove = (function ($) {
    * @param {Object} options Settings for the player
    * @param {Object} l10n Localization strings
    */
+
   function Brightcove(sources, options, l10n) {
-    
+    var loaderEl = null;
+    if (window.bcPlayerExternal === undefined) {
+      var loaderEl = H5P.jQuery('#activity-loader-alert', window.parent.document);
+      if (!loaderEl) {
+        loaderEl = H5P.jQuery('#activity-loader-alert');
+      }
+      loaderEl.html("<strong>Loading Brightcove Video ...</strong>").show();
+    }
+
     var self = this;
     var player;
+    self.getPlayer = function() { return player; }
+    self.nullifyPlayer = function() { player = null; }
     var playbackRate = 1;
     var id = 'h5p-brightcove-' + numInstances;
     numInstances++;
@@ -36,13 +52,10 @@ H5P.VideoBrightcove = (function ($) {
         window.videojs = undefined;
       }
       var $placeholder = $('<div/>', {id});
+      H5P.jQuery($placeholder).hide();
       window.videoJsTagIdGlobal = videoJsTagId;
       H5P.jQuery('<video-js id="' + videoJsTagId + '" data-account="'+brightcoveData.dataAccount+'" data-player="'+brightcoveData.dataPlayer+'" data-embed="' + brightcoveData.dataEmbed +'" controls="" data-video-id="'+brightcoveData.dataVideoId+'" data-playlist-id="" data-application-id="" class="vjs-fluid"></video-js>').appendTo($placeholder);
       $placeholder.appendTo($wrapper);
-      
-      if (window.H5PEditor !== undefined) {
-        H5P.jQuery($wrapper).append('<div class="loading-wrapper" style="position: absolute;top: 0;z-index:5;background: green;text-align: center;width: 100%;">' + l10n.loading + '</div>');
-      }
     }
     
     self.brightcoveUrlParts = null;
@@ -99,31 +112,23 @@ H5P.VideoBrightcove = (function ($) {
       //************[end full screen]*********************
       
       if (window.bcPlayerExternal) {
-        var playerReadyStateTime = setInterval(function(e) {
-          if (player.readyState() === 3 || player.readyState() === 4) {
-            clearInterval(playerReadyStateTime);
-            if (player.hasStarted()) {
-              player.autoplay(true);
-              player.pause();
-              initializePlayerEvents();
-              self.trigger('ready');
-              self.trigger('loaded');
-              player.play();
-              player.autoplay(false);
-            } else {
-              initializePlayerEvents();
-              self.trigger('ready');
-              self.trigger('loaded');
-            }
-          }
-        }, 200);
+        initializePlayerEvents();
+        self.trigger('ready');
+        self.trigger('loaded');
       } else {
-        player.on('loadedmetadata', function() {
-          initializePlayerEvents();
-          H5P.jQuery('.loading-wrapper').remove();
-          self.trigger('ready');
-          self.trigger('loaded');
-        });
+        var playerTime = player.setInterval(function(e) {
+          if (player.readyState() > 1) {
+            initializePlayerEvents();
+            H5P.jQuery('.loading-wrapper').remove();
+            self.trigger('ready');
+            self.trigger('loaded');
+            H5P.jQuery($placeholder).show();
+            if (loaderEl) {
+              loaderEl.hide();
+            }
+            player.clearInterval(playerTime);
+          }
+        }, 300);
       }
       
     }
@@ -446,7 +451,7 @@ H5P.VideoBrightcove = (function ($) {
       }
 
       $wrapper.css({
-        width: '100%',
+        width: 'inherit',
         height: 'inherit'
       });
     });
@@ -504,7 +509,6 @@ H5P.VideoBrightcove = (function ($) {
       css += ' .h5p-controls { display: none !important; }';
       css += ' .h5p-actions { display: none !important; }';
       css += ' .vjs-has-started .vjs-control-bar { z-index: 2 !important; }';
-      css += ' .curriki-player-wrapper, .h5p-video-wrapper, .h5p-container, .h5p-content { height: inherit !important; }';
       let head = document.head || document.getElementsByTagName('head')[0];
       let style = document.createElement('style');
       head.appendChild(style);

@@ -58,9 +58,58 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
       text: t.retryButton,
       'class': 'mq-control-button',
       click: function () {
+        $('.submit-button').show();
+        $('.custom-submit-message').hide();
         self.trigger('retry');
         self.update(0, '00:00');
         self.scoreBar.reset();
+      }
+    }).appendTo(this.$feedbackContainer);
+
+    UI.createButton({
+      text: t.submitAnswer,
+      'class': 'mq-control-button submit-button',
+      click: function () {
+        H5P.jQuery('.h5p-baq-result-page-score-status').append($('<div>', {
+          'class': 'h5p-baq-result-page-header custom-submit-message',
+          'html':"Result has been submitted successfully"
+        }));
+        var score = Number($('.h5p-joubelui-score-number-counter').html());
+        
+        // trigger completed
+        const customProgressedEvent = self.createXAPIEventTemplate('completed');
+        customProgressedEvent.data.statement.object = JSON.parse(localStorage.getItem("XAPIEventObject"));
+        customProgressedEvent.data.statement.context = JSON.parse(localStorage.getItem("XAPIEventContext"));;
+      
+      
+        if (customProgressedEvent.data.statement.object) {
+          customProgressedEvent.setScoredResult(
+            score,
+            maxScore
+          );
+
+          customProgressedEvent.data.statement.result["response"] = localStorage.getItem("userInputwa");
+          self.trigger(customProgressedEvent);
+        }
+
+        // trigger submitted-curriki
+
+        const customProgressedEventCompleted = self.createXAPIEventTemplate('submitted-curriki');
+        customProgressedEventCompleted.data.statement.object = JSON.parse(localStorage.getItem("XAPIEventObject"));
+        customProgressedEventCompleted.data.statement.context = JSON.parse(localStorage.getItem("XAPIEventContext"));;
+      
+      
+        if (customProgressedEventCompleted.data.statement.object) {
+          customProgressedEventCompleted.setScoredResult(
+            score,
+            maxScore
+          );
+
+          customProgressedEventCompleted.data.statement.result["response"] = localStorage.getItem("userInputwa");
+          self.trigger(customProgressedEventCompleted);
+        }
+
+        $(this).hide();
       }
     }).appendTo(this.$feedbackContainer);
 

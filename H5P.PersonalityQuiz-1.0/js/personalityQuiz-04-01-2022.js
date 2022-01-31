@@ -15,7 +15,7 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
     @constructor
   */
   function PersonalityQuiz(params, id) {
-    console.log(params);
+    //console.log(params);
     //console.log(id);
 
     var self = this;
@@ -27,7 +27,6 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
     self.progressText = params.progressText;
     self.personalities = params.personalities;
     self.numQuestions = params.questions.length;
-    
 
     self.slidePercentage = 100 / self.numQuestions;
 
@@ -211,7 +210,7 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
         $slides.append($canvas);
       }
 
-      $result = createResult(quiz, data.resultScreen, data.retakeText, data.showSubmitAnswersButton, data.submitAnswers);
+      $result = createResult(quiz, data.resultScreen, data.retakeText);
 
       $slides.append($result);
       $container.append($bar, $slides);
@@ -509,7 +508,7 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
       @param {string} retakeText The UI text for the button to retake the quiz
       @return {jQuery}
     */
-    function createResult(quiz, data, retakeText, showButton, submitButtontext) {
+    function createResult(quiz, data, retakeText) {
       var $result    = $('<div>', { 'class': classes('result', 'slide')       });
       var $wrapper   = $('<div>', { 'class': classes('personality-wrapper')   });
       var $container = $('<div>', { 'class': classes('retake-button-wrapper') });
@@ -518,17 +517,15 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
         'class': classes('button', 'retake-button'),
         'type': 'button'
       });
-      if(typeof self.parent =='undefined' && showButton){
+      if(typeof self.parent =='undefined'){
         var $button1    = createButton('button', {
-          'html': submitButtontext,
+          'html': "Submit Results",
           'class': classes('button', 'submit-result'),
           'type': 'button'
         });
         addButtonListener($button1, function () {
          
-            self.triggerXAPIScored(1, 1, 'submitted-curriki');
-            self.triggerXAPIScored(1, 1, 'answered');
-            self.triggerXAPIScored(1, 1, 'completed');
+            self.triggerXAPIScored(0, 1, 'submitted-curriki');
           
             H5P.jQuery('.h5p-personality-quiz-button').hide();
             var $submit_message= "<h1>Result has been submitted successfully</h1>";

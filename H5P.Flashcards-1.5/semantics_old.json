@@ -123,25 +123,6 @@
     "importance": "low",
     "optional": true
   },
-
-  {
-    "label": "Show Submit Answers Button",
-    "name": "showSubmitAnswersButton",
-    "type": "boolean",
-    "default": true,
-    "importance": "high",
-    "optional": true
-  },
-  {
-    "label": "Text for Submit Answers Button",
-    "name": "submitAnswers",
-    "type": "text",
-    "default": "Submit Answers",
-    "importance": "low",
-    "common": true
-  },
-
-
   {
     "label": "Text for the answer input field",
     "name": "defaultAnswerText",
