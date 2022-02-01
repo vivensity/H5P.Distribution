@@ -22,6 +22,7 @@
     this.isSmallDeviceCB = isSmallDeviceCB;
     this.options = options;
     this.consumed = false;
+    this.parent = parent;
 
     // A utility variable to check if a Predefined icon or an uploaded image should be used.
     var iconImageExists = (options.iconImage !== undefined && options.iconType === 'image');
