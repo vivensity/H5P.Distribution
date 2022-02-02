@@ -115,6 +115,7 @@ H5P.DocumentationTool = (function ($, NavigationMenu, JoubelUI, EventDispatcher)
     }
 
     this.navigationMenu = navigationMenu;
+    self.triggerConsumed();
 
     self.resize();
   };
@@ -218,6 +219,25 @@ H5P.DocumentationTool = (function ($, NavigationMenu, JoubelUI, EventDispatcher)
     }
 
     return $pagesContainer;
+  };
+
+  /**
+   * Trigger the 'consumed' xAPI event when this commences
+   *
+   * (Will be more sophisticated in future version)
+   */
+   DocumentationTool.prototype.triggerConsumed = function () { 
+    var xAPIEvent = this.createXAPIEventTemplate({
+      id: 'http://activitystrea.ms/schema/1.0/consume',
+      display: {
+        'en-US': 'consumed'
+      }
+    }, {
+      result: {
+        completion: true
+      }
+    });
+    this.trigger(xAPIEvent);
   };
 
   /**
