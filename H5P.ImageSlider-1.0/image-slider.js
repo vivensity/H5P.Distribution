@@ -588,7 +588,9 @@ H5P.ImageSlider = (function ($) {
    */
   C.prototype.triggerCompleted = function () {
     var xAPIEvent = this.createXAPIEventTemplate('completed');
-    xAPIEvent.data.statement.result.completion = true;
+    xAPIEvent.data.statement.result = {
+        'completion': true
+    };
     this.trigger(xAPIEvent);
   };
 
