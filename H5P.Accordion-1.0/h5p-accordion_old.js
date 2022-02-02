@@ -47,7 +47,7 @@ H5P.Accordion = (function ($) {
    */
   Accordion.prototype.attach = function ($container) {
     var self = this;
-console.log(self.$content);
+
     if (self.$content === undefined) {
       // Mark as consumed
       self.triggerConsumed();
