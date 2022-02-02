@@ -577,10 +577,6 @@ H5P.ImageSlider = (function ($) {
       display: {
         'en-US': 'consumed'
       }
-    }, {
-      result: {
-        completion: true
-      }
     });
     this.trigger(xAPIEvent);
   };
@@ -592,6 +588,7 @@ H5P.ImageSlider = (function ($) {
    */
   C.prototype.triggerCompleted = function () {
     var xAPIEvent = this.createXAPIEventTemplate('completed');
+    xAPIEvent.data.statement.result.completion = true;
     this.trigger(xAPIEvent);
   };
 
