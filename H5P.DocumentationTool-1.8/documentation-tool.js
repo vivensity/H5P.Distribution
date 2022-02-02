@@ -226,7 +226,7 @@ H5P.DocumentationTool = (function ($, NavigationMenu, JoubelUI, EventDispatcher)
    *
    * (Will be more sophisticated in future version)
    */
-   DocumentationTool.prototype.triggerConsumed = function () { alert('triggerConsumed');
+   DocumentationTool.prototype.triggerConsumed = function () { 
     var xAPIEvent = this.createXAPIEventTemplate({
       id: 'http://activitystrea.ms/schema/1.0/consume',
       display: {
