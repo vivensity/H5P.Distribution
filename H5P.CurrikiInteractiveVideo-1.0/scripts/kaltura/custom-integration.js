@@ -81,17 +81,15 @@ if (typeof H5PEditor !== 'undefined') {
         var kalturaPageLength = 5;
         async function getPlaylistData(pageSize, pageIndex, searchText) {
           $.ajax({
-            type: "GET",
+            type: "POST",
             dataType: "json",
             data: {
               pageSize: pageSize,
               pageIndex: pageIndex,
-              searchText: searchText,
+              searchText: searchText
             },
             url: KalturaConfig.apiPath,
             success: function (data) {
-              // data = $.parseJSON(data);
-              // console.log(data);
               if (data.results) {
                 var results = data.results;
                 totalVideoCount = results.totalCount;
@@ -121,6 +119,17 @@ if (typeof H5PEditor !== 'undefined') {
                 console.log(data.error);
               }
             },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+              var errorMessage = '';
+              if (XMLHttpRequest.responseJSON.message) {
+                errorMessage = XMLHttpRequest.responseJSON.message;
+              } else if (XMLHttpRequest.responseJSON.errors){
+                errorMessage = XMLHttpRequest.responseJSON.errors[0];
+              }              
+              var node =
+                  '<div class="play-item" data-filter-item><span class="kaltura-video-title">'+errorMessage+'</span></div>';
+                document.getElementById("modalContent").innerHTML = node;
+            }
           });
         }
 
