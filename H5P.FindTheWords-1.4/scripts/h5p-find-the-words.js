@@ -473,6 +473,16 @@ H5P.FindTheWords = (function ($, UI) {
     definition.interactionType = 'choice';
     definition.correctResponsesPattern = [];
     definition.correctResponsesPattern[0] = this.vocabulary.words.join([',']);
+    definition.choices = [];
+    this.vocabulary.words.forEach((value, index) => {
+      definition.choices[index] = {
+        id: value.toString(),
+        description: {
+          'en-US': value.toString()
+        }
+      }
+    });
+
   };
 
   /**
@@ -487,6 +497,7 @@ H5P.FindTheWords = (function ($, UI) {
 
     xAPIEvent.setScoredResult(score, maxScore, this, true, success);
     xAPIEvent.data.statement.result.response = response;
+    xAPIEvent.data.statement.result.duration = 'PT' + (Math.round(this.timer.getTime() / 10) / 100) + 'S';
   };
 
   /**
