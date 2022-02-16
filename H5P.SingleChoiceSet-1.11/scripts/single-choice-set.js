@@ -246,7 +246,8 @@ H5P.SingleChoiceSet = (function ($, UI, Question, SingleChoice, SolutionView, Re
     self.user_answers[self.options.choices[index].question] = (event.data.correct) ? "correct" : "In correct";
     console.log(self.user_answers);
     // trigger answered event
-    var duration = this.stopStopWatch(index);
+    this.stopStopWatch(index);
+    var duration = this.timePassedInStopWatch(index);
     var xapiEvent = self.createXApiAnsweredEvent(self.options.choices[index], userResponse, duration);
 
     self.trigger(xapiEvent);
