@@ -30,3 +30,7 @@
 .h5p-interactive-video .field.group.h5p-hide {
   display: none;
 }
+
+.h5peditor-wizard-navigation-buttons div {
+  display:none !important;
+}
