@@ -747,9 +747,9 @@ body .h5p.shepherd-element.shepherd-theme-arrows {
 }
 
 .h5p-currikiinteractivevideo-editor .content .video,.field-name-textTracks {
-  display: none;
+  /* display: none; */
 }
 
 .h5peditor-wizard-navigation-buttons div {
-  display:none !important;
+  /* display:none !important; */
 }
