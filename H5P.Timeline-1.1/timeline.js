@@ -73,7 +73,7 @@ H5P.Timeline = (function ($) {
           customEventInteract.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
           self.trigger(customEventInteract);
         }
-        
+
       }, 200);
     };
 
@@ -145,7 +145,7 @@ H5P.Timeline = (function ($) {
         }
       });
 
-      const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("consumed");
+      const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("interacted");
       if (customEventInteract.data.statement.object) {
         customEventInteract.data.statement.object.definition["description"] = {
           "en-US":"Timeline", //  this.contentData.metadata.title
