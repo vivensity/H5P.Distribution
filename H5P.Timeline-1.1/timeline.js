@@ -145,17 +145,17 @@ H5P.Timeline = (function ($) {
         self.trigger(customEventInteract);
       }
 
-      const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("completed");
-      if (customEventInteract.data.statement.object) {
-        customEventInteract.data.statement.object.definition["description"] = {
+      const customEventInteractComplete =H5P.externalDispatcher.createXAPIEventTemplate("completed");
+      if (customEventInteractComplete.data.statement.object) {
+        customEventInteractComplete.data.statement.object.definition["description"] = {
           "en-US":"Timeline", //  this.contentData.metadata.title
         };
-        customEventInteract.data.statement.object.definition["name"] ={
+        customEventInteractComplete.data.statement.object.definition["name"] ={
           "en-US":"Timeline Activity", //  this.contentData.metadata.title
         };
-        customEventInteract.data.statement.object["objectType"] ="Activity";
-        customEventInteract.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
-        self.trigger(customEventInteract);
+        customEventInteractComplete.data.statement.object["objectType"] ="Activity";
+        customEventInteractComplete.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
+        self.trigger(customEventInteractComplete);
       }
 
     }
