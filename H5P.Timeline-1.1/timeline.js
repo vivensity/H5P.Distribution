@@ -60,6 +60,20 @@ H5P.Timeline = (function ($) {
         else {
           self.setBackgroundImage(image);
         }
+
+        const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("completed");
+        if (customEventInteract.data.statement.object) {
+          customEventInteract.data.statement.object.definition["description"] = {
+            "en-US":"Timeline", //  this.contentData.metadata.title
+          };
+          customEventInteract.data.statement.object.definition["name"] ={
+            "en-US":"Timeline Activity", //  this.contentData.metadata.title
+          };
+          customEventInteract.data.statement.object["objectType"] ="Activity";
+          customEventInteract.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
+          self.trigger(customEventInteract);
+        }
+        
       }, 200);
     };
 
@@ -131,13 +145,13 @@ H5P.Timeline = (function ($) {
         }
       });
 
-      const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("interacted");
+      const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("consumed");
       if (customEventInteract.data.statement.object) {
         customEventInteract.data.statement.object.definition["description"] = {
-          "en-US":"", //  this.contentData.metadata.title
+          "en-US":"Timeline", //  this.contentData.metadata.title
         };
         customEventInteract.data.statement.object.definition["name"] ={
-          "en-US":"Dialog Cards Activity", //  this.contentData.metadata.title
+          "en-US":"Timeline Activity", //  this.contentData.metadata.title
         };
         customEventInteract.data.statement.object["objectType"] ="Activity";
         customEventInteract.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
