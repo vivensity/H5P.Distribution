@@ -130,20 +130,6 @@ H5P.Timeline = (function ($) {
           self.setBackgroundImage(self.options.timeline.backgroundImage);
         }
       });
-
-      const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("interacted");
-      if (customEventInteract.data.statement.object) {
-        customEventInteract.data.statement.object.definition["description"] = {
-          "en-US":"", //  this.contentData.metadata.title
-        };
-        customEventInteract.data.statement.object.definition["name"] ={
-          "en-US":"Dialog Cards Activity", //  this.contentData.metadata.title
-        };
-        customEventInteract.data.statement.object["objectType"] ="Activity";
-        customEventInteract.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
-        self.trigger(customEventInteract);
-      }
-
     }
     else {
       $container.append($('<div>', {
