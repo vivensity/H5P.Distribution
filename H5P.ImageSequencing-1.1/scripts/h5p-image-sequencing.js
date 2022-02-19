@@ -27,6 +27,7 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
         audioNotSupported: "Audio Error"
       },
       currikisettings:{
+        disableSubmitButton: false,
         currikil10n: {
           submitAnswer: 'Submit'
         }

@@ -50,7 +50,7 @@ H5P.TrueFalse = (function ($, Question) {
         falseText: 'False',
         score: 'You got @score of @total points',
         checkAnswer: 'Check',
-        submitAnswer: "Submit",
+        //submitAnswer: "Submit",
         showSolutionButton: 'Show solution',
         tryAgain: 'Retry',
         wrongAnswerMessage: 'Wrong answer',
@@ -64,11 +64,16 @@ H5P.TrueFalse = (function ($, Question) {
         enableRetry: true,
         enableSolutionsButton: true,
         enableCheckButton: true,
-        disableSubmitButton: true,
+        //disableSubmitButton: true,
         confirmCheckDialog: false,
         confirmRetryDialog: false,
         autoCheck: false
-      }
+      },currikisettings: {
+        disableSubmitButton: false,
+        currikil10n: {
+          submitAnswer: "Submit"
+        }
+      },
     }, options);
 
     // Counter used to create unique id for this question
@@ -140,8 +145,8 @@ H5P.TrueFalse = (function ($, Question) {
       }
 
       // submit button
-      if (!params.behaviour.disableSubmitButton && typeof self.parent == "undefined") {
-        self.addButton(Button.SUBMIT_ANSWER, params.l10n.submitAnswer, function () {
+      if (!params.currikisettings.disableSubmitButton && typeof self.parent == "undefined") {
+        self.addButton(Button.SUBMIT_ANSWER, params.currikisettings.currikil10n.submitAnswer, function () {
           
           H5P.jQuery('.h5p-question-submit-answers').hide();
           toggleButtonState(State.FINISHED_WRONG);

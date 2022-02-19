@@ -10,7 +10,7 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
    * @param  {Object} t Translation objects
    * @fires H5P.Event
    */
-  function ResultPage(maxScore, t){
+  function ResultPage(maxScore, t, options){
     H5P.EventDispatcher.call(this);
     var self = this;
 
@@ -65,9 +65,9 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
         self.scoreBar.reset();
       }
     }).appendTo(this.$feedbackContainer);
-
+    if (!options.currikisettings.disableSubmitButton) {
     UI.createButton({
-      text: t.submitAnswer,
+      text: options.currikisettings.currikil10n.submitAnswer,
       'class': 'mq-control-button submit-button',
       click: function () {
         H5P.jQuery('.h5p-baq-result-page-score-status').append($('<div>', {
@@ -112,6 +112,7 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
         $(this).hide();
       }
     }).appendTo(this.$feedbackContainer);
+  }
 
     this.$resultAnnouncer = $('<div>', {
       'class': 'h5p-baq-live-feedback',
