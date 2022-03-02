@@ -77,9 +77,18 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
         var score = Number($('.h5p-joubelui-score-number-counter').html());
         
         // trigger completed
+
+        var time_elem = H5P.jQuery('time').html();
+        var time_spent = time_elem.replace("Time: ", "");
+
+        let minutes = parseInt(time_spent.split(':')[0], 10);
+        let seconds = parseInt(time_spent.split(':')[1], 10);
+        
+        const dateTimewa = 'PT' + minutes + 'M' + seconds + 'S';
         const customProgressedEvent = self.createXAPIEventTemplate('completed');
         customProgressedEvent.data.statement.object = JSON.parse(localStorage.getItem("XAPIEventObject"));
         customProgressedEvent.data.statement.context = JSON.parse(localStorage.getItem("XAPIEventContext"));;
+        customProgressedEvent.data.statement.result.duration = dateTimewa;
       
       
         if (customProgressedEvent.data.statement.object) {
