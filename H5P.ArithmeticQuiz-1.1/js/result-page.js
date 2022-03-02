@@ -89,8 +89,7 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
         customProgressedEvent.data.statement.object = JSON.parse(localStorage.getItem("XAPIEventObject"));
         customProgressedEvent.data.statement.context = JSON.parse(localStorage.getItem("XAPIEventContext"));
         
-        customProgressedEvent.data.statement.result.duration = dateTimewa;
-      
+        
       
         if (customProgressedEvent.data.statement.object) {
           customProgressedEvent.setScoredResult(
