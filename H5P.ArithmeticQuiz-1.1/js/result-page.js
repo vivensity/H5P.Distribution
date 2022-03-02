@@ -84,7 +84,8 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
         let minutes = parseInt(time_spent.split(':')[0], 10);
         let seconds = parseInt(time_spent.split(':')[1], 10);
         
-        const dateTimewa = 'PT' + minutes + 'M' + seconds + 'S';
+        //const dateTimewa = 'PT' + minutes + 'M' + seconds + 'S'; //PT6.25S
+        const dateTimewa = 'PT6.25S';
         const customProgressedEvent = self.createXAPIEventTemplate('completed');
         customProgressedEvent.data.statement.object = JSON.parse(localStorage.getItem("XAPIEventObject"));
         customProgressedEvent.data.statement.context = JSON.parse(localStorage.getItem("XAPIEventContext"));
