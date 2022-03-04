@@ -120,6 +120,11 @@ H5P.ImageHotspotQuestion = (function ($, Question) {
 
     // Register retry button
     this.createRetryButton();
+
+    // for xapi duration
+    if(!this.activityStartTime) {
+      this.activityStartTime = Date.now();
+    }
   };
 
   /**
@@ -322,7 +327,8 @@ H5P.ImageHotspotQuestion = (function ($, Question) {
       };
       customProgressedEvent.setScoredResult(
         this.getScore(),
-        this.getMaxScore()
+        this.getMaxScore(),
+        this
       );
        ///customization
        var hospot_answer = "False";
@@ -431,6 +437,7 @@ H5P.ImageHotspotQuestion = (function ($, Question) {
     // Clear feedback
     this.removeFeedback();
 	this.score = 0;
+    this.activityStartTime = Date.now();
 // console.log("here3");
   };
 
