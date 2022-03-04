@@ -120,16 +120,26 @@ H5P.MemoryGame = (function (EventDispatcher, $) {
 
       // Create and trigger xAPI event 'completed'
       var completedEvent = self.createXAPIEventTemplate('completed');
+      if (completedEvent.data.statement.object) {
+        completedEvent.data.statement.object.definition["name"] = {
+          "en-US": parameters.taskDescription,
+        };
+      }
       completedEvent.setScoredResult(1, 1, self, true, true);
       completedEvent.data.statement.result.duration = 'PT' + (Math.round(timer.getTime() / 10) / 100) + 'S';
       self.trigger(completedEvent);
 
        // Create and trigger xAPI event 'answered'
 
-       var completedEventAnswered = self.createXAPIEventTemplate('answered');
-       completedEventAnswered.setScoredResult(1, 1, self, true, true);
-       completedEventAnswered.data.statement.result.duration = 'PT' + (Math.round(timer.getTime() / 10) / 100) + 'S';
-       self.trigger(completedEventAnswered);
+       var answeredEvent = self.createXAPIEventTemplate('answered');
+      if (answeredEvent.data.statement.object) {
+        answeredEvent.data.statement.object.definition["name"] = {
+          "en-US": parameters.taskDescription,
+        };
+      }
+      answeredEvent.setScoredResult(1, 1, self, true, true);
+      answeredEvent.data.statement.result.duration = 'PT' + (Math.round(timer.getTime() / 10) / 100) + 'S';
+      self.trigger(answeredEvent);
 
       if (parameters.behaviour && parameters.behaviour.allowRetry) {
         // Create retry button
