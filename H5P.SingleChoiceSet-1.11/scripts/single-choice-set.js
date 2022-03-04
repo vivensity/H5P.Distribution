@@ -425,13 +425,8 @@ H5P.SingleChoiceSet = (function ($, UI, Question, SingleChoice, SolutionView, Re
     self.handleQueuedButtonChanges();
     self.scoreTimeout = undefined;
 
-    if (!noXAPI) {
-      if( typeof this.parent == 'undefined') { 
+    if (!noXAPI && typeof this.parent == 'undefined') {
         self.triggerXAPIScored(score, self.options.choices.length, 'completed', true, (100 * score / self.options.choices.length) >= self.options.behaviour.passPercentage);
-      }else{
-        self.triggerXAPIScored(score, self.options.choices.length, 'answered', true, (100 * score / self.options.choices.length) >= self.options.behaviour.passPercentage);
-      } 
-      
     }
 
     self.trigger('resize');
