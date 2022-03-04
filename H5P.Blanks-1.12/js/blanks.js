@@ -53,6 +53,7 @@ H5P.Blanks = (function ($, Question) {
     // IDs
     this.contentId = id;
     this.contentData = contentData;
+    this.duration = 0;
 
     this.params = $.extend(true, {}, {
       text: "Fill in",
@@ -179,6 +180,9 @@ H5P.Blanks = (function ($, Question) {
 
     // Restore previous state
     self.setH5PUserState();
+
+    // start activity time
+    self.startStopWatch();
   };
 
   /**
@@ -205,7 +209,7 @@ H5P.Blanks = (function ($, Question) {
 
     if (!self.params.behaviour.autoCheck && this.params.behaviour.enableCheckButton) {
       // Check answer button
-      self.addButton('check-answer', self.params.checkAnswer, function () { 
+      self.addButton('check-answer', self.params.checkAnswer, function () {
         // Move focus to top of content
         self.a11yHeader.innerHTML = self.params.a11yHeader;
         self.a11yHeader.focus();
@@ -218,7 +222,7 @@ H5P.Blanks = (function ($, Question) {
         }
         self.markResults();
         self.showEvaluation();
-        
+
         self.triggerAnswered();
 
       }, true, {
@@ -239,27 +243,27 @@ H5P.Blanks = (function ($, Question) {
         }, self.params.behaviour.enableSolutionsButton, {
           'aria-label': self.params.a11yShowSolution,
         });
-        self.addButton('view-summary', self.params.viewSummary, function () { 
-          
+        self.addButton('view-summary', self.params.viewSummary, function () {
+
           var confirmationDialog = new H5P.ConfirmationDialog({
             headerText: 'Fill in the blanks Summary',
             dialogText: showSummary(self),
             cancelText: 'Cancel',
             confirmText: "Submit Answers"
           });
-          
+
           confirmationDialog.on('confirmed', function () {
             self.triggerXAPIScored(0, 1, 'submitted-curriki');
             //confirmationDialog.hide();
             H5P.jQuery('.h5p-question-check-answer').click();
-            
+
           });
-          
+
           console.log(self.a11yHeader);
           confirmationDialog.appendTo(parent.document.body);
           confirmationDialog.show();
-          
-          
+
+
         }, true, {
           'aria-label': self.params.a11yCheck,
         }, {
@@ -271,18 +275,18 @@ H5P.Blanks = (function ($, Question) {
           }
         });
       }*/
-      
+
     }
 
     if (!self.params.currikisettings.disableSubmitButton && typeof self.parent == "undefined") {
       // Show submit button
       self.addButton('submit-answer', self.params.currikisettings.currikil10n.submitAnswer,  function () {
-        self.submitted = true;
-        self.toggleButtonVisibility(STATE_SUBMITTED_SOLUTION);
-        self.triggerXAPIScored(self.getScore(), self.getMaxScore(), 'submitted-curriki');
-        var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
-        H5P.jQuery('.h5p-question-buttons').after($submit_message);
-        }, true
+            self.submitted = true;
+            self.toggleButtonVisibility(STATE_SUBMITTED_SOLUTION);
+            self.triggerXAPIScored(self.getScore(), self.getMaxScore(), 'submitted-curriki');
+            var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
+            H5P.jQuery('.h5p-question-buttons').after($submit_message);
+          }, true
       );
     }
 
@@ -319,7 +323,7 @@ H5P.Blanks = (function ($, Question) {
 
 
   function removeItemAll(arr, value) {
-    
+
     var i = 0;
     while (i < arr.length) {
       if (arr[i] === value) {
@@ -328,7 +332,7 @@ H5P.Blanks = (function ($, Question) {
         ++i;
       }
     }
-   
+
     return arr;
   }
   /**
@@ -366,12 +370,12 @@ H5P.Blanks = (function ($, Question) {
       // Find the next cloze
       clozeStart = question.indexOf('*', clozeEnd);
     }
-     var return_question = question.split('<span class="h5p-input-wrapper"><input type="text" class="h5p-text-input" autocomplete="off" autocapitalize="off" spellcheck="false"></span>');
-     
-     
-     return_question.pop();
-     this.questions_arr = this.questions_arr.concat(return_question);
-     
+    var return_question = question.split('<span class="h5p-input-wrapper"><input type="text" class="h5p-text-input" autocomplete="off" autocapitalize="off" spellcheck="false"></span>');
+
+
+    return_question.pop();
+    this.questions_arr = this.questions_arr.concat(return_question);
+
     return question;
   };
 
@@ -538,10 +542,10 @@ H5P.Blanks = (function ($, Question) {
   };
 
   function showSummary(self) {
-    
+
     var table_content = '<tbody>';
     for (var m =0; m < self.clozes.length; m++){
-      
+
       var strwa = self.questions_arr[m].replace('<br>','');
       var strwa = strwa.replace('<p>','');
       var strwa = strwa.replace('.','');
@@ -551,7 +555,7 @@ H5P.Blanks = (function ($, Question) {
       table_content += '<td>'+self.clozes[m].getUserAnswer()+'</td>';
       table_content += '<td>'+answer_status+'</td>';
       table_content += '</tr>';
-      
+
     }
     var summary_html = '<div class="custom-summary-section"><div class="h5p-summary-table-pages"><table class="h5p-score-table-custom" style="min-height:100px;width:100%"><thead><tr><th>Question</th><th>Answer</th><th>Result</th></tr></thead>'+table_content+'</table></div></div>';
     return summary_html;
@@ -730,6 +734,7 @@ H5P.Blanks = (function ($, Question) {
     this.toggleButtonVisibility(STATE_ONGOING);
     this.resetGrowTextField();
     this.toggleAllInputs(true);
+    this.resetStopWatch();
     this.done = false;
   };
 
@@ -755,7 +760,7 @@ H5P.Blanks = (function ($, Question) {
   /**
    * Trigger xAPI completed event
    */
-   Blanks.prototype.triggerCompleted = function () {
+  Blanks.prototype.triggerCompleted = function () {
     this.triggerXAPIScored(this.getScore(), this.getMaxScore(), 'completed');
   };
 
@@ -883,6 +888,8 @@ H5P.Blanks = (function ($, Question) {
   Blanks.prototype.addResponseToXAPI = function (xAPIEvent) {
     xAPIEvent.setScoredResult(this.getScore(), this.getMaxScore(), this);
     xAPIEvent.data.statement.result.response = this.getxAPIResponse();
+    const duration = this.stopStopWatch();
+    xAPIEvent.data.statement.result.duration = 'PT' + duration + 'S';
   };
 
   /**
@@ -1007,8 +1014,8 @@ H5P.Blanks = (function ($, Question) {
   Blanks.prototype.setH5PUserState = function () {
     var self = this;
     var isValidState = (this.previousState !== undefined &&
-                        this.previousState.length &&
-                        this.previousState.length === this.clozes.length);
+        this.previousState.length &&
+        this.previousState.length === this.clozes.length);
 
     // Check that stored user state is valid
     if (!isValidState) {
@@ -1053,6 +1060,50 @@ H5P.Blanks = (function ($, Question) {
   };
 
   Blanks.idCounter = 0;
+
+  /**
+   * Starts the stop watch
+   *
+   * @public
+   */
+  Blanks.prototype.startStopWatch = function(){
+    /**
+     * @property {number}
+     */
+    this.startTime = Date.now();
+    return this;
+  };
+
+  /**
+   * Stops the stopwatch, and returns the duration in seconds.
+   *
+   * @public
+   * @return {number}
+   */
+  Blanks.prototype.stopStopWatch = function(){
+    this.duration = this.duration + Date.now() - this.startTime;
+    return this.passedTimeStopWatch();
+  };
+
+  /**
+   * Sets the duration to 0
+   *
+   * @public
+   */
+  Blanks.prototype.resetStopWatch = function(){
+    this.duration = 0;
+    this.startTime = Date.now();
+  };
+
+  /**
+   * Returns the passed time in seconds
+   *
+   * @public
+   * @return {number}
+   */
+  Blanks.prototype.passedTimeStopWatch = function(){
+    return Math.round(this.duration / 10) / 100;
+  };
 
   return Blanks;
 })(H5P.jQuery, H5P.Question);
