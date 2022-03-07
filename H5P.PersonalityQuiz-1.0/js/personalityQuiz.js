@@ -1254,6 +1254,13 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
       self.$container.empty();
       attach(self.$container);
     });
+
+    /**
+     * Checks if an answer activity has been given.
+     */
+    self.getAnswerGiven = function () {
+      return (self.answered === self.numQuestions);
+    };
   }
 
   PersonalityQuiz.prototype = Object.create(EventDispatcher);
