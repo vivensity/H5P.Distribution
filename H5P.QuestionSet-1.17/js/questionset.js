@@ -19,6 +19,10 @@ H5P.QuestionSet = function (options, contentId, contentData) {
   var $ = H5P.jQuery;
   var self = this;
   this.contentId = contentId;
+  // to set parent in self if present in content data
+  if (self.parent === undefined && contentData && contentData.parent) {
+    self.parent = contentData.parent;
+  }
 
   var defaults = {
     initialQuestion: 0,
