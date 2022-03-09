@@ -573,6 +573,10 @@ H5P.QuestionSet = function (options, contentId, contentData) {
 
   };
 
+  this.resetTask = function () {
+    resetTask();
+  };
+
   var rendered = false;
 
   this.reRender = function () {
