@@ -78,6 +78,7 @@ H5P.ArithmeticQuiz = (function ($) {
           "en-US":customEvent.data.statement.object.definition.name['en-US'], //  this.contentData.metadata.title
         };
         customEvent.data.statement.result["response"] = localStorage.getItem("userInputwa");
+        customEvent.data.statement.result.duration = 'PT' + (Math.round(self.timer.getTime() / 10) / 100) + 'S';
         this.trigger(customEvent);
       }
     });
