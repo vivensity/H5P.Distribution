@@ -48,11 +48,11 @@ H5P.ArithmeticQuiz = (function ($) {
         divisionOperator: 'divided by',
         equalitySign: 'equal',
         slideOfTotal: 'Slide :num of :total',
-        currikisettings: {
-          disableSubmitButton: false,
-          currikil10n: {
-            submitAnswer: "Submit"
-          }
+      },
+      currikisettings: {
+        disableSubmitButton: false,
+        currikil10n: {
+          submitAnswer: "Submit"
         }
       }
     }, options);
