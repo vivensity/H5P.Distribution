@@ -1080,7 +1080,14 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
           'en-US':params.questions[self.answered].text,
         },
         type: 'http://adlnet.gov/expapi/activities/cmi.interaction'
-      })
+      });
+
+      // set user spent duration
+      if (self && self.activityStartTime) {
+        var duration = Math.round((Date.now() - self.activityStartTime) / 10) / 100;
+        // xAPI spec allows a precision of 0.01 seconds
+        completedEvent.data.statement.result.duration = 'PT' + duration + 'S';
+      }
       self.trigger(completedEvent);
       //self.triggerXAPI('interacted');
       //this.triggerXAPI('interacted');
