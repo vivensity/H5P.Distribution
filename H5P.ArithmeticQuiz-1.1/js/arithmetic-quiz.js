@@ -48,11 +48,11 @@ H5P.ArithmeticQuiz = (function ($) {
         divisionOperator: 'divided by',
         equalitySign: 'equal',
         slideOfTotal: 'Slide :num of :total',
-        currikisettings: {
-          disableSubmitButton: false,
-          currikil10n: {
-            submitAnswer: "Submit"
-          }
+      },
+      currikisettings: {
+        disableSubmitButton: false,
+        currikil10n: {
+          submitAnswer: "Submit"
         }
       }
     }, options);
@@ -78,6 +78,7 @@ H5P.ArithmeticQuiz = (function ($) {
           "en-US":customEvent.data.statement.object.definition.name['en-US'], //  this.contentData.metadata.title
         };
         customEvent.data.statement.result["response"] = localStorage.getItem("userInputwa");
+        customEvent.data.statement.result.duration = 'PT' + (Math.round(e.data.duration / 10) / 100) + 'S';
         this.trigger(customEvent);
       }
     });
