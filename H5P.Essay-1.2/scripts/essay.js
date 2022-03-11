@@ -164,6 +164,9 @@ H5P.Essay = function ($, Question) {
 
     // Register Buttons
     this.addButtons();
+
+    // Init activity start time for XAPI
+    this.activityStartTime = Date.now();
   };
 
   /**
@@ -374,6 +377,9 @@ H5P.Essay = function ($, Question) {
     this.inputField.focus();
 
     this.isAnswered = false;
+
+    // Reset activity start time for XAPI
+    this.activityStartTime = Date.now();
   };
   
   /**
