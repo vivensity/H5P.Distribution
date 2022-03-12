@@ -120,7 +120,7 @@ H5P.DocumentsUpload = (function ($) {
                 } catch (e) {
                     console.log(e);
                 }
-            }, 1000);
+            }, 100);
         };
         document.body.appendChild(element);
     }
