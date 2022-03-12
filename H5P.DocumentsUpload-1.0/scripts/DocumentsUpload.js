@@ -30,6 +30,7 @@ H5P.DocumentsUpload = (function ($) {
 
         setTimeout(iframesCheck, 3000);
         setTimeout(this.sendStatement('consume'), 3000);
+        convertMathJaxEq();
     };
 
 
@@ -102,6 +103,26 @@ H5P.DocumentsUpload = (function ($) {
         var textArea = document.createElement('textarea');
         textArea.innerHTML = encodedString;
         return textArea.value;
+    }
+
+    /**
+     * Convert latex equations to visual form
+     */
+    function convertMathJaxEq() {
+        const element = document.createElement('script');
+        element.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML';
+        element.async = false;
+        element.onload = () => {
+            const timerMath = setInterval(() => {
+                try {
+                    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub]);
+                    clearTimeout(timerMath);
+                } catch (e) {
+                    console.log(e);
+                }
+            }, 1000);
+        };
+        document.body.appendChild(element);
     }
 
     return C;
