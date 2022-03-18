@@ -19,10 +19,6 @@ H5P.QuestionSet = function (options, contentId, contentData) {
   var $ = H5P.jQuery;
   var self = this;
   this.contentId = contentId;
-  // to set parent in self if present in content data
-  if (self.parent === undefined && contentData && contentData.parent) {
-    self.parent = contentData.parent;
-  }
 
   var defaults = {
     initialQuestion: 0,
@@ -121,9 +117,7 @@ H5P.QuestionSet = function (options, contentId, contentData) {
     '    <button type="button" class="h5p-joubelui-button h5p-button qs-retrybutton"><%= retryButtonText %></button>':
     '';
 
-  var submitButtonTemplate='';
-    if( typeof self.parent == "undefined")
-      submitButtonTemplate = '<button type="button" class="h5p-joubelui-button h5p-button qs-submitbutton"><%= submitButtonText %></button>';
+  // const submitButtonTemplate = '<button type="button" class="h5p-joubelui-button h5p-button qs-submitbutton"><%= submitButtonText %></button>';
 
   var resulttemplate =
           '<div class="questionset-results">' +
@@ -141,7 +135,7 @@ H5P.QuestionSet = function (options, contentId, contentData) {
           '  <div class="buttons">' +
           solutionButtonTemplate +
           retryButtonTemplate +
-           submitButtonTemplate +
+          // submitButtonTemplate +
           '  </div>' +
           '</div>';
 
@@ -577,21 +571,6 @@ H5P.QuestionSet = function (options, contentId, contentData) {
 
   };
 
-  this.resetTask = function () {
-    resetTask();
-    $myDom.children().hide();
-    var $intro = $('.intro-page', $myDom);
-    if ($intro.length) {
-      // Show intro
-      $('.intro-page', $myDom).show();
-      $('.qs-startbutton', $myDom).focus();
-    } else {
-      // Show first question
-      $('.questionset', $myDom).show();
-      _showQuestion(params.initialQuestion);
-    }
-  };
-
   var rendered = false;
 
   this.reRender = function () {
@@ -808,8 +787,7 @@ H5P.QuestionSet = function (options, contentId, contentData) {
           }
         });
         hookUpButton('.qs-submitbutton', function () {
-           self.triggerXAPIScored(self.getScore(), self.getMaxScore(), "submitted-curriki");
-           self.triggerXAPIScored(self.getScore(), self.getMaxScore(), "answered");
+          // self.triggerXAPIScored(self.getScore(), self.getMaxScore(), "submitted-curriki");
         });
 
         if (scoreBar === undefined) {

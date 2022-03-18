@@ -47,11 +47,10 @@ H5P.Accordion = (function ($) {
    */
   Accordion.prototype.attach = function ($container) {
     var self = this;
-console.log(self.$content);
+
     if (self.$content === undefined) {
       // Mark as consumed
       self.triggerConsumed();
-      self.triggerCompleted();
 
       // Create the content
       self.elements = [];
@@ -171,20 +170,6 @@ console.log(self.$content);
       id: 'http://activitystrea.ms/schema/1.0/consume',
       display: {
         'en-US': 'consumed'
-      }
-    }, {
-      result: {
-        completion: true
-      }
-    });
-    this.trigger(xAPIEvent);
-  };
-
-  Accordion.prototype.triggerCompleted = function () {
-    var xAPIEvent = this.createXAPIEventTemplate({
-      id: 'http://activitystrea.ms/schema/1.0/complete',
-      display: {
-        'en-US': 'completed'
       }
     }, {
       result: {

@@ -359,7 +359,6 @@ H5P.Summary = (function ($, Question, XApiEventBuilder, StopWatch) {
       }
       else {
         that.announceAnswer(false);
-        that.stopStopWatch(panelId);
         // Remove event handler (prevent repeated clicks) and mouseover effect
         $el.off('click');
         $el.addClass('summary-failed');
@@ -391,10 +390,8 @@ H5P.Summary = (function ($, Question, XApiEventBuilder, StopWatch) {
       }
 
       // Trigger overall answered xAPI event when finished
-      if (finished && that.isRoot()) {
+      if (finished) {
         that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'answered');
-        that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'completed');
-        that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'submitted-curriki');
       }
     };
 
