@@ -4,9 +4,12 @@ var H5P = H5P || {};
  * Constructor.
  *
  * @param {object} params Options for this library.
+ * @param contentId content id
+ * @param contentData content data
  */
-H5P.Text = function (params) {
+H5P.Text = function (params, contentId, contentData) {
   this.text = params.text === undefined ? '<em>New text</em>' : params.text;
+  this.title = contentData.metadata.title
 };
 
 /**
@@ -34,5 +37,12 @@ H5P.Text.prototype.triggerConsumed = function () {
       completion: true
     }
   });
+
+  Object.assign(xAPIEvent.data.statement.object.definition, {
+    name:{
+      'en-US': this.title
+    }
+  });
+
   this.trigger(xAPIEvent);
 };
