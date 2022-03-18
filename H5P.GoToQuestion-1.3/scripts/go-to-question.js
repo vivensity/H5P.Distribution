@@ -295,47 +295,48 @@ H5P.GoToQuestion = (function ($, EventDispatcher, UI) {
      * @param selectedChoiceText    - selected choice text
      */
     var triggerXAPIInteracted = function (selectedChoiceText) {
-      var interactedEvent = this.createXAPIEventTemplate('interacted');
+      if (self.parent) {
+        var interactedEvent = self.parent.createXAPIEventTemplate('interacted');
 
-      var choices = [];
-      var selectedChoiceId = 0;
-      for (var i = 0; i < parameters.choices.length; i++) {
-        var choiceText = parameters.choices[i].text;
-        var choice = Object.assign({}, {
-          'description': {
-            'en-US': choiceText
-          },
-          'id': String(i)
+        var choices = [];
+        var selectedChoiceId = 0;
+        for (var i = 0; i < parameters.choices.length; i++) {
+          var choiceText = parameters.choices[i].text;
+          var choice = Object.assign({}, {
+            'description': {
+              'en-US': choiceText
+            },
+            'id': String(i)
+          });
+          choices.push(choice);
+          if (selectedChoiceText === choiceText) {
+            selectedChoiceId = String(i);
+          }
+        }
+
+        Object.assign(interactedEvent.data.statement, {
+          result: {
+            response: selectedChoiceId
+          }
         });
-        choices.push(choice);
-        if (selectedChoiceText === choiceText) {
-          selectedChoiceId = String(i);
+        Object.assign(interactedEvent.data.statement.object.definition, {
+          type: 'http://adlnet.gov/expapi/activities/cmi.interaction',
+          name: {
+            'en-US': "Crossroads"
+          },
+          interactionType: "choice",
+          choices: choices
+        });
+
+        // set user spent duration
+        if (self && self.activityStartTime) {
+          var duration = Math.round((Date.now() - self.activityStartTime) / 10) / 100;
+          // xAPI spec allows a precision of 0.01 seconds
+          interactedEvent.data.statement.result.duration = 'PT' + duration + 'S';
         }
+
+        this.trigger(interactedEvent);
       }
-
-      Object.assign(interactedEvent.data.statement, {
-        result: {
-          response: selectedChoiceId
-        }
-      });
-      Object.assign(interactedEvent.data.statement.object.definition, {
-        type: 'http://adlnet.gov/expapi/activities/cmi.interaction',
-        name: {
-          'en-US': "Crossroads"
-        },
-        interactionType: "choice",
-        choices: choices
-      });
-
-      // set user spent duration
-      if (self && self.activityStartTime) {
-        var duration = Math.round((Date.now() - self.activityStartTime) / 10) / 100;
-        // xAPI spec allows a precision of 0.01 seconds
-        interactedEvent.data.statement.result.duration = 'PT' + duration + 'S';
-      }
-
-      this.trigger(interactedEvent);
-
     };
   }
 
