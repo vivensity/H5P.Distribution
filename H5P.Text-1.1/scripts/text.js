@@ -16,4 +16,23 @@ H5P.Text = function (params) {
  */
 H5P.Text.prototype.attach = function ($wrapper) {
   $wrapper.addClass('h5p-text').html(this.text);
+  this.triggerConsumed();
+};
+
+/**
+ * Trigger the 'consumed' xAPI event when this commences
+ *
+ */
+H5P.Text.prototype.triggerConsumed = function () {
+  var xAPIEvent = this.createXAPIEventTemplate({
+    id: 'http://activitystrea.ms/schema/1.0/consume',
+    display: {
+      'en-US': 'consumed'
+    }
+  }, {
+    result: {
+      completion: true
+    }
+  });
+  this.trigger(xAPIEvent);
 };
