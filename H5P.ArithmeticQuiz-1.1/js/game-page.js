@@ -1,7 +1,7 @@
 /**
  * Defines the H5P.ArithmeticQuiz.GamePage class
  */
-H5P.ArithmeticQuiz.GamePage = (function ($, UI, QuizType) {
+ H5P.ArithmeticQuiz.GamePage = (function ($, UI, QuizType) {
 
   /**
    * Creates a new GamePage instance
@@ -86,7 +86,8 @@ H5P.ArithmeticQuiz.GamePage = (function ($, UI, QuizType) {
       localStorage.setItem('userInputwa', JSON.stringify(self.userInputwa));
       self.trigger('last-slide', {
         score: self.score,
-        numQuestions: numQuestions
+        numQuestions: numQuestions,
+        duration: self.timer.getTime()
       });
       
     });

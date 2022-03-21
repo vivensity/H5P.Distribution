@@ -1080,7 +1080,14 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
           'en-US':params.questions[self.answered].text,
         },
         type: 'http://adlnet.gov/expapi/activities/cmi.interaction'
-      })
+      });
+
+      // set user spent duration
+      if (self && self.activityStartTime) {
+        var duration = Math.round((Date.now() - self.activityStartTime) / 10) / 100;
+        // xAPI spec allows a precision of 0.01 seconds
+        completedEvent.data.statement.result.duration = 'PT' + duration + 'S';
+      }
       self.trigger(completedEvent);
       //self.triggerXAPI('interacted');
       //this.triggerXAPI('interacted');
@@ -1098,6 +1105,8 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
       self.index = 0;
       self.answered = 0;
       self.completed = false;
+      /* XAPI restart the activityStartTime */
+      self.activityStartTime = Date.now();
     };
 
     /**
@@ -1107,6 +1116,8 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
     self.on('personality-quiz-start', function () {
       self.$progressbar.show();
       self.next();
+      // for XAPI duration
+      self.activityStartTime = Date.now();
     });
 
     /**
@@ -1182,7 +1193,7 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
         }
         nnnn++;
       });
-      
+
       Object.assign(completedEvent.data.statement, {
         result: {
           response: String(final_index_response)
@@ -1217,7 +1228,15 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
         'en-US':self.$slides[0].innerText.replace('Start','')
       },
       type: 'http://adlnet.gov/expapi/activities/cmi.interaction'
-    })
+    });
+
+    // set user spent duration
+    if (self && self.activityStartTime) {
+      var duration = Math.round((Date.now() - self.activityStartTime) / 10) / 100;
+      // xAPI spec allows a precision of 0.01 seconds
+      completedEvent.data.statement.result.duration = 'PT' + duration + 'S';
+    }
+
     self.trigger(completedEvent);
     
 
@@ -1254,6 +1273,13 @@ H5P.PersonalityQuiz = (function ($, EventDispatcher) {
       self.$container.empty();
       attach(self.$container);
     });
+
+    /**
+     * Checks if an answer activity has been given.
+     */
+    self.getAnswerGiven = function () {
+      return (self.answered === self.numQuestions);
+    };
   }
 
   PersonalityQuiz.prototype = Object.create(EventDispatcher);

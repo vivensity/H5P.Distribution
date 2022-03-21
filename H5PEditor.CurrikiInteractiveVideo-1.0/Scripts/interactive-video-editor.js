@@ -13,6 +13,8 @@ H5PEditor.widgets.interactiveVideo = H5PEditor.CurrikiInteractiveVideo = (functi
    * @param {function} setValue
    */
   function InteractiveVideoEditor(parent, field, params, setValue) {
+    $('a.h5peditor-tab-summary').parent().hide();
+    $('a.h5peditor-tab-video').parent().hide();
     var that = this;
     H5P.jQuery('a.h5peditor-tab-video').parent().hide();
     H5P.DragNBar.FormManager.call(this, parent.parent, {

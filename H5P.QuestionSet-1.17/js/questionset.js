@@ -19,6 +19,10 @@ H5P.QuestionSet = function (options, contentId, contentData) {
   var $ = H5P.jQuery;
   var self = this;
   this.contentId = contentId;
+  // to set parent in self if present in content data
+  if (self.parent === undefined && contentData && contentData.parent) {
+    self.parent = contentData.parent;
+  }
 
   var defaults = {
     initialQuestion: 0,
@@ -571,6 +575,21 @@ H5P.QuestionSet = function (options, contentId, contentData) {
       randomizeQuestions();
     }
 
+  };
+
+  this.resetTask = function () {
+    resetTask();
+    $myDom.children().hide();
+    var $intro = $('.intro-page', $myDom);
+    if ($intro.length) {
+      // Show intro
+      $('.intro-page', $myDom).show();
+      $('.qs-startbutton', $myDom).focus();
+    } else {
+      // Show first question
+      $('.questionset', $myDom).show();
+      _showQuestion(params.initialQuestion);
+    }
   };
 
   var rendered = false;

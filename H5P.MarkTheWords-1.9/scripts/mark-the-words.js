@@ -83,6 +83,9 @@
 
     // Set user state
     this.setH5PUserState();
+
+    // for XAPI duration
+    this.activityStartTime = Date.now();
   };
 
   /**
@@ -721,9 +724,7 @@
     this.hideEvaluation();
     this.removeSubmitAnswerFeedback();
     /* XAPI restart the activityStartTime */
-    if(typeof this.parent == "undefined") {
-      this.activityStartTime = Date.now();
-    }
+    this.activityStartTime = Date.now();
     this.hideButton('try-again');
     this.hideButton('show-solution');
     this.hideButton('submit-answer');
