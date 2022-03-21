@@ -336,7 +336,7 @@ H5P.Column = (function (EventDispatcher) {
                   confirmationDialog.appendTo(parent.document.body);
                   confirmationDialog.show();
                   //H5P.jQuery(window.parent).scrollTop(0); 
-                  H5P.jQuery(".h5p-confirmation-dialog-popup").css("top", "80%"); 
+                  H5P.jQuery(".h5p-confirmation-dialog-popup").css("top", "20%"); 
               },
           },
           appendTo: wrapper,
