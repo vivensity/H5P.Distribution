@@ -9,7 +9,9 @@ var H5P = H5P || {};
  */
 H5P.Text = function (params, contentId, contentData) {
   this.text = params.text === undefined ? '<em>New text</em>' : params.text;
-  this.title = contentData.metadata.title
+  if(contentData.metadata && contentData.metadata.title) {
+    this.title = contentData.metadata.title
+  }
 };
 
 /**
