@@ -6,7 +6,7 @@ node("${node}") {
             echo 'Copy'
             sh "yes | rm -rf /tmp/h5p-dist" 
             sh "yes | git clone -b ${branch} https://github.com/ActiveLearningStudio/H5P.Distribution.git /tmp/h5p-dist" 
-            sh "yes | cp -rf /tmp/h5p-dist/* ${path}"
+            sh "yes | cp -rf /tmp/h5p-dist/* ${path_to_clone}"
             echo 'Copy completed'
     }
 }
