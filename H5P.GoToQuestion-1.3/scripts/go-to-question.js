@@ -335,7 +335,7 @@ H5P.GoToQuestion = (function ($, EventDispatcher, UI) {
           interactedEvent.data.statement.result.duration = 'PT' + duration + 'S';
         }
 
-        this.trigger(interactedEvent);
+        self.parent.trigger(interactedEvent);
       }
     };
   }
