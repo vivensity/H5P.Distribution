@@ -16,7 +16,7 @@ H5P.FreeTextQuestion = (function (EventDispatcher, $, CKEditor) {
     var textAreaID = 'h5p-text-area-' + counter;
     counter++;
     // check editing attribute sent from parent
-    var isEditing = extras && extras.editing ? extras.editing : (window.H5PEditor !== undefined);
+    var isEditing = extras && extras.hasOwnProperty('editing') ? extras.editing : (window.H5PEditor !== undefined);
     var attached;
     var textarea;
     var useCK = false;
