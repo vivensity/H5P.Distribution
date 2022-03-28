@@ -68,6 +68,12 @@ H5P.QuestionSet = function (options, contentId, contentData) {
       showRetryButton: true
     },
     override: {},
+    currikisettings: {
+      disableSubmitButton: false,
+      currikil10n: {
+        submitAnswer: "Submit"
+      }
+    },
     disableBackwardsNavigation: false
   };
   var params = $.extend(true, {}, defaults, options);
@@ -122,7 +128,7 @@ H5P.QuestionSet = function (options, contentId, contentData) {
     '';
 
   var submitButtonTemplate='';
-    if( typeof self.parent == "undefined")
+    if( typeof self.parent == "undefined" && !params.currikisettings.disableSubmitButton)
       submitButtonTemplate = '<button type="button" class="h5p-joubelui-button h5p-button qs-submitbutton"><%= submitButtonText %></button>';
 
   var resulttemplate =
@@ -507,6 +513,7 @@ H5P.QuestionSet = function (options, contentId, contentData) {
    * @public
    */
   var resetTask = function () {
+    H5P.jQuery('.submit-answer-feedback').hide();
 
     // Clear previous state to ensure questions are created cleanly
     contentData.previousState = [];
@@ -778,7 +785,7 @@ H5P.QuestionSet = function (options, contentId, contentData) {
         finishButtonText: params.endGame.finishButtonText,
         solutionButtonText: params.endGame.solutionButtonText,
         retryButtonText: params.endGame.retryButtonText,
-        submitButtonText: params.endGame.submitButtonText
+        submitButtonText: params.currikisettings.currikil10n.submitAnswer
       };
 
       // Show result page.
@@ -789,6 +796,7 @@ H5P.QuestionSet = function (options, contentId, contentData) {
         hookUpButton('.qs-solutionbutton', function () {
           showSolutions();
           $myDom.children().hide().filter('.questionset').show();
+          H5P.jQuery('.submit-answer-feedback').hide();
           _showQuestion(params.initialQuestion);
         });
         hookUpButton('.qs-retrybutton', function () {
@@ -807,9 +815,11 @@ H5P.QuestionSet = function (options, contentId, contentData) {
             _showQuestion(params.initialQuestion);
           }
         });
-        hookUpButton('.qs-submitbutton', function () {
+        hookUpButton('.qs-submitbutton', function () { alert('clicker');
            self.triggerXAPIScored(self.getScore(), self.getMaxScore(), "submitted-curriki");
            self.triggerXAPIScored(self.getScore(), self.getMaxScore(), "answered");
+           var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
+          H5P.jQuery('.qs-submitbutton').after($submit_message);
         });
 
         if (scoreBar === undefined) {
