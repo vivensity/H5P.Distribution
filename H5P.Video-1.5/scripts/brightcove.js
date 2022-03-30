@@ -1,10 +1,12 @@
-if (window.bcPlayerExternal === undefined) {
-    if (window.parent.brightcoveAccountId) {
-      window.brightcoveAccountId = window.parent.brightcoveAccountId;
-    } else if (window.brightcoveAccountId === undefined && window.parent.brightcoveAccountId === undefined) {
-      window.brightcoveAccountId ='6282550302001';
-    }
-}
+try {
+  if (window.bcPlayerExternal === undefined) {
+      if (window.parent.brightcoveAccountId) {
+        window.brightcoveAccountId = window.parent.brightcoveAccountId;
+      } else if (window.brightcoveAccountId === undefined && window.parent.brightcoveAccountId === undefined) {
+        window.brightcoveAccountId ='6282550302001';
+      }
+  }  
+} catch (error) {}
 
 /** @namespace H5P */
 H5P.VideoBrightcove = (function ($) {
@@ -21,7 +23,9 @@ H5P.VideoBrightcove = (function ($) {
   function Brightcove(sources, options, l10n) {
     var loaderEl = null;
     if (window.bcPlayerExternal === undefined) {
-      var loaderEl = H5P.jQuery('#activity-loader-alert', window.parent.document);
+      try {
+        var loaderEl = H5P.jQuery('#activity-loader-alert', window.parent.document);
+      } catch (error) {}
       if (!loaderEl) {
         loaderEl = H5P.jQuery('#activity-loader-alert');
       }

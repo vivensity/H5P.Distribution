@@ -37,7 +37,9 @@ H5P.SingleChoiceSet = (function ($, UI, Question, SingleChoice, SolutionView, Re
       }
     }, options);
     if (contentData && contentData.previousState !== undefined) {
-      this.currentIndex = contentData.previousState.progress;
+      // progress refers completed. so we need to show next slide
+      var progress = contentData.previousState.progress;
+      this.currentIndex = this.options.choices.length >  progress ? progress + 1 : progress;
       this.results = contentData.previousState.answers;
     }
     this.currentIndex = this.currentIndex || 0;
@@ -423,13 +425,8 @@ H5P.SingleChoiceSet = (function ($, UI, Question, SingleChoice, SolutionView, Re
     self.handleQueuedButtonChanges();
     self.scoreTimeout = undefined;
 
-    if (!noXAPI) {
-      if( typeof this.parent == 'undefined') { 
+    if (!noXAPI && typeof this.parent == 'undefined') {
         self.triggerXAPIScored(score, self.options.choices.length, 'completed', true, (100 * score / self.options.choices.length) >= self.options.behaviour.passPercentage);
-      }else{
-        self.triggerXAPIScored(score, self.options.choices.length, 'answered', true, (100 * score / self.options.choices.length) >= self.options.behaviour.passPercentage);
-      } 
-      
     }
 
     self.trigger('resize');

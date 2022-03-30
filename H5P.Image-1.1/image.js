@@ -51,6 +51,7 @@ var H5P = H5P || {};
           on: {
             load: function () {
               self.trigger('loaded');
+              triggerXAPIConsumed();
             }
           }
         });
@@ -64,11 +65,37 @@ var H5P = H5P || {};
           on: {
             load: function () {
               self.trigger('loaded');
+              triggerXAPIConsumed();
             }
           }
         });
       }
     }
+
+    /**
+     * Trigger the 'consumed' xAPI event
+     *
+     */
+    var triggerXAPIConsumed = function () {
+      var xAPIEvent = self.createXAPIEventTemplate({
+        id: 'http://activitystrea.ms/schema/1.0/consume',
+        display: {
+          'en-US': 'consumed'
+        }
+      }, {
+        result: {
+          completion: true
+        }
+      });
+
+      Object.assign(xAPIEvent.data.statement.object.definition, {
+        name:{
+          'en-US': self.title !== undefined ? self.title : 'Image'
+        }
+      });
+
+      self.trigger(xAPIEvent);
+    };
 
     $wrapper.addClass('h5p-image').html(self.$img);
   };
