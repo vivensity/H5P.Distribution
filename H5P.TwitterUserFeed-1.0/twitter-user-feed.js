@@ -46,7 +46,7 @@ H5P.TwitterUserFeed = (function ($) {
     $container.addClass("h5p-twitter-user-feed");
 
     $container.append(
-      '<a class="twitter-timeline" href="https://twitter.com/twitterapi"' +
+      '<a class="twitter-timeline" href="https://twitter.com/'+this.options.userName+'"' +
       'data-widget-id="558756407995273216" data-screen-name="' + this.options.userName +
       '" data-show-replies="' + this.options.showReplies +
       '" data-tweet-limit="' + this.options.numTweets + '">Tweets by @' +
