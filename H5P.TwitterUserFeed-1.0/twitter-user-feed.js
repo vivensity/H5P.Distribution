@@ -54,6 +54,7 @@ H5P.TwitterUserFeed = (function ($) {
 
     if (window.twttr !== undefined && window.twttr.widgets !== undefined) {
       window.twttr.widgets.load($container.get(0));
+      self.triggerXAPI('consumed');
     }
   };
 
