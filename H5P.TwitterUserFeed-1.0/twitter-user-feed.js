@@ -39,7 +39,7 @@ H5P.TwitterUserFeed = (function ($) {
           // trigger resize event once twitter feed has been loaded
           self.trigger('resize');
         });
-        self.triggerXAPI('consumed');
+        self.triggerXAPI('interacted');
       }
     );
 
