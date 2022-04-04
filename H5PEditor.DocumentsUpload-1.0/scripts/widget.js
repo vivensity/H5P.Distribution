@@ -21,10 +21,18 @@ H5P.jQuery(document).ready(function () {
 
         // config.filebrowserUploadMethod = 'form';
         // URL of a upload script
-        config.filebrowserInsertfilesUploadUrl = CKEDITOR.basePath + 'plugins/insertfiles/documentUpload.php?type=files';
+        //config.filebrowserInsertfilesUploadUrl = CKEDITOR.basePath + 'plugins/insertfiles/documentUpload.php?type=files';
         // at this address you can get a list of documents on the server
         // URL where you can get a list of uploaded documents
-        config.filebrowserInsertfilesBrowseUrl = CKEDITOR.basePath + 'plugins/insertfiles/documentsList.php?type=files';
+        //config.filebrowserInsertfilesBrowseUrl = CKEDITOR.basePath + 'plugins/insertfiles/documentsList.php?type=files';
+
+
+        
+
+        config.filebrowserUploadUrl = CKEDITOR.basePath + 'plugins/insertfiles/documentUpload.php?type=files';
+        // at this address you can get a list of documents on the server
+        // URL where you can get a list of uploaded documents
+        config.filebrowserBrowseUrl = CKEDITOR.basePath + 'plugins/insertfiles/documentsList.php?type=files';
         // URL of a upload scriptgi
         // config.filebrowserUploadUrl = CKEDITOR.basePath + 'plugins/imageuploader/imgupload.php';
         // config.filebrowserImageUploadUrl = CKEDITOR.basePath + 'plugins/imageuploader/imgupload.php';
@@ -40,6 +48,7 @@ H5P.jQuery(document).ready(function () {
         // math jax plugin configuration
         config.mathJaxClass = 'math-tex';
         config.mathJaxLib = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML';
+        config.filebrowserUploadMethod = 'form';
         console.log(config);
         console.log(tags);
         // Add plugin to config
