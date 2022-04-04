@@ -50,7 +50,8 @@ H5P.VideoBrightcove = (function ($) {
       window.bcPlayerExternalDefaultHeight = window.bcPlayerExternal.currentHeight();
       let videoJsTagId = window.bcPlayerExternal.tagAttributes.id;
       window.videoJsTagIdGlobal = videoJsTagId;
-      H5P.jQuery('#' + videoJsTagId).appendTo($wrapper);
+      // H5P.jQuery('#' + videoJsTagId).appendTo($wrapper);
+      H5P.jQuery('#' + videoJsTagId + ' video').appendTo($wrapper);
     } else {
       if (window.videojs) {
         window.videojs = undefined;
@@ -171,6 +172,9 @@ H5P.VideoBrightcove = (function ($) {
     * @param {jQuery} $container
     */
     self.appendTo = function ($container) {
+      if (window.bcPlayerExternal) {
+        $container.parents('.h5p-content').wrap('<div class="h5p-content-outer"></div>')
+      }
       $container.addClass('h5p-brightcove').append($wrapper);
       create();
     };
@@ -454,10 +458,37 @@ H5P.VideoBrightcove = (function ($) {
         return;
       }
 
-      $wrapper.css({
-        width: 'inherit',
-        height: 'inherit'
-      });
+      if (window.bcPlayerExternal) {
+        H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').addClass('video-restyle-streched')
+        H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').removeClass('video-restyle-shrinked');
+        if (Math.round(window.bcPlayerExternal.currentWidth()) > Math.round(H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').width())) {
+          // if player is streched with respect to video width
+          H5P.jQuery('.h5p-content').width(H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').width());
+          $wrapper.css({
+            width: H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').width(),
+          });
+        } else if (Math.round(window.bcPlayerExternal.currentHeight()) > Math.round(H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').height()) ) {
+          // if player is shrinked with respect to video width
+          H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').removeClass('video-restyle-streched')
+          H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').addClass('video-restyle-shrinked');
+
+          H5P.jQuery('.h5p-content').height(H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').height());
+          $wrapper.css({
+            height: H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').height(),
+          });
+        } else {
+          H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').removeClass('video-restyle-streched')
+          H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').addClass('video-restyle-shrinked');
+          H5P.jQuery('.h5p-content').removeAttr('style');
+          H5P.jQuery($wrapper).removeAttr('style');
+        }
+      } else {
+        $wrapper.css({
+          width: 'inherit',
+          height: 'inherit'
+        });
+      }
+      
     });
   }
 
@@ -513,6 +544,10 @@ H5P.VideoBrightcove = (function ($) {
       css += ' .h5p-controls { display: none !important; }';
       css += ' .h5p-actions { display: none !important; }';
       css += ' .vjs-has-started .vjs-control-bar { z-index: 2 !important; }';
+      css += ' .vjs-poster,.vjs-dock-text,.vjs-dock-shelf,.vjs-loading-spinner,.vjs-big-play-button {position: absolute; z-index: 1;}';
+      css += ' .h5p-content{margin: 0 auto !important;}';
+      css += ' .video-restyle-shrinked {position: static !important; top: 0 !important; left: 0 !important; margin: 0 auto !important; display: block !important; height: auto !important;}';
+      css += ' .video-restyle-streched {position: static !important; top: 0 !important; left: 0 !important; width: auto !important; height: 100% !important; margin: 0 auto !important; display: block !important;}';
       let head = document.head || document.getElementsByTagName('head')[0];
       let style = document.createElement('style');
       head.appendChild(style);
