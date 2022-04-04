@@ -14,7 +14,7 @@ H5P.jQuery(document).ready(function () {
     // custom callback
     H5PEditor.HtmlAddons.additional.additional = function (config, tags) {
         config.removePlugins = 'cloudservices,easyimage,googledocs';
-        config.removeButtons = 'Image,Table';
+        //config.removeButtons = 'Image,Table';
 
         // Print debug to browser console (Ctrl+Shift+J in Chrome)
         console.log('Adding Extra Plugins for Documents Curriki...');
