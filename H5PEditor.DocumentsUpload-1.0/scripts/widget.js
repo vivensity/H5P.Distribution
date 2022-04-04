@@ -40,7 +40,8 @@ H5P.jQuery(document).ready(function () {
         // math jax plugin configuration
         config.mathJaxClass = 'math-tex';
         config.mathJaxLib = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML';
-
+        console.log(config);
+        console.log(tags);
         // Add plugin to config
         config.extraPlugins = (config.extraPlugins ? ',' : '') + 'insertfiles,pastefromgdocs,mathjax';
 
