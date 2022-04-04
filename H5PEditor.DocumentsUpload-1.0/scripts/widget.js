@@ -59,5 +59,8 @@ H5P.jQuery(document).ready(function () {
 
         // Add our special tags
         tags.push('additional');
+
+        console.log(config);
+        console.log(tags);
     };
 });
