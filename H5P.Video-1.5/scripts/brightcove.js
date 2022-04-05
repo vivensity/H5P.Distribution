@@ -548,6 +548,7 @@ H5P.VideoBrightcove = (function ($) {
       css += ' .h5p-content{margin: 0 auto !important;}';
       css += ' .video-restyle-shrinked {position: static !important; top: 0 !important; left: 0 !important; margin: 0 auto !important; display: block !important; height: auto !important;}';
       css += ' .video-restyle-streched {position: static !important; top: 0 !important; left: 0 !important; width: auto !important; height: 100% !important; margin: 0 auto !important; display: block !important;}';
+      css += ' .h5p-seekbar-interaction {border: 4px solid #fff; position: absolute !important;}';
       let head = document.head || document.getElementsByTagName('head')[0];
       let style = document.createElement('style');
       head.appendChild(style);
