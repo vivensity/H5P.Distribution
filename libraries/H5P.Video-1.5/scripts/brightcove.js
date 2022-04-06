@@ -461,12 +461,17 @@ H5P.VideoBrightcove = (function ($) {
       if (window.bcPlayerExternal) {
         H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').addClass('video-restyle-streched')
         H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').removeClass('video-restyle-shrinked');
-        if (Math.round(window.bcPlayerExternal.currentWidth()) > Math.round(H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').width())) {
-          // if player is streched with respect to video width
+        
+        if ( (Math.round(window.bcPlayerExternal.currentWidth()) > Math.round(H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').width())) ) {
           H5P.jQuery('.h5p-content').width(H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').width());
+          H5P.jQuery('.h5p-content').height(Math.round(window.bcPlayerExternal.currentHeight()));
           $wrapper.css({
             width: H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').width(),
           });
+          $wrapper.css({
+            height: Math.round(window.bcPlayerExternal.currentHeight()),
+          });
+
         } else if (Math.round(window.bcPlayerExternal.currentHeight()) > Math.round(H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').height()) ) {
           // if player is shrinked with respect to video width
           H5P.jQuery('#' + window.videoJsTagIdGlobal + ' video').removeClass('video-restyle-streched')
