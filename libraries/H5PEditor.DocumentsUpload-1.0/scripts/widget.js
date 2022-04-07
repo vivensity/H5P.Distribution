@@ -29,7 +29,7 @@ H5P.jQuery(document).ready(function () {
 
         let basePathCurriki = CKEDITOR.basePath;
         let arr = basePathCurriki.split('storage');
-        let currikiPath = arr[0] + '/ckeditor/uploadFile?type=files';
+        let currikiPath = arr[0] + 'api/ckeditor/uploadFile?type=files';
 
         
 
