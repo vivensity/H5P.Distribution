@@ -27,9 +27,14 @@ H5P.jQuery(document).ready(function () {
         //config.filebrowserInsertfilesBrowseUrl = CKEDITOR.basePath + 'plugins/insertfiles/documentsList.php?type=files';
 
 
+        let basePathCurriki = CKEDITOR.basePath;
+        let arr = basePathCurriki.split('storage');
+        let currikiPath = arr[0] + '/ckeditor/uploadFile?type=files';
+
         
 
-        config.filebrowserUploadUrl = CKEDITOR.basePath + 'plugins/insertfiles/documentUpload.php?type=files';
+        /////config.filebrowserUploadUrl = CKEDITOR.basePath + 'plugins/insertfiles/documentUpload.php?type=files'; commented actual working path
+        config.filebrowserUploadUrl = currikiPath;
         // at this address you can get a list of documents on the server
         // URL where you can get a list of uploaded documents
         config.filebrowserBrowseUrl = CKEDITOR.basePath + 'plugins/insertfiles/documentsList.php?type=files';
