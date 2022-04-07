@@ -51,7 +51,7 @@ var H5P = H5P || {};
           on: {
             load: function () {
               self.trigger('loaded');
-              triggerXAPIConsumed();
+              handleXAPI();
             }
           }
         });
@@ -65,12 +65,26 @@ var H5P = H5P || {};
           on: {
             load: function () {
               self.trigger('loaded');
-              triggerXAPIConsumed();
+              handleXAPI();
             }
           }
         });
       }
     }
+
+    /**
+     * trigger XAPI based on activity if activity is CP then trigger after slide consumed else trigger on attach
+     */
+    var handleXAPI = function () {
+      // for CP trigger only on slide open for others trigger on attach
+      if (this.extras.hasOwnProperty("parent") && this.extras.parent.hasOwnProperty("presentation")) {
+        self.on('trigger-consumed', function () {
+          triggerXAPIConsumed();
+        });
+      } else {
+        triggerXAPIConsumed();
+      }
+    };
 
     /**
      * Trigger the 'consumed' xAPI event
