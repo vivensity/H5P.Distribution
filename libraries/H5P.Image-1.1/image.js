@@ -77,7 +77,7 @@ var H5P = H5P || {};
      */
     var handleXAPI = function () {
       // for CP trigger only on slide open for others trigger on attach
-      if (this.extras.hasOwnProperty("parent") && this.extras.parent.hasOwnProperty("presentation")) {
+      if (self.extras.hasOwnProperty("parent") && self.extras.parent.hasOwnProperty("presentation")) {
         self.on('trigger-consumed', function () {
           triggerXAPIConsumed();
         });
