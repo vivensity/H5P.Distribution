@@ -121,19 +121,8 @@ H5P.ExportableTextArea.CPInterface = (function _eta_cp_interface_internal() {
  */
 H5P.ExportableTextArea.Exporter = (function _eta_exporter_internal() {
 
-  const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("interacted");
-  if (customEventInteract.data.statement.object) {
-    customEventInteract.data.statement.object.definition["description"] = {
-      "en-US":"Exportable Text Area Activity", //  this.contentData.metadata.title
-    };
-    customEventInteract.data.statement.object.definition["name"] ={
-      "en-US":"Exportable Text Area Activity", //  this.contentData.metadata.title
-    };
-    customEventInteract.data.statement.object["objectType"] ="Activity";
-    customEventInteract.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
-    this.trigger(customEventInteract);
-  }
-    
+    this.triggerXAPI('interacted');
+    // self.triggerXAPIConsumed();
 
   if ( _eta_exporter_internal._singletonInstance ) {
     return _eta_exporter_internal._singletonInstance;
