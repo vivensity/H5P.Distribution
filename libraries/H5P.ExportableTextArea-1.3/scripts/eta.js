@@ -119,7 +119,8 @@ H5P.ExportableTextArea.CPInterface = (function _eta_cp_interface_internal() {
  *
  * Implemented as singleton
  */
-H5P.ExportableTextArea.Exporter = (function _eta_exporter_internal() {
+H5P.ExportableTextArea.Exporter = (function _eta_exporter_internal(EventDispatcher) {
+  EventDispatcher.call(this);
   const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("interacted");
   if (customEventInteract.data.statement.object) {
     customEventInteract.data.statement.object.definition["description"] = {
@@ -251,4 +252,4 @@ H5P.ExportableTextArea.Exporter = (function _eta_exporter_internal() {
   };
 
   return this;
-})();
+})(H5P.EventDispatcher);
