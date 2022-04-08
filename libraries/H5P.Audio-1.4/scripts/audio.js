@@ -313,7 +313,7 @@ H5P.Audio.prototype.stop = function () {
  */
 H5P.Audio.prototype.play = function () {
   // this.triggerXAPI('interacted');
-  this.triggerXAPI('consumed');
+  // this.triggerXAPI('consumed');
   this.triggerXAPIConsumed();
   if (this.flowplayer !== undefined) {
     this.flowplayer.play();
