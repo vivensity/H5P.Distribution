@@ -1,6 +1,6 @@
 var H5P = H5P || {};
 
-H5P.ExportableTextArea = (function ($) {
+H5P.ExportableTextArea = (function ($, EventDispatcher) {
   /**
    * Constructor.
    *
@@ -13,6 +13,8 @@ H5P.ExportableTextArea = (function ($) {
     this.notSupportedText = params.exportNotSupported;
     this.defaultAnswer = (contentData && contentData.previousState ? contentData.previousState.answer : '');
     this.contentData = contentData;
+
+    EventDispatcher.call(this);
 
     var supportsExport = H5P.ExportableTextArea.Exporter.supportsExport();
     var labelId = (contentData.subContentId ? contentData.subContentId : id) + '-label';
@@ -50,7 +52,7 @@ H5P.ExportableTextArea = (function ($) {
   };
 
   return C;
-})(H5P.jQuery);
+})(H5P.jQuery, H5P.EventDispatcher);
 
 /**
  * Interface responsible for handling index calculations beeing done when
@@ -119,9 +121,8 @@ H5P.ExportableTextArea.CPInterface = (function _eta_cp_interface_internal() {
  *
  * Implemented as singleton
  */
-H5P.ExportableTextArea.Exporter = (function _eta_exporter_internal(EventDispatcher) {
-  EventDispatcher.call(this);
-  const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("interacted");
+H5P.ExportableTextArea.Exporter = (function _eta_exporter_internal() {
+  const customEventInteract = H5P.ExportableTextArea.createXAPIEventTemplate("interacted");
   if (customEventInteract.data.statement.object) {
     customEventInteract.data.statement.object.definition["description"] = {
       "en-US":"Timeline", //  this.contentData.metadata.title
@@ -133,7 +134,7 @@ H5P.ExportableTextArea.Exporter = (function _eta_exporter_internal(EventDispatch
     customEventInteract.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
     self.trigger(customEventInteract);
   }
-    this.triggerXAPI('interacted');
+  H5P.ExportableTextArea.triggerXAPI('interacted');
     // self.triggerXAPIConsumed();
 
   if ( _eta_exporter_internal._singletonInstance ) {
@@ -252,4 +253,4 @@ H5P.ExportableTextArea.Exporter = (function _eta_exporter_internal(EventDispatch
   };
 
   return this;
-})(H5P.EventDispatcher);
+})();
