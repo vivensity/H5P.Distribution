@@ -9,6 +9,7 @@ var H5P = H5P || {};
  */
 H5P.Table = function (params, id, contentData) {
   this.text = params.text === undefined ? '<table class="h5p-table"><thead><tr><th scope="col">Heading Column 1</th><th scope="col">Heading Column 2</th></tr></thead><tbody><tr><td>Row 1 Col 1</td><td>Row 1 Col 2</td></tr><tr><td>Row 2 Col 1</td><td>Row 2 Col 2</td></tr></tbody></table>' : params.text;
+  this.contentData = contentData;
   if(contentData.metadata && contentData.metadata.title) {
     this.title = contentData.metadata.title
   }
@@ -21,7 +22,22 @@ H5P.Table = function (params, id, contentData) {
  */
 H5P.Table.prototype.attach = function ($wrapper) {
   $wrapper.addClass('h5p-table').html(this.text);
-  this.triggerConsumed();
+  this.handleXAPI();
+};
+
+
+/**
+ * trigger XAPI based on activity if activity is CP then trigger after slide consumed else trigger on attach
+ */
+H5P.Table.prototype.handleXAPI = function () {
+  // for CP trigger only on slide open for others trigger on attach
+  if (this.contentData.hasOwnProperty("parent") && this.contentData.parent.hasOwnProperty("presentation")) {
+    this.on('trigger-consumed', function () {
+      this.triggerConsumed();
+    });
+  } else {
+    this.triggerConsumed();
+  }
 };
 
 
