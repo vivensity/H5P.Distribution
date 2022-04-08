@@ -236,8 +236,8 @@ H5P.ExportableTextArea.Exporter = (function _eta_exporter_internal() {
     return deviceIsIPx;
   };
 
-  self.triggerXAPI('consumed');
-  self.triggerXAPIConsumed();
+  this.triggerXAPI('consumed');
+  this.triggerXAPIConsumed();
 
   return this;
 })();

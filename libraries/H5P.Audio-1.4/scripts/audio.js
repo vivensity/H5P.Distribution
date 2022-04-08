@@ -312,9 +312,19 @@ H5P.Audio.prototype.stop = function () {
  * Play
  */
 H5P.Audio.prototype.play = function () {
-  // this.triggerXAPI('interacted');
+  const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("consumed");
+  if (customEventInteract.data.statement.object) {
+    customEventInteract.data.statement.object.definition["description"] = {
+      "en-US":"Audio Activity", //  this.contentData.metadata.title
+    };
+    customEventInteract.data.statement.object.definition["name"] ={
+      "en-US":"Audio Activity", //  this.contentData.metadata.title
+    };
+    customEventInteract.data.statement.object["objectType"] ="Activity";
+    customEventInteract.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
+    this.trigger(customEventInteract);
+  }
   // this.triggerXAPI('consumed');
-  this.triggerXAPIConsumed();
   if (this.flowplayer !== undefined) {
     this.flowplayer.play();
   }
