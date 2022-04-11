@@ -1,6 +1,6 @@
 var H5P = H5P || {};
 
-H5P.ExportableTextArea = (function ($) {
+H5P.ExportableTextArea = (function ($, EventDispatcher) {
   /**
    * Constructor.
    *
@@ -13,6 +13,8 @@ H5P.ExportableTextArea = (function ($) {
     this.notSupportedText = params.exportNotSupported;
     this.defaultAnswer = (contentData && contentData.previousState ? contentData.previousState.answer : '');
     this.contentData = contentData;
+
+    EventDispatcher.call(this);
 
     var supportsExport = H5P.ExportableTextArea.Exporter.supportsExport();
     var labelId = (contentData.subContentId ? contentData.subContentId : id) + '-label';
@@ -65,7 +67,7 @@ H5P.ExportableTextArea = (function ($) {
   // self.triggerXAPIConsumed();
 
   return C;
-})(H5P.jQuery);
+})(H5P.jQuery, H5P.EventDispatcher);
 
 /**
  * Interface responsible for handling index calculations beeing done when
@@ -135,7 +137,6 @@ H5P.ExportableTextArea.CPInterface = (function _eta_cp_interface_internal() {
  * Implemented as singleton
  */
 H5P.ExportableTextArea.Exporter = (function _eta_exporter_internal() {
-
 
   if ( _eta_exporter_internal._singletonInstance ) {
     return _eta_exporter_internal._singletonInstance;
