@@ -51,7 +51,7 @@ H5P.ExportableTextArea = (function ($, EventDispatcher) {
     }
   };
 
-  this.triggerXAPI('interacted');
+  // this.triggerXAPI('interacted');
   this.triggerXAPIConsumed();
 
   return C;
