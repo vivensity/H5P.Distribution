@@ -20,6 +20,7 @@ H5P.ExportableTextArea = (function ($, EventDispatcher) {
     var labelId = (contentData.subContentId ? contentData.subContentId : id) + '-label';
     this.$label = $('<div id="' + labelId + '" class="h5p-eta-label">' + this.header + '</div>');
     this.$input = $('<textarea class="h5p-eta-input" aria-labelledby="' + labelId + '" ' + (supportsExport ? '' : 'placeholder="' + this.notSupportedText + '"') + 'data-index="' + this.index + '">' + this.defaultAnswer + '</textarea>');
+    this.triggerXAPIConsumed();
   }
 
   C.prototype.attach = function ($wrapper) {
@@ -52,7 +53,7 @@ H5P.ExportableTextArea = (function ($, EventDispatcher) {
   };
 
   // this.triggerXAPI('interacted');
-  this.triggerXAPIConsumed();
+  // this.triggerXAPIConsumed();
 
   return C;
 })(H5P.jQuery, H5P.EventDispatcher);
