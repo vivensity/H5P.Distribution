@@ -20,7 +20,19 @@ H5P.ExportableTextArea = (function ($, EventDispatcher) {
     var labelId = (contentData.subContentId ? contentData.subContentId : id) + '-label';
     this.$label = $('<div id="' + labelId + '" class="h5p-eta-label">' + this.header + '</div>');
     this.$input = $('<textarea class="h5p-eta-input" aria-labelledby="' + labelId + '" ' + (supportsExport ? '' : 'placeholder="' + this.notSupportedText + '"') + 'data-index="' + this.index + '">' + this.defaultAnswer + '</textarea>');
-    this.triggerXAPIConsumed();
+    const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("interacted");
+    if (customEventInteract.data.statement.object) {
+      customEventInteract.data.statement.object.definition["description"] = {
+        "en-US":this.contentData.metadata.title
+      };
+      customEventInteract.data.statement.object.definition["name"] ={
+        "en-US":this.contentData.metadata.title
+      };
+      customEventInteract.data.statement.object["objectType"] ="Activity";
+      customEventInteract.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
+      self.trigger(customEventInteract);
+    }
+    this.triggerXAPI("interacted");
   }
 
   C.prototype.attach = function ($wrapper) {
