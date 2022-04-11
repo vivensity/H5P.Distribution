@@ -115,7 +115,7 @@ H5P.Video = (function ($, ContentCopyrights, MediaCopyright, handlers) {
 
     // Event Received from CP Video
     self.on('trigger-consumed', function () {
-      triggerXAPIConsumed();
+      self.triggerXAPIConsumed();
     });
 
     /**
