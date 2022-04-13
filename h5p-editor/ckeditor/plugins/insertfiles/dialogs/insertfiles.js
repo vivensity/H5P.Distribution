@@ -52,6 +52,21 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
                       }
                     ]
                   },
+                  // File Browse
+                  {
+                    type: 'file',
+                    id: 'upload',
+                    label: editor.lang.image.btnUpload,
+                    style: 'height:40px',
+                    size: 38
+                  },
+                  {
+                    type: 'fileButton',
+                    id: 'uploadButton',
+                    filebrowser: 'info:txtUrl',
+                    label: editor.lang.image.btnUpload,
+                    'for': [ 'Upload', 'upload' ]
+                  },
                   //  options
                   {
                     type: 'hbox',
