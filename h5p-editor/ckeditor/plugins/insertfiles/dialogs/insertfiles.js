@@ -17,7 +17,7 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
       ];
 
   return {
-    title: "Document Embed",
+    title: "Document Embed Custom",
     width: 400,
     height: 200,
 
@@ -26,7 +26,7 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
           //  document settings tab
           {
             id: 'settingsTab',
-            label: "Document Embed",
+            label: "Document Embed Custom",
             elements:
                 [
                   //  textarea
