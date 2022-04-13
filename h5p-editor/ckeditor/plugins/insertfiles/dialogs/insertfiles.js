@@ -17,7 +17,7 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
       ];
 
   return {
-    title: "Document Embed",
+    title: "Document Embed Custom",
     width: 400,
     height: 200,
 
@@ -26,7 +26,7 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
           //  document settings tab
           {
             id: 'settingsTab',
-            label: "Document Embed",
+            label: "Document Embed Custom",
             elements:
                 [
                   //  textarea
@@ -51,6 +51,21 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
                         children: srcBoxChildren
                       }
                     ]
+                  },
+                  // File Browse
+                  {
+                    type: 'file',
+                    id: 'upload',
+                    label: editor.lang.image.btnUpload,
+                    style: 'height:40px',
+                    size: 38
+                  },
+                  {
+                    type: 'fileButton',
+                    id: 'uploadButton',
+                    filebrowser: 'info:txtUrl',
+                    label: editor.lang.image.btnUpload,
+                    'for': [ 'Upload', 'upload' ]
                   },
                   //  options
                   {

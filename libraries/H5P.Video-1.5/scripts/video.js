@@ -11,8 +11,9 @@ H5P.Video = (function ($, ContentCopyrights, MediaCopyright, handlers) {
    * @param {Object} parameters.a11y Accessibility options
    * @param {Boolean} [parameters.startAt] Start time of video
    * @param {Number} id Content identifier
+   * @param {Object} extras Content Details
    */
-  function Video(parameters, id) {
+  function Video(parameters, id, extras) {
     var self = this;
     self.contentId = id;
 
@@ -111,6 +112,37 @@ H5P.Video = (function ($, ContentCopyrights, MediaCopyright, handlers) {
     self.on('loaded', function () {
       self.trigger('resize');
     });
+
+    // Event Received from CP Video
+    self.on('trigger-consumed', function () {
+      self.triggerXAPIConsumed();
+    });
+
+    /**
+     * Trigger the 'consumed' xAPI event
+     *
+     */
+    self.triggerXAPIConsumed = function () {
+      var xAPIEvent = self.createXAPIEventTemplate({
+        id: 'http://activitystrea.ms/schema/1.0/consume',
+        display: {
+          'en-US': 'consumed'
+        }
+      }, {
+        result: {
+          completion: true
+        }
+      });
+
+      var title = extras && extras.hasOwnProperty("metadata") && extras.metadata.hasOwnProperty("title") ? extras.metadata.title : 'Video';
+      Object.assign(xAPIEvent.data.statement.object.definition, {
+        name:{
+          'en-US': title
+        }
+      });
+
+      self.trigger(xAPIEvent);
+    };
 
     // Find player for video sources
     if (sources.length) {

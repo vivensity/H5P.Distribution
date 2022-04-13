@@ -35,11 +35,6 @@ H5P.Audio = (function ($) {
       pauseAudio: "Pause audio"
     }, params);
 
-    // Required if e.g. used in CoursePresentation as area to click on
-    if (this.params.playerMode === 'transparent') {
-      this.params.fitToWrapper = true;
-    }
-
     this.on('resize', this.resize, this);
   }
 
@@ -223,10 +218,6 @@ H5P.Audio.prototype.attach = function ($wrapper) {
     $wrapper.html(audio);
   }
 
-  if (audio.controls) {
-    $wrapper.addClass('h5p-audio-controls');
-  }
-
   // Set time to saved time from previous run
   if (this.oldTime) {
     this.seekTo(this.oldTime);
@@ -312,8 +303,6 @@ H5P.Audio.prototype.stop = function () {
  * Play
  */
 H5P.Audio.prototype.play = function () {
-  
-  this.triggerXAPI('interacted');
   if (this.flowplayer !== undefined) {
     this.flowplayer.play();
   }
