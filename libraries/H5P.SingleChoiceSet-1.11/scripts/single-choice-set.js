@@ -254,6 +254,10 @@ H5P.SingleChoiceSet = (function ($, UI, Question, SingleChoice, SolutionView, Re
 
     self.trigger(xapiEvent);
 
+    // Trigger Question is finished
+    if ((self.options.choices.length - 1) === this.currentIndex) {
+      self.trigger('question-finished');
+    }
     self.continue();
   };
 
