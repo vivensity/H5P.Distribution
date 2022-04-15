@@ -52,6 +52,7 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
                       }
                     ]
                   },
+                  
                   //  options
                   {
                     type: 'hbox',
@@ -82,7 +83,27 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
                         ]
                   }
                 ]
-          },
+          },{
+            id: 'Upload',
+            hidden: true,
+            filebrowser: 'uploadButton',
+            label: "Upload File",
+            elements: [
+              {
+                type: 'file',
+                id: 'upload',
+                label: "Select File",
+                style: 'height:40px'
+              },
+              {
+                type: 'fileButton',
+                id: 'uploadButton',
+                filebrowser: 'settingsTab:txtUrl',
+                label: "Send it to server",
+                'for': [ 'Upload', 'upload' ]
+              }
+            ]
+         }
         ],
     onOk: function () {
       var dialog = this;
