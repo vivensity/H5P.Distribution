@@ -23,10 +23,10 @@ H5P.ExportableTextArea = (function ($, EventDispatcher) {
     const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("interacted");
     if (customEventInteract.data.statement.object) {
       customEventInteract.data.statement.object.definition["description"] = {
-        "en-US":this.contentData.metadata.title
+        "en-US":"Exportable TextArea"
       };
       customEventInteract.data.statement.object.definition["name"] ={
-        "en-US":this.contentData.metadata.title
+        "en-US":"Exportable TextArea"
       };
       customEventInteract.data.statement.object["objectType"] ="Activity";
       customEventInteract.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
