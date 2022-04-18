@@ -161,10 +161,25 @@ H5P.Audio = (function ($) {
  * @param {jQuery} $wrapper Our poor container.
  */
 H5P.Audio.prototype.attach = function ($wrapper) {
+  var self = this;
   $wrapper.addClass('h5p-audio-wrapper');
 
   // Check if browser supports audio.
   var audio = document.createElement('audio');
+
+  /* trigger interacted on play event */
+  audio.onplay = function() {
+    var xAPIEvent = self.createXAPIEventTemplate('interacted');
+    var title = self.extras && self.extras.hasOwnProperty("metadata") && self.extras.metadata.hasOwnProperty("title") ?self.extras.metadata.title : 'Audio';
+    Object.assign(xAPIEvent.data.statement.object.definition, {
+      name:{
+        'en-US': title
+      }
+    });
+    self.trigger(xAPIEvent);
+  };
+
+
   if (audio.canPlayType === undefined) {
     // Try flash
     this.attachFlash($wrapper);
@@ -312,8 +327,6 @@ H5P.Audio.prototype.stop = function () {
  * Play
  */
 H5P.Audio.prototype.play = function () {
-  self.triggerXAPI('interacted');
-  self.triggerXAPI('consumed');
   if (this.flowplayer !== undefined) {
     this.flowplayer.play();
   }
