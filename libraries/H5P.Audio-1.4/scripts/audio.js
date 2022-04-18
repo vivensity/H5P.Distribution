@@ -169,7 +169,7 @@ H5P.Audio.prototype.attach = function ($wrapper) {
   /* trigger interacted on play event */
   audio.onplay = function() {
     var xAPIEvent = self.createXAPIEventTemplate('interacted');
-    var title = extras && extras.hasOwnProperty("metadata") && extras.metadata.hasOwnProperty("title") ? extras.metadata.title : 'Audio';
+    var title = self.extras && self.extras.hasOwnProperty("metadata") && self.extras.metadata.hasOwnProperty("title") ?self.extras.metadata.title : 'Audio';
     Object.assign(xAPIEvent.data.statement.object.definition, {
       name:{
         'en-US': title
