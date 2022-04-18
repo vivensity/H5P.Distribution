@@ -161,6 +161,7 @@ H5P.Audio = (function ($) {
  * @param {jQuery} $wrapper Our poor container.
  */
 H5P.Audio.prototype.attach = function ($wrapper) {
+  var self = this;
   $wrapper.addClass('h5p-audio-wrapper');
 
   // Check if browser supports audio.
@@ -170,6 +171,11 @@ H5P.Audio.prototype.attach = function ($wrapper) {
     this.attachFlash($wrapper);
     return;
   }
+
+  /* trigger interacted on play event */
+  audio.onplay = function() {
+    self.triggerXAPI('interacted');
+  };
 
   // Add supported source files.
   if (this.params.files !== undefined && this.params.files instanceof Object) {
@@ -312,8 +318,6 @@ H5P.Audio.prototype.stop = function () {
  * Play
  */
 H5P.Audio.prototype.play = function () {
-  
-  this.triggerXAPI('interacted');
   if (this.flowplayer !== undefined) {
     this.flowplayer.play();
   }
