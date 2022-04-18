@@ -166,16 +166,23 @@ H5P.Audio.prototype.attach = function ($wrapper) {
 
   // Check if browser supports audio.
   var audio = document.createElement('audio');
+  /* trigger interacted on play event */
+  audio.onplay = function() {
+    var xAPIEvent = self.createXAPIEventTemplate('interacted');
+    var title = extras && extras.hasOwnProperty("metadata") && extras.metadata.hasOwnProperty("title") ? extras.metadata.title : 'Audio';
+    Object.assign(xAPIEvent.data.statement.object.definition, {
+      name:{
+        'en-US': title
+      }
+    });
+    self.trigger(xAPIEvent);
+  };
+
   if (audio.canPlayType === undefined) {
     // Try flash
     this.attachFlash($wrapper);
     return;
   }
-
-  /* trigger interacted on play event */
-  audio.onplay = function() {
-    self.triggerXAPI('interacted');
-  };
 
   // Add supported source files.
   if (this.params.files !== undefined && this.params.files instanceof Object) {
