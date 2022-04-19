@@ -8,21 +8,26 @@ var H5P = H5P || {};
 H5P.ContinuousText = function (params) {
   this.text = params.text === undefined ? '<div class="ct"><em>New text</em></div>' : '<div class="ct">'+params.text+'</div>';
 
-      this.on('trigger-consumed', function () {
-        this.triggerConsumed();
-    });
-    // const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("interacted");
-    // if (customEventInteract.data.statement.object) {
-    //   customEventInteract.data.statement.object.definition["description"] = {
-    //     "en-US":"Continues Text"
-    //   };
-    //   customEventInteract.data.statement.object.definition["name"] ={
-    //     "en-US":"Continues Text"
-    //   };
-    //   customEventInteract.data.statement.object["objectType"] ="Activity";
-    //   customEventInteract.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
-    //   this.trigger(customEventInteract);
-    // }
+    H5P.ContinuousText.prototype.triggerConsumed = function () {
+      var xAPIEvent = this.createXAPIEventTemplate({
+        id: 'http://activitystrea.ms/schema/1.0/consume',
+        display: {
+          'en-US': 'consumed'
+        }
+      }, {
+        result: {
+          completion: true
+        }
+      });
+    
+      Object.assign(xAPIEvent.data.statement.object.definition, {
+        name:{
+          'en-US': "COntinues Text"
+        }
+      });
+    
+      this.trigger(xAPIEvent);
+    };
 };
 
 /**
