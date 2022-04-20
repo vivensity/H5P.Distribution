@@ -6,6 +6,7 @@ H5P.ExportableTextArea = (function ($, EventDispatcher) {
    *
    * @param {object} params Options for this library.
    * @param {int} id Content identifier
+   * @param {object} contentData
    */
   function C(params, id, contentData) {
     this.index = (params.index !== undefined ? params.index : -1);
@@ -20,33 +21,52 @@ H5P.ExportableTextArea = (function ($, EventDispatcher) {
     var labelId = (contentData.subContentId ? contentData.subContentId : id) + '-label';
     this.$label = $('<div id="' + labelId + '" class="h5p-eta-label">' + this.header + '</div>');
     this.$input = $('<textarea class="h5p-eta-input" aria-labelledby="' + labelId + '" ' + (supportsExport ? '' : 'placeholder="' + this.notSupportedText + '"') + 'data-index="' + this.index + '">' + this.defaultAnswer + '</textarea>');
-      H5P.ExportableTextArea.prototype.triggerConsumed = function () {
-        var xAPIEvent = this.createXAPIEventTemplate({
-          id: 'http://activitystrea.ms/schema/1.0/consume',
-          display: {
-            'en-US': 'consumed'
-          }
-        }, {
-          result: {
-            completion: true
-          }
-        });
-      
-        Object.assign(xAPIEvent.data.statement.object.definition, {
-          name:{
-            'en-US': "ExportableTextArea"
-          }
-        });
-      
-        this.trigger(xAPIEvent);
-      };
   }
 
   C.prototype.attach = function ($wrapper) {
     this.$content = $wrapper.addClass('h5p-eta')
       .append(this.$label)
       .append(this.$input);
+    this.handleXAPI();
   };
+
+  /**
+   * trigger XAPI based on activity if activity is CP then trigger after slide consumed else trigger on attach
+   */
+  C.prototype.handleXAPI = function () {
+    // for CP trigger only on slide open for others trigger on attach
+    if (this.contentData.hasOwnProperty("parent") && this.contentData.parent.hasOwnProperty("presentation")) {
+      this.on('trigger-consumed', function () {
+        this.triggerConsumed();
+      });
+    } else {
+      this.triggerConsumed();
+    }
+  };
+
+
+  C.prototype.triggerConsumed = function () {
+    var title = this.contentData.hasOwnProperty("metadata") && this.contentData.metadata.hasOwnProperty("title") ? this.contentData.metadata.title : "Exportable Text Area";
+    var xAPIEvent = this.createXAPIEventTemplate({
+      id: 'http://activitystrea.ms/schema/1.0/consume',
+      display: {
+        'en-US': 'consumed'
+      }
+    }, {
+      result: {
+        completion: true
+      }
+    });
+
+    Object.assign(xAPIEvent.data.statement.object.definition, {
+      name:{
+        'en-US': title
+      }
+    });
+
+    this.trigger(xAPIEvent);
+  };
+
 
   C.prototype.onDelete = function (params, slideIndex, elementIndex) {
     H5P.ExportableTextArea.CPInterface.onDelete(params, slideIndex, elementIndex, this);

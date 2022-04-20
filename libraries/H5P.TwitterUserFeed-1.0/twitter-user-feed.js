@@ -5,7 +5,7 @@ H5P.TwitterUserFeed = (function ($) {
   /**
    * Constructor function.
    */
-  function C(options, id) {
+  function C(options, id, contentData) {
     H5P.EventDispatcher.call(this);
 
     // Extend defaults with provided options
@@ -16,6 +16,7 @@ H5P.TwitterUserFeed = (function ($) {
     }, options);
     // Keep provided id.
     this.id = id;
+    this.contentData = contentData;
   }
 
   // Inheritance
@@ -39,9 +40,8 @@ H5P.TwitterUserFeed = (function ($) {
           // trigger resize event once twitter feed has been loaded
           self.trigger('resize');
         });
-        self.on('trigger-consumed', function () {
-          this.triggerConsumed();
-        });
+        this.handleXAPI();
+        // self.triggerXAPI('interacted');
       }
     );
 
@@ -86,6 +86,43 @@ H5P.TwitterUserFeed = (function ($) {
         window.twttr._e.push(callback);
       }
     };
+  };
+
+  /**
+   * trigger XAPI based on activity if activity is CP then trigger after slide consumed else trigger on attach
+   */
+  C.prototype.handleXAPI = function () {
+    // for CP trigger only on slide open for others trigger on attach
+    if (this.contentData.hasOwnProperty("parent") && this.contentData.parent.hasOwnProperty("presentation")) {
+      this.on('trigger-consumed', function () {
+        this.triggerConsumed();
+      });
+    } else {
+      this.triggerConsumed();
+    }
+  };
+
+
+  C.prototype.triggerConsumed = function () {
+   var title = this.contentData.hasOwnProperty("metadata") && this.contentData.metadata.hasOwnProperty("title") ? this.contentData.metadata.title : "Twitter User Feed";
+    var xAPIEvent = this.createXAPIEventTemplate({
+      id: 'http://activitystrea.ms/schema/1.0/consume',
+      display: {
+        'en-US': 'consumed'
+      }
+    }, {
+      result: {
+        completion: true
+      }
+    });
+
+    Object.assign(xAPIEvent.data.statement.object.definition, {
+      name:{
+        'en-US': title
+      }
+    });
+
+    this.trigger(xAPIEvent);
   };
 
   return C;
