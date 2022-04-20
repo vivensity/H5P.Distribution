@@ -20,19 +20,26 @@ H5P.ExportableTextArea = (function ($, EventDispatcher) {
     var labelId = (contentData.subContentId ? contentData.subContentId : id) + '-label';
     this.$label = $('<div id="' + labelId + '" class="h5p-eta-label">' + this.header + '</div>');
     this.$input = $('<textarea class="h5p-eta-input" aria-labelledby="' + labelId + '" ' + (supportsExport ? '' : 'placeholder="' + this.notSupportedText + '"') + 'data-index="' + this.index + '">' + this.defaultAnswer + '</textarea>');
-    const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("interacted");
-    if (customEventInteract.data.statement.object) {
-      customEventInteract.data.statement.object.definition["description"] = {
-        "en-US":"Exportable TextArea"
+      H5P.ExportableTextArea.prototype.triggerConsumed = function () {
+        var xAPIEvent = this.createXAPIEventTemplate({
+          id: 'http://activitystrea.ms/schema/1.0/consume',
+          display: {
+            'en-US': 'consumed'
+          }
+        }, {
+          result: {
+            completion: true
+          }
+        });
+      
+        Object.assign(xAPIEvent.data.statement.object.definition, {
+          name:{
+            'en-US': "ExportableTextArea"
+          }
+        });
+      
+        this.trigger(xAPIEvent);
       };
-      customEventInteract.data.statement.object.definition["name"] ={
-        "en-US":"Exportable TextArea"
-      };
-      customEventInteract.data.statement.object["objectType"] ="Activity";
-      customEventInteract.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
-      this.trigger(customEventInteract);
-    }
-    // this.triggerXAPI("interacted");
   }
 
   C.prototype.attach = function ($wrapper) {
