@@ -119,7 +119,10 @@ H5P.GuessTheAnswer = (function () {
       buttonElement.classList.add('hidden');
       solutionElement.classList.remove('hidden');
       solutionElement.focus();
+      // trigger xapi 'consumed'
       self.triggerConsumed();
+      // trigger xapi 'completed'
+      this.triggerXAPI('completed')
     });
   }
 
