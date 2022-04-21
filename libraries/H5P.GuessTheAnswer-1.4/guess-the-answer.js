@@ -86,8 +86,13 @@ H5P.GuessTheAnswer = (function () {
    * @alias H5P.GuessTheAnswer
    * @param {object} params
    * @param {number} contentId
+   * @param {object} contentData
    */
-  function C(params, contentId) {
+  function C(params, contentId, contentData) {
+    this.contentData = contentData;
+    if(contentData.metadata && contentData.metadata.title) {
+      this.title = contentData.metadata.title
+    }
     // Set default behavior.
     setDefaults(params, {
       taskDescription: '',
@@ -108,11 +113,13 @@ H5P.GuessTheAnswer = (function () {
       mediaElement.appendChild(el);
     }
 
+    var self = this;
     // add show solution text on button click
     buttonElement.addEventListener('click', function() {
       buttonElement.classList.add('hidden');
       solutionElement.classList.remove('hidden');
       solutionElement.focus();
+      self.triggerConsumed();
     });
   }
 
@@ -143,6 +150,31 @@ H5P.GuessTheAnswer = (function () {
   C.prototype.attach = function ($container) {
     this.setActivityStarted();
     $container.get(0).appendChild(this.rootElement);
+  };
+
+  /**
+   * Trigger the 'consumed' xAPI event when this commences
+   *
+   */
+  C.prototype.triggerConsumed = function () {
+    var xAPIEvent = this.createXAPIEventTemplate({
+      id: 'http://activitystrea.ms/schema/1.0/consume',
+      display: {
+        'en-US': 'consumed'
+      }
+    }, {
+      result: {
+        completion: true
+      }
+    });
+
+    Object.assign(xAPIEvent.data.statement.object.definition, {
+      name:{
+        'en-US': this.title || "Guess the Answer"
+      }
+    });
+
+    this.trigger(xAPIEvent);
   };
 
   return C;
