@@ -123,7 +123,7 @@ H5P.GuessTheAnswer = (function () {
       self.triggerConsumed();
       if(self.isRoot()) {
         // trigger xapi 'completed'
-        this.triggerXAPI('completed');
+        self.triggerXAPI('completed');
       }
     });
   }
