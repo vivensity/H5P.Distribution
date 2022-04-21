@@ -153,6 +153,16 @@ H5P.GuessTheAnswer = (function () {
   };
 
   /**
+   * Get the content type title.
+   *
+   * @return {string} title.
+   */
+  C.prototype.getTitle = function () {
+    var title = this.contentData.hasOwnProperty("metadata") && this.contentData.metadata.hasOwnProperty("title") ? this.contentData.metadata.title : "Guess the Answer";
+    return H5P.createTitle(title, 60);
+  };
+
+  /**
    * Trigger the 'consumed' xAPI event when this commences
    *
    */
@@ -170,7 +180,7 @@ H5P.GuessTheAnswer = (function () {
 
     Object.assign(xAPIEvent.data.statement.object.definition, {
       name:{
-        'en-US': this.title || "Guess the Answer"
+        'en-US': this.getTitle()
       }
     });
 
