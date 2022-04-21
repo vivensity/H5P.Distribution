@@ -121,7 +121,7 @@ H5P.GuessTheAnswer = (function () {
       solutionElement.focus();
       // trigger xapi 'consumed'
       self.triggerConsumed();
-      if(this.isRoot()) {
+      if(self.isRoot()) {
         // trigger xapi 'completed'
         this.triggerXAPI('completed');
       }
