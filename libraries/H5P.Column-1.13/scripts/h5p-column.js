@@ -570,6 +570,7 @@ H5P.Column = (function (EventDispatcher) {
           // Do not show read only activities in summary
           const machineName = inst.libraryInfo.machineName;
           if (readOnlyActivities.includes(machineName)) {
+            i++;
             continue;
           }
 
