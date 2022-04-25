@@ -1,6 +1,6 @@
 var H5P = H5P || {};
 
-H5P.IFrameEmbed = function (options, contentId) {
+H5P.IFrameEmbed = function (options, contentId, contentData) {
   var $ = H5P.jQuery;
   var $iframe = null;
   this.$ = $(this);
@@ -128,4 +128,15 @@ H5P.IFrameEmbed = function (options, contentId) {
     };
     this.trigger(xAPIEvent);
   };
+
+  /**
+   * Get title, e.g. for xAPI.
+   *
+   * @return {string} Title.
+   */
+  this.getTitle = function () {
+    return H5P.createTitle((contentData && contentData.metadata && contentData.metadata.title) ? contentData.metadata.title : 'Iframe Embedder');
+  };
+
+
 };
