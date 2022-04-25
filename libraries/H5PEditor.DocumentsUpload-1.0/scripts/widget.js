@@ -30,6 +30,7 @@ H5P.jQuery(document).ready(function () {
         let basePathCurriki = CKEDITOR.basePath;
         let arr = basePathCurriki.split('storage');
         let currikiPath = arr[0] + 'api/ckeditor/uploadFile?type=files';
+        var currikiBrowsePath = arr[0] + 'api/ckeditor/browseFiles?type=Files';
 
         
 
@@ -38,7 +39,7 @@ H5P.jQuery(document).ready(function () {
         config.filebrowserUploadMethod = 'form';
         // at this address you can get a list of documents on the server
         // URL where you can get a list of uploaded documents
-        config.filebrowserBrowseUrl = CKEDITOR.basePath + 'plugins/insertfiles/documentsList.php?type=files';
+        config.filebrowserBrowseUrl = currikiBrowsePath;
         // URL of a upload scriptgi
         // config.filebrowserUploadUrl = CKEDITOR.basePath + 'plugins/imageuploader/imgupload.php';
         // config.filebrowserImageUploadUrl = CKEDITOR.basePath + 'plugins/imageuploader/imgupload.php';
