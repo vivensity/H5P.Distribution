@@ -79,6 +79,14 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
                             'default': 700,
                             required: true,
                             validate: CKEDITOR.dialog.validate.integer(editor.lang.insertfiles.alertHeight)
+                          },
+                           // Browse File Code
+                          {
+                            type: 'button',
+                            hidden: true,
+                            id: 'browse',
+                            label: editor.lang.common.browseServer,
+                            filebrowser: 'settingsTab:txtUrl',
                           }
                         ]
                   }
