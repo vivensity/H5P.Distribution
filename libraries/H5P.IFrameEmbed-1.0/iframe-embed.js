@@ -32,9 +32,10 @@ H5P.IFrameEmbed = function (options, contentId) {
       }
     }
 
+    // Mark as consumed
+    this.triggerConsumed();
+
     if(this.isRoot()) {
-      // Mark as consumed
-      this.triggerConsumed();
       // Mark as completed
       this.triggerCompleted();
     }
