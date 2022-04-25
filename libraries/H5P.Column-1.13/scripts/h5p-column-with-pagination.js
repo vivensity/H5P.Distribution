@@ -256,6 +256,20 @@ H5P.Column = (function (EventDispatcher) {
     };
 
     /**
+     * Check the instances all are only if read only return false and not show summary
+     * if instance contain scorable or open response then return true
+     * @returns {boolean}
+     */
+    var showSummary = function () {
+      for (const inst of instances) {
+        const machineName = inst.libraryInfo.machineName;
+        if (!readOnlyActivities.includes(machineName)) {
+          return true;
+        }
+      }
+      return false;
+    };
+    /**
      * Creates a wrapper and the column content the first time the column
      * is attached to the DOM.
      *
@@ -614,7 +628,14 @@ H5P.Column = (function (EventDispatcher) {
       
         var i=0;
         for(const inst of instances) {
-          
+
+          // Do not show read only activities in summary
+          const machineName = inst.libraryInfo.machineName;
+          if (readOnlyActivities.includes(machineName)) {
+            i++;
+            continue;
+          }
+
           var param_content = params.content[i];
           var content_type = param_content.content.metadata.contentType;
           
@@ -820,6 +841,30 @@ H5P.Column = (function (EventDispatcher) {
     'H5P.InteractiveVideo',
     'H5P.CoursePresentation',
     'H5P.DocumentationTool'
+  ];
+
+  /**
+   * Definition of which content types are read only
+   */
+  var readOnlyActivities = [
+    'H5P.Accordion',
+    'H5P.Agamotto',
+    'H5P.Audio',
+    'H5P.AudioRecorder',
+    'H5P.Chart',
+    'H5P.Collage',
+    'H5P.Dialogcards',
+    'H5P.GuessTheAnswer',
+    'H5P.Table',
+    'H5P.IFrameEmbed',
+    'H5P.Image',
+    'H5P.ImageHotspots',
+    'H5P.Link',
+    'H5P.MemoryGame',
+    'H5P.Timeline',
+    'H5P.TwitterUserFeed',
+    'H5P.Video',
+    'H5P.PhetInteractiveSimulation'
   ];
 
   /**
