@@ -20,8 +20,9 @@ H5P.ImageHotspots = (function ($, EventDispatcher) {
    * @namespace H5P
    * @param {Object} options
    * @param {number} id
+   * @param {Object} contentData
    */
-  function ImageHotspots(options, id) {
+  function ImageHotspots(options, id, contentData) {
     EventDispatcher.call(this);
 
     // Extend defaults with provided options
@@ -36,6 +37,7 @@ H5P.ImageHotspots = (function ($, EventDispatcher) {
     // Keep provided id.
     this.id = id;
     this.isSmallDevice = false;
+    this.contentData = contentData;
   }
   // Extends the event dispatcher
   ImageHotspots.prototype = Object.create(EventDispatcher.prototype);
@@ -52,10 +54,9 @@ H5P.ImageHotspots = (function ($, EventDispatcher) {
     var self = this;
     self.$container = $container;
 
-    if(this.isRoot()) {
-      // Mark as consumed
-      self.triggerConsumed();
-    }
+    // Mark as consumed
+    self.triggerConsumed();
+
 
     if (this.options.image === null || this.options.image === undefined) {
       $container.append('<div class="background-image-missing">Missing required background image</div>');
@@ -321,6 +322,14 @@ H5P.ImageHotspots = (function ($, EventDispatcher) {
     this.trigger(xAPIEvent);
   };
 
+  /**
+   * Get title, e.g. for xAPI.
+   *
+   * @return {string} Title.
+   */
+  ImageHotspots.prototype.getTitle = function () {
+    return H5P.createTitle((this.contentData && this.contentData.metadata && this.contentData.metadata.title) ? this.contentData.metadata.title : 'Image Hotspots');
+  };
 
   return ImageHotspots;
 })(H5P.jQuery, H5P.EventDispatcher);
