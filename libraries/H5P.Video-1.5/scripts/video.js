@@ -16,6 +16,7 @@ H5P.Video = (function ($, ContentCopyrights, MediaCopyright, handlers) {
   function Video(parameters, id, extras) {
     var self = this;
     self.contentId = id;
+    self.extras = extras;
 
     // Ref youtube.js - ipad & youtube - issue
     self.pressToPlay = false;
@@ -96,6 +97,8 @@ H5P.Video = (function ($, ContentCopyrights, MediaCopyright, handlers) {
           $container.text(parameters.l10n.noSources);
         }
       }
+      // handle xapi consumed
+      self.handleXAPI();
     };
 
     /**
@@ -112,6 +115,29 @@ H5P.Video = (function ($, ContentCopyrights, MediaCopyright, handlers) {
     self.on('loaded', function () {
       self.trigger('resize');
     });
+
+    /**
+     * Get title, e.g. for xAPI.
+     *
+     * @return {string} Title.
+     */
+    self.getTitle = function () {
+      return H5P.createTitle((self.extras && self.extras.metadata && self.extras.metadata.title) ? self.extras.metadata.title : 'Video');
+    };
+
+    /**
+     * trigger XAPI based on activity if activity is CP then trigger after slide consumed else trigger on attach
+     */
+    self.handleXAPI = function () {
+      // for CP trigger only on slide open for others trigger on attach
+      if (self.extras.hasOwnProperty("parent") && self.extras.parent.hasOwnProperty("presentation")) {
+        self.on('trigger-consumed', function () {
+          self.triggerConsumed();
+        });
+      } else {
+        self.triggerConsumed();
+      }
+    };
 
     // Event Received from CP Video
     self.on('trigger-consumed', function () {
@@ -134,10 +160,9 @@ H5P.Video = (function ($, ContentCopyrights, MediaCopyright, handlers) {
         }
       });
 
-      var title = extras && extras.hasOwnProperty("metadata") && extras.metadata.hasOwnProperty("title") ? extras.metadata.title : 'Video';
       Object.assign(xAPIEvent.data.statement.object.definition, {
         name:{
-          'en-US': title
+          'en-US': self.getTitle()
         }
       });
 
