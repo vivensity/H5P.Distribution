@@ -13,8 +13,9 @@ H5P.Chart = (function ($, EventDispatcher) {
    * @class
    * @param {Object} params Behavior settings
    * @param {Number} id Content identification
+   * @param {Object} contentData content Data
    */
-  function Chart(params) {
+  function Chart(params, id, contentData) {
     var self = this;
 
     // Inheritance
@@ -60,6 +61,9 @@ H5P.Chart = (function ($, EventDispatcher) {
 
     // Keep track of type.
     self.type = (self.params.graphMode === 'pieChart' ? 'Pie' : 'Bar');
+
+    // Keep content Data
+    self.contentData = contentData;
   }
 
   // Inheritance
@@ -101,9 +105,10 @@ H5P.Chart = (function ($, EventDispatcher) {
   Chart.prototype.attach = function ($container) {
     var self = this;
 
+    // Mark as consumed
+    self.triggerConsumed();
+
     if(self.isRoot()) {
-      // Mark as consumed
-      self.triggerConsumed();
       // Mark as completed
       self.triggerCompleted();
     }
@@ -172,6 +177,10 @@ H5P.Chart = (function ($, EventDispatcher) {
       'completion': true
     };
     this.trigger(xAPIEvent);
+  };
+
+  Chart.prototype.getTitle = function () {
+    return H5P.createTitle(this.contentData && this.contentData.metadata && this.contentData.metadata.title ? this.contentData.metadata.title : 'Chart');
   };
 
   return Chart;
