@@ -132,17 +132,12 @@ H5P.Video = (function ($, ContentCopyrights, MediaCopyright, handlers) {
       // for CP trigger only on slide open for others trigger on attach
       if (self.extras.hasOwnProperty("parent") && self.extras.parent.hasOwnProperty("presentation")) {
         self.on('trigger-consumed', function () {
-          self.triggerConsumed();
+          self.triggerXAPIConsumed();
         });
       } else {
-        self.triggerConsumed();
+        self.triggerXAPIConsumed();
       }
     };
-
-    // Event Received from CP Video
-    self.on('trigger-consumed', function () {
-      self.triggerXAPIConsumed();
-    });
 
     /**
      * Trigger the 'consumed' xAPI event
