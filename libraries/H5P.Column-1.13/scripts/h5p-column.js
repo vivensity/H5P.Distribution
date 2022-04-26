@@ -804,7 +804,10 @@ H5P.Column = (function (EventDispatcher) {
     'H5P.Timeline',
     'H5P.TwitterUserFeed',
     'H5P.Video',
-    'H5P.PhetInteractiveSimulation'
+    'H5P.PhetInteractiveSimulation',
+    'H5P.DocumentationTool',
+    'H5P.AdvancedText',
+    'H5P.DocumentsUpload'
   ];
 
   /**
