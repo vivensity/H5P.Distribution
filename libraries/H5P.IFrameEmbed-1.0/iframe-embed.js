@@ -54,11 +54,6 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
       },
     });
 
-
-    $iframe.load(function() {
-      resizeIframe($iframe);
-    });
-
     $wrapper.html('');
     $wrapper.append($iframe);
 
@@ -80,7 +75,6 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
       $iframe.css(
         (H5P.isFullscreen) ? {width: '100%', height: '100%'} : getElementSize($iframe)
       );
-      resizeIframe($iframe);
     }
   };
 
