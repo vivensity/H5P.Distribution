@@ -108,7 +108,7 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
       try {
         var $content = $iframe.contents();
         if ($content) {
-          var $html = content.find('html');
+          var $html = $content.find('html');
           $html.resize(function () {
             console.log('inside resize', $iframe.contents().find('html').height());
             $iframe.css({
