@@ -103,11 +103,13 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
 
   var resizeIframe =  function($iframe) {
     if(options.resizeSupported) {
-      var doc = $iframe[0].contentDocument? $iframe[0].contentDocument: $iframe[0].contentWindow.document;
-      $iframe[0].style.visibility = 'hidden';
-      $iframe[0].style.height = "10px";
-      $iframe[0].style.height = getDocHeight( doc ) + 4 + "px";
-      $iframe[0].style.visibility = 'visible';
+      try {
+        var doc = $iframe[0].contentDocument ? $iframe[0].contentDocument : $iframe[0].contentWindow.document;
+        $iframe[0].style.visibility = 'hidden';
+        $iframe[0].style.height = "10px";
+        $iframe[0].style.height = getDocHeight(doc) + 4 + "px";
+        $iframe[0].style.visibility = 'visible';
+      } catch(err) {}
     }
   };
 
