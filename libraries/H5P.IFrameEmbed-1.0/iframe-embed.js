@@ -4,6 +4,7 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
   var $ = H5P.jQuery;
   var $iframe = null;
   this.$ = $(this);
+  var self = this;
 
   options = H5P.jQuery.extend({
     width: "500px",
@@ -52,8 +53,10 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
       },
     });
 
+
     $iframe.load(function() {
       resizeIframe($iframe);
+      self.$.trigger('resize');
     });
 
     $wrapper.html('');
@@ -67,7 +70,7 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
       }, 1);
     }
 
-    this.$.trigger('resize');
+    // this.$.trigger('resize');
   };
 
   this.resize = function () {
