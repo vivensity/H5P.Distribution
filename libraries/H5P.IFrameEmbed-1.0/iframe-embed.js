@@ -19,6 +19,7 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
   }
 
   this.attach = function ($wrapper) {
+    this.wrapper = $wrapper;
     // Set up an iframe with the correct source, and append
     // it to '$wrapper'.
 
@@ -103,24 +104,16 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
     };
   };
 
-  var resizeIframe = function ($iframe) {
-    if (options.resizeSupported) {
-      try {
-        var $content = $iframe.contents();
-        if ($content) {
-          var $html = $content.find('html');
-          $html.resize(function () {
-            console.log('inside resize', $iframe.contents().find('html').height());
-            $iframe.css({
-              height: this.height()
-            });
-          });
-          console.log('iframe height', $iframe.contents().find('html').height());
-        }
-      } catch (err) {
-      }
+
+  self.on('resize', function () {
+    if (this.wrapper && options.resizeSupported) {
+      let width = H5P.jQuery(this.wrapper).width();
+      let height = width * (9 / 16);
+      let iframeContent = $('.h5p-iframe-content', this.wrapper);
+      $(iframeContent).width(width);
+      $(iframeContent).height(height);
     }
-  };
+  });
 
 
   // This is a fix/hack to make touch work in iframe on mobile safari,
