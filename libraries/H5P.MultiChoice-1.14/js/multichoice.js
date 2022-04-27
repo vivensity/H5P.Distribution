@@ -460,6 +460,11 @@ H5P.MultiChoice = function (options, contentId, contentData) {
         self.showCheckSolution(true);
       }
     }
+
+    // for xapi duration
+    if (this.activityStartTime === undefined) {
+      this.activityStartTime = Date.now();
+    }
   };
 
   this.showAllSolutions = function () {
@@ -557,6 +562,10 @@ H5P.MultiChoice = function (options, contentId, contentData) {
     self.hideButton('show-solution');
     enableInput();
     $myDom.find('.h5p-feedback-available').remove();
+    // for xapi duration
+    if (this.activityStartTime) {
+      this.activityStartTime = Date.now();
+    }
   };
 
   var calculateMaxScore = function () {
