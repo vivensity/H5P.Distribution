@@ -98,18 +98,6 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
     };
   };
 
-
-  self.on('resize', function () {
-    if (this.wrapper && options.resizeSupported) {
-      let width = H5P.jQuery(this.wrapper).width();
-      let height = width * (9 / 16);
-      let iframeContent = $('.h5p-iframe-content', this.wrapper);
-      $(iframeContent).width(width);
-      $(iframeContent).height(height);
-    }
-  });
-
-
   // This is a fix/hack to make touch work in iframe on mobile safari,
   // like if the iframe is listening to touch events on the iframe's
   // window object. (like in PHET simulations)
