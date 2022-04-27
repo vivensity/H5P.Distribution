@@ -73,6 +73,7 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
       $iframe.css(
         (H5P.isFullscreen) ? {width: '100%', height: '100%'} : getElementSize($iframe)
       );
+      setIframeHeight($iframe)
     }
   };
 
@@ -86,6 +87,9 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
     // the parent. Make sure 'element' doesn't scale below
     // 'options.minWidth'.
     var elementMinWidth = parseInt(options.minWidth ,10);
+    var document = $iframe[0].contentDocument? $iframe[0].contentDocument: $iframe[0].contentWindow.document;
+    var height = getDocHeight(document);
+    console.log('iframe height', height);
     var elementSizeRatio = parseInt(options.height, 10) / parseInt(options.width, 10);
     var parentWidth = $element.parent().width();
     var elementWidth = (parentWidth > elementMinWidth) ? parentWidth : elementMinWidth;
@@ -94,6 +98,13 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
       width: elementWidth + 'px',
       height: elementWidth * elementSizeRatio + 'px'
     };
+  };
+
+  var getDocHeight = function (doc) {
+    doc = doc || document;
+    var body = doc.body, html = doc.documentElement;
+    return Math.max(body.scrollHeight, body.offsetHeight,
+        html.clientHeight, html.scrollHeight, html.offsetHeight);
   };
 
   // This is a fix/hack to make touch work in iframe on mobile safari,
