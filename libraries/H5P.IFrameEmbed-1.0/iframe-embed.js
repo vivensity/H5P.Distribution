@@ -4,6 +4,7 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
   var $ = H5P.jQuery;
   var $iframe = null;
   this.$ = $(this);
+  var self = this;
 
   options = H5P.jQuery.extend({
     width: "500px",
@@ -49,7 +50,13 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
         width: options.width,
         height: options.height,
         display: 'block'
-      }
+      },
+    });
+
+
+    $iframe.load(function() {
+      resizeIframe($iframe);
+      self.$.trigger('resize');
     });
 
     $wrapper.html('');
@@ -63,7 +70,7 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
       }, 1);
     }
 
-    this.$.trigger('resize');
+    // this.$.trigger('resize');
   };
 
   this.resize = function () {
@@ -73,6 +80,7 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
       $iframe.css(
         (H5P.isFullscreen) ? {width: '100%', height: '100%'} : getElementSize($iframe)
       );
+      resizeIframe($iframe);
     }
   };
 
@@ -95,6 +103,24 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
       height: elementWidth * elementSizeRatio + 'px'
     };
   };
+
+  var resizeIframe =  function($iframe) {
+    if(options.resizeSupported) {
+      try {
+        var doc = $iframe[0].contentDocument ? $iframe[0].contentDocument : $iframe[0].contentWindow.document;
+        // $iframe[0].style.visibility = 'hidden';
+        // $iframe[0].style.height = getDocHeight(doc) + 4 + "px";
+        // $iframe[0].style.visibility = 'visible';
+        console.log('iframe height', getDocHeight(doc))
+      } catch(err) {}
+    }
+  };
+
+  function getDocHeight(doc) {
+    doc = doc || document;
+    var body = doc.body, html = doc.documentElement;
+    return Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+  }
 
   // This is a fix/hack to make touch work in iframe on mobile safari,
   // like if the iframe is listening to touch events on the iframe's
