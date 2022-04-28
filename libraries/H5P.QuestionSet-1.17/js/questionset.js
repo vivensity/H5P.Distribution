@@ -821,9 +821,9 @@ H5P.QuestionSet = function (options, contentId, contentData) {
             _showQuestion(params.initialQuestion);
           }
         });
-        hookUpButton('.qs-submitbutton', function () { 
-           self.triggerXAPIScored(self.getScore(), self.getMaxScore(), "submitted-curriki");
-           self.triggerXAPIScored(self.getScore(), self.getMaxScore(), "answered");
+        hookUpButton('.qs-submitbutton', function () {
+          self.triggerXAPIScored(self.getScore(), self.getMaxScore(), "answered");
+          self.triggerXAPIScored(self.getScore(), self.getMaxScore(), "submitted-curriki");
            var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
           H5P.jQuery('.qs-submitbutton').after($submit_message);
         });
