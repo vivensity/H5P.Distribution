@@ -1087,8 +1087,8 @@ H5P.QuestionSet = function (options, contentId, contentData) {
 
     this.trigger('resize');
     // initialize activity start time if root activity
-    if (this.isRoot()) {
-      this.activityStartTime = Date.now();
+    if (self.isRoot()) {
+      self.activityStartTime = Date.now();
     }
     return this;
   };
