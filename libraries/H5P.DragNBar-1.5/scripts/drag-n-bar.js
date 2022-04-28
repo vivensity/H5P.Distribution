@@ -671,10 +671,17 @@ H5P.DragNBar.prototype.attach = function ($wrapper) {
 
     this.$existingButton.find('.h5p-dragnbar-existing-button').click(function (e) {
       e.preventDefault(); // Avoid anchor click making window scroll
-      const data = { callback: (activityData) => {
-        H5P.setClipboard(activityData);
-        self.pasteHandler();
-      }};
+      let libraries = [];
+      for (var i = 0; i < self.libraries.length; i++) {
+        libraries.push(self.libraries[i].uberName);
+      }
+      const data = {
+        libraries,
+        callback: (activityData) => {
+          H5P.setClipboard(activityData);
+          self.pasteHandler();
+        }
+      };
       const event = new CustomEvent('launchExistingActivitySearch', { detail: data } );
       window.parent.dispatchEvent(event);
       return;
