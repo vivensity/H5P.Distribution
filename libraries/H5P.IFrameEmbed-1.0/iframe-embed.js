@@ -76,6 +76,7 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
         (H5P.isFullscreen) ? {width: '100%', height: '100%'} : getElementSize($iframe)
       );
     }
+    resizeIframe($iframe);
   };
 
   if (options.resizeSupported && this.on !== undefined) {
@@ -96,6 +97,16 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
       width: elementWidth + 'px',
       height: elementWidth * elementSizeRatio + 'px'
     };
+  };
+
+
+  var resizeIframe = function($iframe) {
+    var $content = $iframe.contents();
+    if($content && $content.find('body').length > 1) {
+      $content.find('body').bind('resize', function(){
+        console.log('resizeeeddddd')
+      });
+    }
   };
 
   // This is a fix/hack to make touch work in iframe on mobile safari,
