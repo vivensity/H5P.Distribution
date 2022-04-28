@@ -101,7 +101,7 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
 
   // resize
   if (options.resizeSupported) {
-    setInterval(function () {
+    var resizeIframe = setInterval(function () {
       var $content = $iframe.contents();
       if ($content && $content.find('html').length > 0 && $iframe.height() !== $iframe.contents().find('html').height()) {
         $iframe.css({
@@ -109,6 +109,7 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
         });
       }
     }, 500);
+    setTimeout(function( ) { clearInterval( resizeIframe ); }, 5 * 60 * 1000);
   }
 
 
