@@ -584,6 +584,10 @@ H5P.QuestionSet = function (options, contentId, contentData) {
       randomizeQuestions();
     }
 
+    // reset instance start time
+    if (this.activityStartTime) {
+      this.activityStartTime = Date.now();
+    }
   };
 
   this.resetTask = function () {
