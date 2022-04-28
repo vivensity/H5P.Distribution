@@ -102,7 +102,7 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
 
   var resizeIframe = function($iframe) {
     var $content = $iframe.contents();
-    if($content && $content.find('body').length > 1) {
+    if($content && $content.find('body').length > 0) {
       $content.find('body').bind('resize', function(){
         console.log('resizeeeddddd')
       });
