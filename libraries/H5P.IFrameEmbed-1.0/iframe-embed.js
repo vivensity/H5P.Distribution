@@ -99,7 +99,7 @@ H5P.IFrameEmbed = function (options, contentId, contentData) {
   };
 
 
-  // resize
+  // resize height of iframe to fit content
   if (options.resizeSupported) {
     var resizeIframe = setInterval(function () {
       var $content = $iframe.contents();
