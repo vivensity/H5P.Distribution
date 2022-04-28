@@ -1082,7 +1082,10 @@ H5P.QuestionSet = function (options, contentId, contentData) {
     _updateButtons();
 
     this.trigger('resize');
-
+    // initialize activity start time if root activity
+    if (this.isRoot()) {
+      this.activityStartTime = Date.now();
+    }
     return this;
   };
 
