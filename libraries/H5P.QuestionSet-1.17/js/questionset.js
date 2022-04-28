@@ -394,6 +394,8 @@ H5P.QuestionSet = function (options, contentId, contentData) {
       // Trigger resize on question in case the size of the QS has changed.
       var instance = questionInstances[questionNumber];
       instance.setActivityStarted();
+      // reset instance activity start time
+      instance.activityStartTime = Date.now();
       if (instance.$ !== undefined) {
         instance.trigger('resize');
       }
@@ -596,6 +598,10 @@ H5P.QuestionSet = function (options, contentId, contentData) {
       // Show first question
       $('.questionset', $myDom).show();
       _showQuestion(params.initialQuestion);
+    }
+    // reset instance start time
+    if (this.activityStartTime) {
+      this.activityStartTime = Date.now();
     }
   };
 
