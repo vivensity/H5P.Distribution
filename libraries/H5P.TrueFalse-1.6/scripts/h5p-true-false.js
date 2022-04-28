@@ -268,6 +268,24 @@ H5P.TrueFalse = (function ($, Question) {
       var isCorrect = answerGroup.isCorrect();
       xAPIEvent.setScoredResult(isCorrect ? MAX_SCORE : 0, MAX_SCORE, self, true, isCorrect);
       xAPIEvent.data.statement.result.response = (isCorrect ? getCorrectAnswer() : getWrongAnswer());
+      setUserTimeSpent(self, xAPIEvent);
+    };
+
+
+    /**
+     * Add user spent time based on last answered timestamp
+     * @param {Object} instance
+     * @param {H5P.XAPIEvent} xAPIEvent
+     */
+    var setUserTimeSpent = function(instance, xAPIEvent) {
+      if (instance && instance.activityStartTime) {
+        var lastActivityTime = instance.lastAnsweredTime || instance.activityStartTime;
+        var currentTime = Date.now();
+        var duration = Math.round((currentTime - lastActivityTime ) / 10) / 100;
+        // xAPI spec allows a precision of 0.01 seconds
+        xAPIEvent.data.statement.result.duration = 'PT' + duration + 'S';
+        instance.lastAnsweredTime = currentTime;
+      }
     };
 
     /**
@@ -462,6 +480,7 @@ H5P.TrueFalse = (function ($, Question) {
       H5P.jQuery('.submit-answer-feedback').hide();
       toggleButtonState(State.ONGOING);
       self.activityStartTime = Date.now();
+      self.lastAnsweredTime = undefined;
     };
 
     /**
