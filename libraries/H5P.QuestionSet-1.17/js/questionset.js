@@ -585,8 +585,8 @@ H5P.QuestionSet = function (options, contentId, contentData) {
     }
 
     // reset instance start time
-    if (this.activityStartTime) {
-      this.activityStartTime = Date.now();
+    if (self.activityStartTime) {
+      self.activityStartTime = Date.now();
     }
   };
 
