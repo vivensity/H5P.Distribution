@@ -787,7 +787,7 @@ H5P.Blanks = (function ($, Question) {
   Blanks.prototype.getxAPIDefinition = function () {
     var definition = {};
     definition.description = {
-      'en-US': this.params.text
+      'en-US': this.params.text + '\n'
     };
     definition.type = 'http://adlnet.gov/expapi/activities/cmi.interaction';
     definition.interactionType = 'fill-in';
