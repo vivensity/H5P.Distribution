@@ -131,7 +131,7 @@ H5P.Summary = (function ($, Question, XApiEventBuilder, StopWatch) {
      */
     this.setActivityStarted = (function (original) {
       return function () {
-        original();
+        original.call(that);
         that.resetStopWatch(that.progress);
         that.startStopWatch(that.progress);
       };
