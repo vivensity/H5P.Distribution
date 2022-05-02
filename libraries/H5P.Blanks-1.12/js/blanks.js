@@ -604,7 +604,7 @@ H5P.Blanks = (function ($, Question) {
     }
 
     if(!this.params.currikisettings.disableSubmitButton) {
-      if(!this.submitted && (state === STATE_CHECKING || state === STATE_SHOWING_SOLUTION)) {
+      if(!this.submitted && (state === STATE_CHECKING || state === STATE_SHOWING_SOLUTION || state === STATE_FINISHED)) {
         this.showButton('submit-answer');
       } else {
         this.hideButton('submit-answer');
