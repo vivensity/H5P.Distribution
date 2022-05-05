@@ -932,7 +932,6 @@
       });
       draggable.on('interacted', function () {
         self.answered = true;
-        self.triggerXAPI('interacted');
       });
       draggable.on('leavingDropZone', function (event) {
         self.dropZones[event.data.dropZone].removeAlignable(event.data.$);
