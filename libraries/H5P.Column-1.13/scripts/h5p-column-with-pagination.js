@@ -263,7 +263,9 @@ H5P.Column = (function (EventDispatcher) {
     var showSummary = function () {
       for (const inst of instances) {
         const machineName = inst.libraryInfo.machineName;
-        if (!readOnlyActivities.includes(machineName)) {
+        if (!readOnlyActivities.includes(machineName)
+            || ( ['H5P.InteractiveVideo', 'H5P.CoursePresentation'].includes(machineName) && Column.isTask(inst))
+        ) {
           return true;
         }
       }
@@ -631,7 +633,8 @@ H5P.Column = (function (EventDispatcher) {
 
           // Do not show read only activities in summary
           const machineName = inst.libraryInfo.machineName;
-          if (readOnlyActivities.includes(machineName)) {
+          if (readOnlyActivities.includes(machineName)
+              || (['H5P.InteractiveVideo', 'H5P.CoursePresentation'].includes(machineName) && !Column.isTask(inst)) ) {
             i++;
             continue;
           }
