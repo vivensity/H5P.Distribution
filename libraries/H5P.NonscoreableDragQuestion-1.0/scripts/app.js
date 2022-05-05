@@ -1214,9 +1214,9 @@
    *  The xAPI event we will add a response to
    */
   C.prototype.addResponseToXAPI = function (xAPIEvent) {
-    var maxScore = 1;
-    var score = 1;
-    var success = score == maxScore ? true : false;
+    var maxScore = undefined;
+    var score = undefined;
+    var success = score === maxScore ? true : false;
     console.log(xAPIEvent.data);
     xAPIEvent.setScoredResult(score, maxScore, this, true, success);
     xAPIEvent.data.statement.result.response = this.getUserXAPIResponse();
