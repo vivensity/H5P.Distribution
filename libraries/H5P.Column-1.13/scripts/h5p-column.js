@@ -260,17 +260,20 @@ H5P.Column = (function (EventDispatcher) {
      * @returns {boolean}
      */
     var showSummary = function () {
+      var hasNonReadOnlyActivities = false;
       for (const inst of instances) {
         const machineName = inst.libraryInfo.machineName;
-        if (!readOnlyActivities.includes(machineName)) {
-          return ['H5P.InteractiveVideo', 'H5P.CoursePresentation'].includes(machineName) ? Column.isTask(inst) : true;
+        if (readOnlyActivities.includes(machineName)
+            || (['H5P.InteractiveVideo', 'H5P.CoursePresentation'].includes(machineName) && !Column.isTask(inst))) {
+          continue;
         }
+        hasNonReadOnlyActivities = true;
       }
-      return false;
+      return hasNonReadOnlyActivities;
     };
 
     /**
-     * Creates a wrapper and the column content the first time the column
+     * Creates a` wrapper and the column content the first time the column
      * is attached to the DOM.
      *
      * @private
