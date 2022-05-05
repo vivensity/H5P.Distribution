@@ -246,7 +246,7 @@ H5P.FreeTextQuestion = (function (EventDispatcher, $, CKEditor) {
 
         // Add the response to the xAPI statement
         // Return a stored user response if it exists
-        xAPIEvent.data.statement.result.response = getResponse();
+        xAPIEvent.data.statement.result.response = H5P.jQuery(getResponse()).text();
       }
 
       if (trigger) {
