@@ -393,6 +393,8 @@ H5P.QuestionSet = function (options, contentId, contentData) {
     if (questionInstances[questionNumber]) {
       // Trigger resize on question in case the size of the QS has changed.
       var instance = questionInstances[questionNumber];
+      // make undefined to trigger xapi 'attempted'
+      instance.activityStartTime = undefined;
       instance.setActivityStarted();
       // reset instance activity start time
       instance.activityStartTime = Date.now();
