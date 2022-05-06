@@ -319,8 +319,7 @@ H5P.ImageHotspotQuestion = (function ($, Question) {
     // Trigger xAPI completed event
     //this.triggerXAPIScored(this.getScore(), this.getMaxScore(), "answered");
     console.log(this.contentData.metadata.title);
-    const customProgressedEvent =
-      this.parent.createXAPIEventTemplate("answered");
+    const customProgressedEvent = H5P.externalDispatcher.createXAPIEventTemplate.call(this, 'answered');
     if (customProgressedEvent.data.statement.object) {
       customProgressedEvent.data.statement.object.definition["name"] = {
         "en-US": this.contentData.metadata.title,
