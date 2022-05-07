@@ -461,8 +461,13 @@ H5P.MultiChoice = function (options, contentId, contentData) {
       }
     }
 
-    // for xapi duration
-    if (this.activityStartTime === undefined) {
+    // check is parent is IV or QS, if so then on open then activity will be started
+    var isEmbedInComplexActivity = this.contentData && this.contentData.parent && this.contentData.parent.contentData
+        && this.contentData.parent.contentData.metadata && this.contentData.parent.contentData.metadata.contentType
+        && ['Interactive Video', 'Brightcove Interactive Video', 'Question Set'].includes(this.contentData.parent.contentData.metadata.contentType);
+
+    if(!isEmbedInComplexActivity && this.activityStartTime === undefined) {
+      // for XAPI duration
       this.activityStartTime = Date.now();
     }
   };
