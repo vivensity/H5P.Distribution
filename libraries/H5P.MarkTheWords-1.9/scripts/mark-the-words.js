@@ -84,8 +84,16 @@
     // Set user state
     this.setH5PUserState();
 
-    // for XAPI duration
-    this.activityStartTime = Date.now();
+    // check is parent is IV or QS, if so then on open then activity will be started
+    const isEmbedInComplexActivity = this.contentData && this.contentData.parent && this.contentData.parent.contentData
+      && this.contentData.parent.contentData.metadata && this.contentData.parent.contentData.metadata.contentType
+        && ['Interactive Video', 'Brightcove Interactive Video', 'Question Set'].includes(this.contentData.parent.contentData.metadata.contentType);
+
+    if(!isEmbedInComplexActivity) {
+      // for XAPI duration
+      this.activityStartTime = Date.now();
+    }
+
   };
 
   /**
