@@ -402,8 +402,8 @@
           self.hideButton('show-solution');
         }
         self.triggerXAPIScored(self.getScore(), self.getMaxScore(), 'submitted-curriki');
-        var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
-        H5P.jQuery('.h5p-question-buttons').after($submit_message);
+        // var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
+        // H5P.jQuery('.h5p-question-buttons').after($submit_message);
       }, false);
     }
   };
