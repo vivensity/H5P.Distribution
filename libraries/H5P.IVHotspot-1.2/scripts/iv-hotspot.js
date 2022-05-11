@@ -88,9 +88,11 @@ H5P.IVHotspot = (function ($, EventDispatcher) {
       }).appendTo($container);
 
       if (parameters.texts.label !== undefined) {
+        var parser = new DOMParser();
+        var new_Label = parser.parseFromString(parameters.texts.label, 'text/html');
         var $label = $('<p>', {
           class: 'h5p-ivhotspot-interaction-title',
-          text: parameters.texts.label
+          text: new_Label.body.innerText
         }).appendTo($a);
 
         if (!parameters.texts.showLabel) {

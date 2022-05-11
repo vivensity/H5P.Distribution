@@ -6,7 +6,7 @@
   height: 100%;
 }
 .h5p-ivhotspot > a {
-  position: absolute;
+  position: relative;
   left: 0;
   top: 0;
   z-index: 1;
