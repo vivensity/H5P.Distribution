@@ -440,8 +440,8 @@ H5P.ImageSequencing = (function (EventDispatcher, $, UI) {
       }
       // trigger submitted-curriki XAPI
       that.triggerXAPIScored(that.getScore(), that.getMaxScore(), 'submitted-curriki');
-      var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
-      that.$feedbackContainer.after($submit_message);
+      //var $submit_message = '<div class="submit-answer-feedback" style = "color: red">Result has been submitted successfully</div>';
+      // that.$feedbackContainer.after($submit_message);
     };
 
     /**
