@@ -14,6 +14,7 @@ H5P.Timeline = (function ($) {
 
   function C(options, contentId) {
     var self = this;
+    H5P.EventDispatcher.call(self);
     var i;
     this.options = $.extend(true, {}, {
       timeline: {
@@ -74,7 +75,10 @@ H5P.Timeline = (function ($) {
       $(window).trigger('resize');
     });
   }
-  
+
+  C.prototype = Object.create(H5P.EventDispatcher.prototype);
+  C.prototype.constructor = C;
+
   /**
    * Check if data provided is valid.
    * @method validate
@@ -132,7 +136,7 @@ H5P.Timeline = (function ($) {
         }
       });
 
-      const customEventInteract =H5P.externalDispatcher.createXAPIEventTemplate("interacted");
+      const customEventInteract = self.createXAPIEventTemplate("interacted");
       if (customEventInteract.data.statement.object) {
         customEventInteract.data.statement.object.definition["description"] = {
           "en-US":"Timeline", //  this.contentData.metadata.title
@@ -141,11 +145,11 @@ H5P.Timeline = (function ($) {
           "en-US":"Timeline Activity", //  this.contentData.metadata.title
         };
         customEventInteract.data.statement.object["objectType"] ="Activity";
-        customEventInteract.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
+        customEventInteract.data.statement.object["id"] ="http://adlnet.gov/expapi/activities";
         self.trigger(customEventInteract);
       }
 
-      const customEventInteractComplete =H5P.externalDispatcher.createXAPIEventTemplate("completed");
+      const customEventInteractComplete = self.createXAPIEventTemplate("completed");
       if (customEventInteractComplete.data.statement.object) {
         customEventInteractComplete.data.statement.object.definition["description"] = {
           "en-US":"Timeline", //  this.contentData.metadata.title
@@ -154,7 +158,7 @@ H5P.Timeline = (function ($) {
           "en-US":"Timeline Activity", //  this.contentData.metadata.title
         };
         customEventInteractComplete.data.statement.object["objectType"] ="Activity";
-        customEventInteractComplete.data.statement.object["id"] ="http://adlnet.gov/expapi/activities"
+        customEventInteractComplete.data.statement.object["id"] ="http://adlnet.gov/expapi/activities";
         self.trigger(customEventInteractComplete);
       }
 
