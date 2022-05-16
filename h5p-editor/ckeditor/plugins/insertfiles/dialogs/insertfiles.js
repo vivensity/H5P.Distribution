@@ -63,7 +63,7 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
                           //  width
                           {
                             type: 'text',
-                            width: '45px',
+                            width: '200px',
                             id: 'txtWidth',
                             label: editor.lang.common.width,
                             'default': 600,
@@ -74,7 +74,7 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
                           {
                             type: 'text',
                             id: 'txtHeight',
-                            width: '45px',
+                            width: '200px',
                             label: editor.lang.common.height,
                             'default': 700,
                             required: true,
@@ -95,7 +95,7 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
             id: 'Upload',
             hidden: true,
             filebrowser: 'uploadButton',
-            label: "Upload File",
+            label: "Upload file",
             elements: [
               {
                 type: 'file',
