@@ -38,7 +38,7 @@ ns.Form = function (library, startLanguages, defaultLanguage) {
     if (library.indexOf('H5P.CoursePresentation') === -1 &&
         library.indexOf('H5P.BranchingScenario') === -1 &&
         library.indexOf('H5P.InteractiveVideo') === -1) {
-      ns.FullscreenBar(this.$form, library);
+      self.$title = ns.FullscreenBar(this.$form, library);
     }
   }
 
@@ -438,6 +438,16 @@ ns.Form.prototype.processSemantics = function (semantics, defaultParams, metadat
 
   // Create real children
   ns.processSemanticsChunk(semantics, this.params, this.$form.children('.tree'), this);
+
+  // listen title change and set title in editor
+  var self = this;
+  const setTitle = function () {
+    var title = $(this).val();
+    self.$title.text(title);
+  };
+  if(this.$title) {
+    this.metadataForm.on('titlechange', setTitle);
+  }
 };
 
 /**
