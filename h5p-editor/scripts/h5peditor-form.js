@@ -451,8 +451,9 @@ ns.Form.prototype.setTitle = function () {
   var self = this;
   const setTitle = function () {
     const titleField = H5PEditor.findField('title', this);
-    if (titleField && titleField.$input) {
-      const title = titleField.$input.val();
+    if (titleField && titleField.$input && titleField.$input.val() !== undefined) {
+      let title = titleField.$input.val();
+      title = (title.length > 48 ? title.substr(0, 45) + '...' : title);
       self.$title.text(title);
     }
   };
