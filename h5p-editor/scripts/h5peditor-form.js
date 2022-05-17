@@ -439,13 +439,27 @@ ns.Form.prototype.processSemantics = function (semantics, defaultParams, metadat
   // Create real children
   ns.processSemanticsChunk(semantics, this.params, this.$form.children('.tree'), this);
 
-  // listen title change and set title in editor
+  // set editor title based on content title
+  this.setTitle();
+
+};
+
+/**
+ * Sets the content title in editor and listen changes for title input and change accordingly
+ */
+ns.Form.prototype.setTitle = function () {
   var self = this;
   const setTitle = function () {
-    var title = $(this).val();
-    self.$title.text(title);
+    const titleField = H5PEditor.findField('title', this);
+    if (titleField && titleField.$input) {
+      const title = titleField.$input.val();
+      self.$title.text(title);
+    }
   };
-  if(this.$title) {
+  if (this.$title) {
+    // set initial title
+    setTitle.call(this.metadataForm);
+    // add listener to set title on change
     this.metadataForm.on('titlechange', setTitle);
   }
 };
