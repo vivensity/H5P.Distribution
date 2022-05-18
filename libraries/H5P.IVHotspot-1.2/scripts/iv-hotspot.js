@@ -76,7 +76,7 @@ H5P.IVHotspot = (function ($, EventDispatcher) {
           'class': 'blinking-hotspot'
         }));
       }
-      var alternativeTextContent = [parameters.texts.alternativeText, parameters.texts.label]
+      var alternativeTextContent = [parameters.texts.alternativeText]
         .filter(function (text) {
           return text !== undefined;
         }).join('. ');
