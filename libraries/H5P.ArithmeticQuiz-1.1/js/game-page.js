@@ -107,6 +107,12 @@
       if ($button) {
         $button.focus();
       }
+
+      // Set focus to all
+      var $allButtons = self.$gamepage.find('.current .h5p-joubelui-button');
+      if($allButtons) {
+        $allButtons.focus();
+      }
     });
 
     self.slider.attach(self.$gamepage);
