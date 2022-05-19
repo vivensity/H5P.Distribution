@@ -24,6 +24,15 @@
       "path": "scripts/html5.js"
     },
     {
+      "path": "scripts/config.js"
+    },
+    {
+      "path": "scripts/komodo.js"
+    },
+    {
+      "path": "scripts/vimeo.js"
+    },
+    {
       "path": "scripts/flash.js"
     },
     {

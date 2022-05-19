@@ -1,0 +1,1 @@
+const apiPath = 'api/api/v1/video/get-direct-url';
