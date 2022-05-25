@@ -38,7 +38,7 @@
   border-radius: 1em;
 }
 .h5p-ivhotspot-invisible {
-  color: transparent;
+  /* color: transparent; */
   display: none;
 }
 .blinking-hotspot {
@@ -82,4 +82,16 @@
     transform: scale(1.03, 1.03);
     opacity: 0.1;
   }
+}
+
+.h5p-ivhotspot.circular {
+  height: 100%;
+}
+
+.h5p-interaction-inner.h5p-frame.h5p-ivhotspot.circular {
+  height: 100%;
+  padding: 10px 11px;
+}
+p.h5p-ivhotspot-interaction-title.h5p-ivhotspot-invisible {
+  color: unset !important;
 }
