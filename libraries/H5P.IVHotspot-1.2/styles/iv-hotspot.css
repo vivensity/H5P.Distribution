@@ -6,7 +6,7 @@
   height: 100%;
 }
 .h5p-ivhotspot > a {
-  position: relative;
+  position: absolute;
   left: 0;
   top: 0;
   z-index: 1;
@@ -18,7 +18,7 @@
   text-decoration: none;
 }
 .h5p-ivhotspot > a > p {
-  /* display: table-cell; */
+  display: table-cell;
   text-align: center;
   vertical-align: middle;
 }
@@ -37,7 +37,9 @@
 .h5p-ivhotspot.rounded-rectangle .blinking-hotspot {
   border-radius: 1em;
 }
-
+.h5p-ivhotspot-invisible {
+  color: transparent !important;
+}
 .blinking-hotspot {
   position: absolute;
   left: -1px;
@@ -79,23 +81,4 @@
     transform: scale(1.03, 1.03);
     opacity: 0.1;
   }
-}
-
-.h5p-ivhotspot.circular {
-  height: 100%;
-}
-
-.h5p-interaction-inner.h5p-frame.h5p-ivhotspot.circular {
-  height: 100%;
-  padding: 10px 11px;
-}
-p.h5p-ivhotspot-interaction-title.h5p-ivhotspot-invisible {
-  color: unset !important;
-}
-.h5p-ivhotspot > a > h4 {
-  text-align: center;
-  vertical-align: middle;
-  padding: 5%;
-  font-size: 17px;
-  font-weight: 400;
 }
