@@ -57,8 +57,7 @@ H5P.IVHotspot = (function ($, EventDispatcher) {
       else {
         $a = $('<a>', {
           href: '#',
-          'aria-labelledby': 'ivhotspot-' + self.instanceIndex + '-description',
-          id : `id-${parameters.visuals.shape}-${self.instanceIndex}`
+          'aria-labelledby': 'ivhotspot-' + self.instanceIndex + '-description'
         }).on('click', function (event) {
           self.trigger('goto', parameters.destination.time);
           event.preventDefault();
@@ -77,7 +76,7 @@ H5P.IVHotspot = (function ($, EventDispatcher) {
           'class': 'blinking-hotspot'
         }));
       }
-      var alternativeTextContent = [parameters.texts.alternativeText]
+      var alternativeTextContent = [parameters.texts.alternativeText, parameters.texts.label]
         .filter(function (text) {
           return text !== undefined;
         }).join('. ');
@@ -87,37 +86,19 @@ H5P.IVHotspot = (function ($, EventDispatcher) {
         class: 'h5p-ivhotspot-invisible',
         text: alternativeTextContent
       }).appendTo($container);
-
+      console.log('$a->', $a);
       if (parameters.texts.label !== undefined) {
-        var parser = new DOMParser();
-        var new_Label = parser.parseFromString(parameters.texts.label, 'text/html');
         var $label = $('<p>', {
           class: 'h5p-ivhotspot-interaction-title',
-          text : `${alternativeTextContent}`
+          text: parameters.texts.label
         }).appendTo($a);
-        var $content = $('<h4>', {
-          class: 'h5p-ivhotspot-interaction-description',
-          text : `${parameters.texts.showLabel=== true ? new_Label.body.innerText : ""}`
-        }).appendTo($a);
-        
+
         if (!parameters.texts.showLabel) {
           $label.addClass('h5p-ivhotspot-invisible');
-          $content.addClass('h5p-ivhotspot-interaction-description');
         }
-
+       
         else if (parameters.texts.labelColor) {
-
-          if(parameters.visuals.shape == 'circular'){
-            $(`<style>#ivhotspot-${self.instanceIndex}-description { color: ${parameters.texts.labelColor} !important;display: none; margin :10% 20%; padding : 20px !important  }</style>`).appendTo($container);
-            $a.append(`<style> #id-${parameters.visuals.shape}-${self.instanceIndex}>p{color: ${parameters.texts.labelColor} !important ; } </style>`);
-            $a.append(`<style> #id-${parameters.visuals.shape}-${self.instanceIndex}>h4{color:${parameters.texts.labelColor} !important ; padding :  0% 14%} </style>`);
-            
-          }else{
-          $(`<style>#ivhotspot-${self.instanceIndex}-description { color: ${parameters.texts.labelColor} !important; display: none }</style>`).appendTo($container);
-          $a.append(`<style> #id-${parameters.visuals.shape}-${self.instanceIndex}>p{color:${parameters.texts.labelColor} !important} </style>`);
-          $a.append(`<style> #id-${parameters.visuals.shape}-${self.instanceIndex}>h4{color:${parameters.texts.labelColor} !important ; padding :  0% 14%} </style>`);
-          }
-          // $a.css('color', parameters.texts.labelColor);
+          $a.find('p').attr("style", `color: ${parameters.texts.labelColor} !important`);
         }
       }
 
