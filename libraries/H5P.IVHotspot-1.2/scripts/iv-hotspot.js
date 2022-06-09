@@ -57,7 +57,8 @@ H5P.IVHotspot = (function ($, EventDispatcher) {
       else {
         $a = $('<a>', {
           href: '#',
-          'aria-labelledby': 'ivhotspot-' + self.instanceIndex + '-description'
+          'aria-labelledby': 'ivhotspot-' + self.instanceIndex + '-description',
+          id : `id-${parameters.visuals.shape}-${self.instanceIndex}`
         }).on('click', function (event) {
           self.trigger('goto', parameters.destination.time);
           event.preventDefault();
@@ -98,7 +99,7 @@ H5P.IVHotspot = (function ($, EventDispatcher) {
         }
        
         else if (parameters.texts.labelColor) {
-          $a.find('p').attr("style", `color: ${parameters.texts.labelColor} !important`);
+          $a.append(`<style> #id-${parameters.visuals.shape}-${self.instanceIndex}>p{color: ${parameters.texts.labelColor} !important ; } </style>`);
         }
       }
 
