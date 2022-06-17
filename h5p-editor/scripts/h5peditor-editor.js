@@ -548,7 +548,7 @@ ns.hideAllButOne = function (element, win) {
           display: sibling.style.getPropertyValue('display'),
           priority: sibling.style.getPropertyPriority('display')
         });
-        sibling.style.setProperty('display', 'none', 'important');
+        sibling.style.setProperty('display', 'none');
       }
     }
 
