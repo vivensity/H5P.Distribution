@@ -17,16 +17,16 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
       ];
 
   return {
-    title: "Document Embed",
-    width: 400,
-    height: 200,
+    title: "Document embed custom",
+    width: 545,
+    height: "auto",
 
     contents:
         [
           //  document settings tab
           {
             id: 'settingsTab',
-            label: "Document Embed",
+            label: "Document embed custom",
             elements:
                 [
                   //  textarea
@@ -52,7 +52,7 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
                       }
                     ]
                   },
-                  
+
                   //  options
                   {
                     type: 'hbox',
@@ -82,37 +82,38 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
                           }
                         ]
                   },
-                  
-                           // Browse File Code
-                          {
-                            type: 'button',
-                            hidden: true,
-                            id: 'browse',
-                            label: editor.lang.common.browseServer,
-                            filebrowser: 'settingsTab:txtUrl',
-                          }
+
+                  // Browse File Code
+                  {
+                    type: 'button',
+                    hidden: true,
+                    id: 'browse',
+                    label: editor.lang.common.browseServer,
+                    filebrowser: 'settingsTab:txtUrl',
+                  }
                 ]
           },{
-            id: 'Upload',
-            hidden: true,
-            filebrowser: 'uploadButton',
-            label: "Upload file",
-            elements: [
-              {
-                type: 'file',
-                id: 'upload',
-                label: "Select File",
-                style: 'height:40px'
-              },
-              {
-                type: 'fileButton',
-                id: 'uploadButton',
-                filebrowser: 'settingsTab:txtUrl',
-                label: "Send it to server",
-                'for': [ 'Upload', 'upload' ]
-              }
-            ]
-         }
+          id: 'Upload',
+          hidden: true,
+          filebrowser: 'uploadButton',
+          label: "Upload file",
+          elements: [
+            {
+              type: 'file',
+              id: 'upload',
+              label: "Select File",
+              style: 'height:40px',
+              className: 'doc-upload'
+            },
+            {
+              type: 'fileButton',
+              id: 'uploadButton',
+              filebrowser: 'settingsTab:txtUrl',
+              label: "Send it to server",
+              'for': [ 'Upload', 'upload' ]
+            }
+          ]
+        }
         ],
     onOk: function () {
       var dialog = this;

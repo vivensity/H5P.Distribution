@@ -1,35 +1,42 @@
 .insertfiles select{
-  width: 390px;
-  height: 200px !important;
+    width: 390px;
+    height: 200px !important;
 }
 
 .cke_dialog_contents,.cke_dialog_footer {
-  background-color: #fff !important;
+    background-color: #fff !important;
+    margin-top: 50px !important;
 }
 
 .cke_dialog_title  {
-  color: #084892;
+    color: #084892;
+    padding: 32px 0 16px 32px !important;
+    font-size: 32px !important;
+
 }
 
 a.cke_dialog_tab {
-  color: #084892;
-  background: none !important;
+    color: #084892;
+    background: none !important;
+    margin-top: 24px !important;
+    margin-left: 48px !important;
+    border-bottom: #084892 1px solid;
 }
 
 a.cke_dialog_tab_selected {
-  border-bottom: 3px solid #084892 !important;
+    border-bottom: 3px solid #084892 !important;
 }
 
 .cke_dialog_ui_input_text {
-  border-radius: 2px !important;
+    border-radius: 2px !important;
 }
 
 .cke_dialog_ui_labeled_label {
-  font-weight: lighter !important;
+    font-weight: lighter !important;
 }
 
 .cke_dialog_ui_text {
-  margin-top: 5px;
+    margin-top: 5px;
 }
 
 .cke_dialog_ui_button_cancel {
@@ -37,7 +44,7 @@ a.cke_dialog_tab_selected {
     border: 1px solid #084892 !important;
     border-radius: 24px !important;
     color: #084892 !important;
-    
+
 }
 
 .cke_dialog_ui_button_ok {
@@ -49,19 +56,102 @@ a.cke_dialog_tab_selected {
 }
 
 .cke_dialog_ui_button_ok  span{
-  background: none !important;
+    background: none !important;
 }
 
 .cke_dialog_ui_button_ok > .cke_dialog_ui_button {
-  color: #fff !important;
-  font-weight: bold !important;
+    color: #fff !important;
+    font-weight: bold !important;
 }
 
 .cke_dialog_ui_button_cancel > .cke_dialog_ui_button {
-  color: #204892 !important;
-  font-weight: bold !important;
+    color: #204892 !important;
+    font-weight: bold !important;
 }
 
 a.cke_dialog_ui_button_cancel span {
-  background: none !important;
+    background: none !important;
+}
+
+.cke_dialog_page_contents > table {
+    width: auto !important;
+}
+div.cke_dialog_ui_input_textarea, div.cke_dialog_ui_input_text{
+    border: none !important;
+}
+
+textarea.cke_dialog_ui_input_textarea, input.cke_dialog_ui_input_text {
+    padding: 8px !important;
+    border-radius: 4px;
+    border: 1px solid #a0a0a0 !important;
+    margin-top: 4px;
+}
+
+td.cke_dialog_ui_hbox_first, td.cke_dialog_ui_hbox_last {
+    width: auto !important;
+}
+
+td.cke_dialog_ui_hbox_first > div {
+    padding-right: 50px !important;
+}
+
+input[name="upload"] {
+    color: yellow !important;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.doc-upload {
+    display: inline-block;
+    padding: 70px 100px;
+    cursor: pointer;
+    background-color: rgb(241, 241, 241);
+    border-radius: 8px;
+    background-image: url(data:image/png;base64,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);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.doc-upload {
+    position: relative;
+}
+
+.doc-upload > label {
+    float: left;
+    margin-top: -40px;
+    margin-left: -40px;
+}
+.doc-upload::before {
+    background-color: #f7faff;
+    padding: 6px 12px;
+    content: url("data:image/svg+xml,%3Csvg width='15' height='12' class='mr-2' viewBox='0 0 15 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.5 7V10.2C1.5 10.4122 1.65804 10.6157 1.93934 10.7657C2.22064 10.9157 2.60218 11 3 11H12C12.3978 11 12.7794 10.9157 13.0607 10.7657C13.342 10.6157 13.5 10.4122 13.5 10.2V7' stroke='%23084892' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3C/path%3E%3Cpath d='M10.1499 3.39999L7.5249 1L4.8999 3.39999' stroke='%23084892' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3C/path%3E%3Cpath d='M7.5 1V8.79997' stroke='%23084892' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3C/path%3E%3C/svg%3E") " Select file ";
+    position: absolute;
+    top: 16px;
+    left: 24px;
+    border-radius: 4px;
+}
+.doc-upload:after {
+    position: absolute;
+    bottom: 40px;
+    left: 140px;
+    font-size: 14px;
+    content: 'Drag & drop file or browse  to upload' !important;
+}
+.cke_dialog_footer {
+    padding-right: 10px;
+}
+
+.cke_dialog_ui_input_file {
+    margin: -40px 50px 0 -35px;
+}
+
+.cke_dialog_close_button {
+    top: 30px !important;
+    right: 15px !important;
+    background-position: 0 !important;
+    background-image: url("data:image/svg+xml,%3Csvg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='times' class='svg-inline--fa fa-times fa-w-11 cross-all-pop' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 352 512'%3E%3Cpath fill='currentColor' d='M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z'%3E%3C/path%3E%3C/svg%3E") !important;
 }
