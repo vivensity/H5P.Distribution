@@ -49,7 +49,8 @@ H5P.VideoBrightcove = (function ($) {
     var $wrapper = $('<div/>').attr('id','curriki-player-wrapper');
     var brightcoveData = getId({videoId});
     let videoJsTagId = 'curriki-brightcove';
-    
+    var bcPlayerExternalSeeked = false;
+
     if (window.bcPlayerExternal) {
       window.bcPlayerExternalDefaultWidth = window.bcPlayerExternal.currentWidth();
       window.bcPlayerExternalDefaultHeight = window.bcPlayerExternal.currentHeight();
@@ -124,6 +125,7 @@ H5P.VideoBrightcove = (function ($) {
       if (window.bcPlayerExternal) {
         initializePlayerEvents();
         player.on('seeked', function () {
+          bcPlayerExternalSeeked = true;
           const time = self.parent.controls.$slider.slider('value');
           self.parent.controls.$slider.slider('option','slide')({},{value: time});
         });
@@ -281,7 +283,8 @@ H5P.VideoBrightcove = (function ($) {
      * @param {Number} time
      */
     self.seek = function (time) {
-      if (!player || !player.currentTime || Boolean(window.bcPlayerExternal)) {
+      if (!player || !player.currentTime || (Boolean(window.bcPlayerExternal) && bcPlayerExternalSeeked)) {
+        bcPlayerExternalSeeked = false;
         return;
       }
       player.currentTime(time);
