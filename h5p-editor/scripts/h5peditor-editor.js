@@ -55,7 +55,7 @@ ns.Editor = function (library, defaultParams, replace, iframeLoaded) {
       '<div class="h5p-editor h5peditor">' + ns.t('core', 'loading') + '</div>' +
       '</body></html>');
     iframe.contentDocument.close();
-    iframe.contentDocument.documentElement.style.overflow = 'hidden';
+    iframe.contentDocument.documentElement.style.overflow = 'unset !important';
   };
 
   /**
@@ -548,7 +548,7 @@ ns.hideAllButOne = function (element, win) {
           display: sibling.style.getPropertyValue('display'),
           priority: sibling.style.getPropertyPriority('display')
         });
-        sibling.style.setProperty('display', 'none', 'important');
+        sibling.style.setProperty('display', 'none');
       }
     }
 
