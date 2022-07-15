@@ -7,216 +7,6 @@
     "importance": "high",
     "fields": [
       {
-        "name": "video",
-        "type": "group",
-        "label": "Upload/embed video",
-        "importance": "high",
-        "fields": [
-          {
-            "name": "files",
-            "type": "video",
-            "label": "Add a video",
-            "importance": "high",
-            "description": "Click below to add a video you wish to use in your interactive video. You can add a video link or upload video files. It is possible to add several versions of the video with different qualities. To ensure maximum support in browsers at least add a version in webm and mp4 formats.",
-            "extraAttributes": [
-              "metadata"
-            ],
-            "enableCustomQualityLabel": true
-          },
-          {
-            "name": "startScreenOptions",
-            "type": "group",
-            "label": "Start screen options (unsupported for YouTube videos)",
-            "importance": "low",
-            "fields": [
-              {
-                "name": "title",
-                "type": "text",
-                "label": "The title of this interactive video",
-                "importance": "low",
-                "maxLength": 60,
-                "default": "Interactive Video",
-                "description": "Used in summaries, statistics etc."
-              },
-              {
-                "name": "hideStartTitle",
-                "type": "boolean",
-                "label": "Hide title on video start screen",
-                "importance": "low",
-                "optional": true,
-                "default": false
-              },
-              {
-                "name": "shortStartDescription",
-                "type": "text",
-                "label": "Short description (Optional)",
-                "importance": "low",
-                "optional": true,
-                "maxLength": 120,
-                "description": "Optional. Display a short description text on the video start screen. Does not work for YouTube videos."
-              },
-              {
-                "name": "poster",
-                "type": "image",
-                "label": "Poster image",
-                "importance": "low",
-                "optional": true,
-                "description": "Image displayed before the user launches the video. Does not work for YouTube Videos."
-              }
-            ]
-          },
-          {
-            "name": "ltiConsumerSettings",
-            "type": "group",
-            "label": "LTI Consumer Settings",
-            "importance": "low",
-            "optional": true,
-            "fields": [
-              {
-                "name": "title",
-                "type": "text",
-                "label": "The title of this tab container",
-                "importance": "low",
-                "maxLength": 60,
-                "default": "LTI Consumer Settings",
-                "description": "Used in summaries, statistics etc."
-              },
-              {
-                "name": "tool_title",
-                "type": "text",
-                "label": "Tool Name",
-                "importance": "low",
-                "maxLength": 60,
-                "default": "Safari Montage",
-                "description": "The tool name is used to identify the tool provider."
-              },
-              {
-                "name": "tool_url",
-                "type": "text",
-                "label": "Tool Url",
-                "importance": "low",
-                "maxLength": 300,
-                "description": "The tool Url is used to match Urls to the correct tool configuration."
-              },
-              {
-                "type": "text",
-                "name": "tool_description",
-                "widget": "html",
-                "label": "Tool Description",
-                "optional": true,
-                "description": "Description of the tool.",
-                "tags": [
-                  "strong",
-                  "em",
-                  "sub"
-                ],
-                "font": {
-                  "size": true,
-                  "family": true,
-                  "color": true,
-                  "background": true
-                }
-              },
-              {
-                "name": "tool_consumer_key",
-                "type": "text",
-                "label": "Consumer Key",
-                "importance": "low",
-                "maxLength": 500,
-                "description": "The consumer key can be though of as a username used to authenticate access to the tool."
-              },
-              {
-                "name": "tool_secret_key",
-                "type": "text",
-                "label": "Shared Secret",
-                "importance": "low",
-                "maxLength": 500,
-                "description": "The shared secret can be though of as a password used to authenticate access to the tool."
-              }
-            ]
-          },
-          {
-            "name": "textTracks",
-            "type": "group",
-            "label": "Text tracks (unsupported for YouTube videos)",
-            "importance": "low",
-            "fields": [
-              {
-                "name": "videoTrack",
-                "type": "list",
-                "label": "Available text tracks",
-                "importance": "low",
-                "optional": true,
-                "entity": "Track",
-                "min": 0,
-                "defaultNum": 1,
-                "field": {
-                  "name": "track",
-                  "type": "group",
-                  "label": "Track",
-                  "importance": "low",
-                  "expanded": false,
-                  "fields": [
-                    {
-                      "name": "label",
-                      "type": "text",
-                      "label": "Track label",
-                      "description": "Used if you offer multiple tracks and the user has to choose a track. For instance 'Spanish subtitles' could be the label of a Spanish subtitle track.",
-                      "importance": "low",
-                      "default": "Subtitles",
-                      "optional": true
-                    },
-                    {
-                      "name": "kind",
-                      "type": "select",
-                      "label": "Type of text track",
-                      "importance": "low",
-                      "default": "subtitles",
-                      "options": [
-                        {
-                          "value": "subtitles",
-                          "label": "Subtitles"
-                        },
-                        {
-                          "value": "captions",
-                          "label": "Captions"
-                        },
-                        {
-                          "value": "descriptions",
-                          "label": "Descriptions"
-                        }
-                      ]
-                    },
-                    {
-                      "name": "srcLang",
-                      "type": "text",
-                      "label": "Source language, must be defined for subtitles",
-                      "importance": "low",
-                      "default": "en",
-                      "description": "Must be a valid BCP 47 language tag. If 'Subtitles' is the type of text track selected, the source language of the track must be defined."
-                    },
-                    {
-                      "name": "track",
-                      "type": "file",
-                      "label": "Track source (WebVTT file)",
-                      "importance": "low"
-                    }
-                  ]
-                }
-              },
-              {
-                "name": "defaultTrackLabel",
-                "type": "text",
-                "label": "Default text track",
-                "description": "If left empty or not matching any of the text tracks the first text track will be used as the default.",
-                "importance": "low",
-                "optional": true
-              }
-            ]
-          }
-        ]
-      },
-      {
         "name": "assets",
         "type": "group",
         "label": "Add interactions",
@@ -675,6 +465,146 @@
         ]
       },
       {
+        "name": "video",
+        "type": "group",
+        "label": "Upload/embed video",
+        "importance": "high",
+        "fields": [
+          {
+            "name": "files",
+            "type": "video",
+            "label": "Add a video",
+            "importance": "high",
+            "description": "Click below to add a video you wish to use in your interactive video. You can add a video link or upload video files. It is possible to add several versions of the video with different qualities. To ensure maximum support in browsers at least add a version in webm and mp4 formats.",
+            "extraAttributes": [
+              "metadata"
+            ],
+            "enableCustomQualityLabel": true
+          },
+          {
+            "name": "startScreenOptions",
+            "type": "group",
+            "label": "Start screen options (unsupported for YouTube videos)",
+            "importance": "low",
+            "fields": [
+              {
+                "name": "title",
+                "type": "text",
+                "label": "The title of this interactive video",
+                "importance": "low",
+                "maxLength": 60,
+                "default": "Interactive Video",
+                "description": "Used in summaries, statistics etc."
+              },
+              {
+                "name": "hideStartTitle",
+                "type": "boolean",
+                "label": "Hide title on video start screen",
+                "importance": "low",
+                "optional": true,
+                "default": false
+              },
+              {
+                "name": "shortStartDescription",
+                "type": "text",
+                "label": "Short description (Optional)",
+                "importance": "low",
+                "optional": true,
+                "maxLength": 120,
+                "description": "Optional. Display a short description text on the video start screen. Does not work for YouTube videos."
+              },
+              {
+                "name": "poster",
+                "type": "image",
+                "label": "Poster image",
+                "importance": "low",
+                "optional": true,
+                "description": "Image displayed before the user launches the video. Does not work for YouTube Videos."
+              }
+            ]
+          },
+          {
+            "name": "textTracks",
+            "type": "group",
+            "label": "Text tracks (unsupported for YouTube videos)",
+            "importance": "low",
+            "fields": [
+              {
+                "name": "videoTrack",
+                "type": "list",
+                "label": "Available text tracks",
+                "importance": "low",
+                "optional": true,
+                "entity": "Track",
+                "min": 0,
+                "defaultNum": 1,
+                "field": {
+                  "name": "track",
+                  "type": "group",
+                  "label": "Track",
+                  "importance": "low",
+                  "expanded": false,
+                  "fields": [
+                    {
+                      "name": "label",
+                      "type": "text",
+                      "label": "Track label",
+                      "description": "Used if you offer multiple tracks and the user has to choose a track. For instance Spanish subtitles could be the label of a Spanish subtitle track.",
+                      "importance": "low",
+                      "default": "Subtitles",
+                      "optional": true
+                    },
+                    {
+                      "name": "kind",
+                      "type": "select",
+                      "label": "Type of text track",
+                      "importance": "low",
+                      "default": "subtitles",
+                      "options": [
+                        {
+                          "value": "subtitles",
+                          "label": "Subtitles"
+                        },
+                        {
+                          "value": "captions",
+                          "label": "Captions"
+                        },
+                        {
+                          "value": "descriptions",
+                          "label": "Descriptions"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "srcLang",
+                      "type": "text",
+                      "label": "Source language, must be defined for subtitles",
+                      "importance": "low",
+                      "default": "en",
+                      "description": "Must be a valid BCP 47 language tag. If Subtitles is the type of text track selected, the source language of the track must be defined."
+                    },
+                    {
+                      "name": "track",
+                      "type": "file",
+                      "label": "Track source (WebVTT file)",
+                      "importance": "low"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "defaultTrackLabel",
+                "type": "text",
+                "label": "Default text track",
+                "description": "If left empty or not matching any of the text tracks the first text track will be used as the default.",
+                "importance": "low",
+                "optional": true
+              }
+            ]
+          }
+        ]
+      },
+      {
         "name": "summary",
         "type": "group",
         "label": "Summary task",
@@ -799,7 +729,7 @@
         "default": false,
         "label": "Deactivate sound",
         "importance": "low",
-        "description": "Enabling this option will deactivate the video's sound and prevent it from being switched on."
+        "description": "Enabling this option will deactivate the videos sound and prevent it from being switched on."
       }
     ]
   },
