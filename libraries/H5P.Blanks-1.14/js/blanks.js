@@ -111,6 +111,10 @@ H5P.Blanks = (function ($, Question) {
     if (this.contentData !== undefined && this.contentData.previousState !== undefined) {
       this.previousState = this.contentData.previousState;
     }
+    // to set parent in self if present in content data
+    if (self.parent === undefined && contentData && contentData.parent) {
+      self.parent = contentData.parent;
+    }
 
     // Clozes
     this.clozes = [];
