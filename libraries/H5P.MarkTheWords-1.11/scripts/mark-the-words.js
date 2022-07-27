@@ -87,8 +87,8 @@
 
     // check is parent is IV or QS, if so then on open then activity will be started
     const isEmbedInComplexActivity = this.contentData && this.contentData.parent && this.contentData.parent.contentData
-      && this.contentData.parent.contentData.metadata && this.contentData.parent.contentData.metadata.contentType
-        && ['Interactive Video', 'Brightcove Interactive Video', 'Question Set'].includes(this.contentData.parent.contentData.metadata.contentType);
+      && this.contentData.parent.contentData.libraryInfo && this.contentData.parent.contentData.libraryInfo.machineName
+      && isDynamicTasks.includes(this.contentData.parent.contentData.libraryInfo.machineName);
 
     if(!isEmbedInComplexActivity) {
       // for XAPI duration
@@ -96,6 +96,13 @@
     }
 
   };
+
+  var isDynamicTasks = [
+    'H5P.InteractiveVideo',
+    'H5P.BrightcoveInteractiveVideo',
+    'H5P.CurrikiInteractiveVideo',
+    'H5P.QuestionSet'
+  ];
 
   /**
    * Recursive function that creates html for the words
