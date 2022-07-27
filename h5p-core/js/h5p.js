@@ -910,6 +910,17 @@ H5P.newRunnable = function (library, contentId, $attachTo, skipResize, extras) {
     extras.metadata = library.metadata;
   }
 
+  // for knowing library details before creation of instance
+  if (extras.libraryInfo === undefined) {
+    extras.libraryInfo = {
+      versionedName: library.library,
+      versionedNameNoSpaces: machineName + '-' + versionSplit[0] + '.' + versionSplit[1],
+      machineName: machineName,
+      majorVersion: versionSplit[0],
+      minorVersion: versionSplit[1]
+    };
+  }
+
   // Makes all H5P libraries extend H5P.ContentType:
   var standalone = extras.standalone || false;
   // This order makes it possible for an H5P library to override H5P.ContentType functions!
