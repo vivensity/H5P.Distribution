@@ -111,6 +111,10 @@ H5P.Blanks = (function ($, Question) {
     if (this.contentData !== undefined && this.contentData.previousState !== undefined) {
       this.previousState = this.contentData.previousState;
     }
+    // to set parent in self if present in content data
+    if (self.parent === undefined && contentData && contentData.parent) {
+      self.parent = contentData.parent;
+    }
 
     // Clozes
     this.clozes = [];
@@ -177,9 +181,36 @@ H5P.Blanks = (function ($, Question) {
     // Restore previous state
     self.setH5PUserState();
 
-    // start activity time
-    self.startStopWatch();
+    // check is parent is IV or QS, if so then on open then activity will be started
+    const isEmbedInComplexActivity = this.contentData && this.contentData.parent && this.contentData.parent.contentData
+        && this.contentData.parent.contentData.libraryInfo && this.contentData.parent.contentData.libraryInfo.machineName
+        && isDynamicTasks.includes(this.contentData.parent.contentData.libraryInfo.machineName);
+
+    if(!isEmbedInComplexActivity) {
+      // start activity time
+      self.startStopWatch();
+    }
+
+    /**
+     * Overrides the set activity started method of the superclass (H5P.EventDispatcher) and calls it
+     * at the same time.
+     */
+    this.setActivityStarted = (function (original) {
+      return function () {
+        original.call(self);
+        self.resetStopWatch();
+        self.startStopWatch();
+      };
+    })(this.setActivityStarted);
+
   }
+
+  var isDynamicTasks = [
+    'H5P.InteractiveVideo',
+    'H5P.BrightcoveInteractiveVideo',
+    'H5P.CurrikiInteractiveVideo',
+    'H5P.QuestionSet'
+  ];
 
   // Inheritance
   Blanks.prototype = Object.create(Question.prototype);
