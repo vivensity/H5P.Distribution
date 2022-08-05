@@ -57,7 +57,8 @@ H5P.IVHotspot = (function ($, EventDispatcher) {
       else {
         $a = $('<a>', {
           href: '#',
-          'aria-labelledby': 'ivhotspot-' + self.instanceIndex + '-description'
+          'aria-labelledby': 'ivhotspot-' + self.instanceIndex + '-description',
+          id : `id-${parameters.visuals.shape}-${self.instanceIndex}`
         }).on('click', function (event) {
           self.trigger('goto', parameters.destination.time);
           event.preventDefault();
@@ -86,21 +87,19 @@ H5P.IVHotspot = (function ($, EventDispatcher) {
         class: 'h5p-ivhotspot-invisible',
         text: alternativeTextContent
       }).appendTo($container);
-
+      console.log('$a->', $a);
       if (parameters.texts.label !== undefined) {
-        var parser = new DOMParser();
-        var new_Label = parser.parseFromString(parameters.texts.label, 'text/html');
         var $label = $('<p>', {
           class: 'h5p-ivhotspot-interaction-title',
-          text: new_Label.body.innerText
+          text: parameters.texts.label
         }).appendTo($a);
 
         if (!parameters.texts.showLabel) {
           $label.addClass('h5p-ivhotspot-invisible');
         }
-
+       
         else if (parameters.texts.labelColor) {
-          $a.css('color', parameters.texts.labelColor);
+          $a.append(`<style> #id-${parameters.visuals.shape}-${self.instanceIndex}>p{color: ${parameters.texts.labelColor} !important ; } </style>`);
         }
       }
 

@@ -315,7 +315,7 @@
   {
     "name": "behaviour",
     "type": "group",
-    "label": "Behavioural settings",
+    "label": "Behavior settings",
     "importance": "low",
     "description": "These options will let you control how the task behaves.",
     "optional": false,

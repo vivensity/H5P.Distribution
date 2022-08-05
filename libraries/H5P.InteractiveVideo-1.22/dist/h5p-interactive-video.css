@@ -433,8 +433,12 @@
   height: inherit;
 }
 
-.h5p-interactive-video .h5p-interaction-inner.h5p-ivhotspot {
+.h5peditor-panes .h5p-interactive-video .h5p-interaction-inner.h5p-ivhotspot {
   height: 100%;
+}
+
+.h5p-interactive-video .h5p-interaction-inner.h5p-ivhotspot {
+  /* height: 100%; */
 }
 
 .h5p-interactive-video .h5p-interaction-inner.h5p-text {
@@ -2288,11 +2292,14 @@
 
 .h5p-interactive-video-endscreen-submit-button-container {
   width: 100%;
+  margin-top: 1em;
 }
 
 .h5p-interactive-video-endscreen-submit-button {
   font-size: 0.7em;
   background: #55a964;
+  float: right;
+  height: 2.5em;
 }
 
 .h5p-interactive-video-endscreen-submit-button-hidden > .h5p-joubelui-button {
@@ -2361,7 +2368,7 @@
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 16em;
+  max-height: 14vh;
 }
 
 .h5p-interactive-video-endscreen-overview-table::-webkit-scrollbar {
