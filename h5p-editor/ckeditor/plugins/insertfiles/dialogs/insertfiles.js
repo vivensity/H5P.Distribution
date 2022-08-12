@@ -17,16 +17,16 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
       ];
 
   return {
-    title: "Document Embed",
-    width: 400,
-    height: 200,
+    title: "Document embed custom",
+    width: 545,
+    height: "auto",
 
     contents:
         [
           //  document settings tab
           {
             id: 'settingsTab',
-            label: "Document Embed",
+            label: "Document embed custom",
             elements:
                 [
                   //  textarea
@@ -52,7 +52,7 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
                       }
                     ]
                   },
-                  
+
                   //  options
                   {
                     type: 'hbox',
@@ -63,7 +63,7 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
                           //  width
                           {
                             type: 'text',
-                            width: '45px',
+                            width: '200px',
                             id: 'txtWidth',
                             label: editor.lang.common.width,
                             'default': 600,
@@ -74,44 +74,46 @@ CKEDITOR.dialog.add('insertfiles', function (editor) {
                           {
                             type: 'text',
                             id: 'txtHeight',
-                            width: '45px',
+                            width: '200px',
                             label: editor.lang.common.height,
                             'default': 700,
                             required: true,
                             validate: CKEDITOR.dialog.validate.integer(editor.lang.insertfiles.alertHeight)
-                          },
-                           // Browse File Code
-                          {
-                            type: 'button',
-                            hidden: true,
-                            id: 'browse',
-                            label: editor.lang.common.browseServer,
-                            filebrowser: 'settingsTab:txtUrl',
                           }
                         ]
+                  },
+
+                  // Browse File Code
+                  {
+                    type: 'button',
+                    hidden: true,
+                    id: 'browse',
+                    label: editor.lang.common.browseServer,
+                    filebrowser: 'settingsTab:txtUrl',
                   }
                 ]
           },{
-            id: 'Upload',
-            hidden: true,
-            filebrowser: 'uploadButton',
-            label: "Upload File",
-            elements: [
-              {
-                type: 'file',
-                id: 'upload',
-                label: "Select File",
-                style: 'height:40px'
-              },
-              {
-                type: 'fileButton',
-                id: 'uploadButton',
-                filebrowser: 'settingsTab:txtUrl',
-                label: "Send it to server",
-                'for': [ 'Upload', 'upload' ]
-              }
-            ]
-         }
+          id: 'Upload',
+          hidden: true,
+          filebrowser: 'uploadButton',
+          label: "Upload file",
+          elements: [
+            {
+              type: 'file',
+              id: 'upload',
+              label: "Select File",
+              style: 'height:40px',
+              className: 'doc-upload'
+            },
+            {
+              type: 'fileButton',
+              id: 'uploadButton',
+              filebrowser: 'settingsTab:txtUrl',
+              label: "Send it to server",
+              'for': [ 'Upload', 'upload' ]
+            }
+          ]
+        }
         ],
     onOk: function () {
       var dialog = this;

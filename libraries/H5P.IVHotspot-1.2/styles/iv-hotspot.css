@@ -6,7 +6,7 @@
   height: 100%;
 }
 .h5p-ivhotspot > a {
-  position: relative;
+  position: absolute;
   left: 0;
   top: 0;
   z-index: 1;
@@ -38,7 +38,7 @@
   border-radius: 1em;
 }
 .h5p-ivhotspot-invisible {
-  color: transparent;
+  color: transparent !important;
 }
 .blinking-hotspot {
   position: absolute;
