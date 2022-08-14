@@ -106,8 +106,8 @@ H5PEditor.FullscreenBar = (function ($) {
     backToEditButton.style.display = 'none';
 
     $bar.append(proceedButton);
-    $bar.append(previewButton);
-    $bar.append(backToEditButton);
+    // $bar.append(previewButton);
+    // $bar.append(backToEditButton);
     $bar.append(fullscreenButton);
     $mainForm.prepend($bar);
 
