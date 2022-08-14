@@ -48,7 +48,66 @@ H5PEditor.FullscreenBar = (function ($) {
       exitSemiFullscreen();
     });
 
+    // Create 'Preview to save' button
+    const previewButton = createButton('preview', H5PEditor.t('core', 'previewButtonLabel'), function () {
+
+      backToEditButton.style.display = 'block';
+      this.style.display = 'none';
+
+      const  previousPreviewWrapper = document.querySelector(".h5p-preview-wrapper");
+      if(previousPreviewWrapper) {
+        previousPreviewWrapper.remove();
+      }
+
+      const previewWrapper = document.createElement('div');
+      previewWrapper.classList.add('h5p-preview-wrapper');
+      previewWrapper.classList.add('h5p-frame');
+
+      const previewContainer = document.createElement('div');
+      previewContainer.classList.add('preview-container');
+
+      const previewContent = document.createElement('div');
+      previewContent.classList.add('preview-content');
+
+      previewContainer.append(previewContent);
+      previewWrapper.append(previewContainer);
+
+      $mainForm.find('.tree').after(previewWrapper);
+
+      hideOrDisplayEditorForm('hide', $mainForm);
+      try {
+        H5P.newRunnable(
+            {
+              library: library,
+              // params: window.parent.h5peditor.current.h5pEditor.current.editorInstance.getParams(true).params
+              params: window.parent.h5peditorCopy.getParams(true).params
+            },
+            H5PEditor.contentId || 1,
+            H5P.jQuery(previewContent)
+        );
+      } catch(e) {
+
+      }
+    });
+
+    // Create 'Back to Edit' button
+    const backToEditButton = createButton('backToEdit', H5PEditor.t('core', 'backToEditLabel'), function () {
+
+      const  previousPreviewWrapper = document.querySelector(".h5p-preview-wrapper");
+      if(previousPreviewWrapper) {
+        previousPreviewWrapper.remove();
+      }
+      hideOrDisplayEditorForm('display', $mainForm);
+
+      previewButton.style.display = 'block';
+      this.style.display = 'none';
+    });
+
+    backToEditButton.style.display = 'none';
+
     $bar.append(proceedButton);
+    $bar.append(previewButton);
+    $bar.append(backToEditButton);
     $bar.append(fullscreenButton);
     $mainForm.prepend($bar);
 
@@ -86,6 +145,16 @@ H5PEditor.FullscreenBar = (function ($) {
     button.appendChild(content);
 
     return button;
+  };
+
+  const hideOrDisplayEditorForm = function (action, $mainForm) {
+    if (action === 'hide') {
+      $mainForm.find('.tree').css('display', 'none');
+      H5P.jQuery('.h5peditor-form.h5peditor-form-manager>.common').css('display', 'none');
+    } else if (action === 'display') {
+      $mainForm.find('.tree').css('display', 'block');
+      H5P.jQuery('.h5peditor-form.h5peditor-form-manager>.common').css('display', 'block');
+    }
   };
 
   return FullscreenBar;
