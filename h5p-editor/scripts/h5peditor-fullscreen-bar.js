@@ -50,48 +50,8 @@ H5PEditor.FullscreenBar = (function ($) {
 
     // Create 'Preview to save' button
     const previewButton = createButton('preview', H5PEditor.t('core', 'previewButtonLabel'), function () {
-      const self = this;
-      loadLibraryWithAllDependencies(library, function() {
-        backToEditButton.style.display = 'block';
-        self.style.display = 'none';
-
-        // remove previous container
-        const  previousPreviewWrapper = document.querySelector(".h5p-preview-wrapper");
-        if(previousPreviewWrapper) {
-          previousPreviewWrapper.remove();
-        }
-
-        const previewWrapper = document.createElement('div');
-        previewWrapper.classList.add('h5p-preview-wrapper');
-        previewWrapper.classList.add('h5p-frame');
-
-        const previewContainer = document.createElement('div');
-        previewContainer.classList.add('preview-container');
-
-        const previewContent = document.createElement('div');
-        previewContent.classList.add('preview-content');
-
-        previewContainer.append(previewContent);
-        previewWrapper.append(previewContainer);
-
-        $mainForm.find('.tree').after(previewWrapper);
-
-        hideOrDisplayEditorForm('hide', $mainForm);
-        try {
-          H5P.newRunnable(
-              {
-                library: library,
-                // params: window.parent.h5peditor.current.h5pEditor.current.editorInstance.getParams(true).params
-                params: window.parent.h5peditorCopy.getParams(true).params
-              },
-              H5PEditor.contentId || 1,
-              H5P.jQuery(previewContent)
-          );
-        } catch(e) {
-
-        }
-      })
-
+          const self = this;
+          loadLibraryWithAllDependencies(library, previewHandler);
     });
 
     // Create 'Back to Edit' button
@@ -238,5 +198,48 @@ H5PEditor.FullscreenBar = (function ($) {
         });
     }
   };
+
+    const previewHandler = function () {
+
+      // hide preview button
+      H5P.jQuery('.h5peditor-form-manager-backToEdit').css('display', 'block');
+      H5P.jQuery('.h5peditor-form-manager-preview').css('display', 'none');
+
+      // remove previous container
+      const previousPreviewWrapper = document.querySelector(".h5p-preview-wrapper");
+      if (previousPreviewWrapper) {
+        previousPreviewWrapper.remove();
+      }
+
+      const previewWrapper = document.createElement('div');
+      previewWrapper.classList.add('h5p-preview-wrapper');
+      previewWrapper.classList.add('h5p-frame');
+
+      const previewContainer = document.createElement('div');
+      previewContainer.classList.add('preview-container');
+
+      const previewContent = document.createElement('div');
+      previewContent.classList.add('preview-content');
+
+      previewContainer.append(previewContent);
+      previewWrapper.append(previewContainer);
+
+      $mainForm.find('.tree').after(previewWrapper);
+
+      hideOrDisplayEditorForm('hide', $mainForm);
+      try {
+        H5P.newRunnable(
+            {
+              library: library,
+              // params: window.parent.h5peditor.current.h5pEditor.current.editorInstance.getParams(true).params
+              params: window.parent.h5peditorCopy.getParams(true).params
+            },
+            H5PEditor.contentId || 1,
+            H5P.jQuery(previewContent)
+        );
+      } catch (e) {
+
+      }
+    };
   return FullscreenBar;
 }(ns.jQuery));
