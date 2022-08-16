@@ -224,6 +224,7 @@ H5PEditor.FullscreenBar = (function ($) {
       previewContainer.append(previewContent);
       previewWrapper.append(previewContainer);
 
+      let $mainForm = H5P.jQuery('.h5peditor-form.h5peditor-form-manager');
       $mainForm.find('.tree').after(previewWrapper);
 
       hideOrDisplayEditorForm('hide', $mainForm);
