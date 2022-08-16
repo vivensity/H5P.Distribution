@@ -50,44 +50,48 @@ H5PEditor.FullscreenBar = (function ($) {
 
     // Create 'Preview to save' button
     const previewButton = createButton('preview', H5PEditor.t('core', 'previewButtonLabel'), function () {
+      const self = this;
+      loadLibraryWithAllDependencies(library, function() {
+        backToEditButton.style.display = 'block';
+        self.style.display = 'none';
 
-      backToEditButton.style.display = 'block';
-      this.style.display = 'none';
+        // remove previous container
+        const  previousPreviewWrapper = document.querySelector(".h5p-preview-wrapper");
+        if(previousPreviewWrapper) {
+          previousPreviewWrapper.remove();
+        }
 
-      const  previousPreviewWrapper = document.querySelector(".h5p-preview-wrapper");
-      if(previousPreviewWrapper) {
-        previousPreviewWrapper.remove();
-      }
+        const previewWrapper = document.createElement('div');
+        previewWrapper.classList.add('h5p-preview-wrapper');
+        previewWrapper.classList.add('h5p-frame');
 
-      const previewWrapper = document.createElement('div');
-      previewWrapper.classList.add('h5p-preview-wrapper');
-      previewWrapper.classList.add('h5p-frame');
+        const previewContainer = document.createElement('div');
+        previewContainer.classList.add('preview-container');
 
-      const previewContainer = document.createElement('div');
-      previewContainer.classList.add('preview-container');
+        const previewContent = document.createElement('div');
+        previewContent.classList.add('preview-content');
 
-      const previewContent = document.createElement('div');
-      previewContent.classList.add('preview-content');
+        previewContainer.append(previewContent);
+        previewWrapper.append(previewContainer);
 
-      previewContainer.append(previewContent);
-      previewWrapper.append(previewContainer);
+        $mainForm.find('.tree').after(previewWrapper);
 
-      $mainForm.find('.tree').after(previewWrapper);
+        hideOrDisplayEditorForm('hide', $mainForm);
+        try {
+          H5P.newRunnable(
+              {
+                library: library,
+                // params: window.parent.h5peditor.current.h5pEditor.current.editorInstance.getParams(true).params
+                params: window.parent.h5peditorCopy.getParams(true).params
+              },
+              H5PEditor.contentId || 1,
+              H5P.jQuery(previewContent)
+          );
+        } catch(e) {
 
-      hideOrDisplayEditorForm('hide', $mainForm);
-      try {
-        H5P.newRunnable(
-            {
-              library: library,
-              // params: window.parent.h5peditor.current.h5pEditor.current.editorInstance.getParams(true).params
-              params: window.parent.h5peditorCopy.getParams(true).params
-            },
-            H5PEditor.contentId || 1,
-            H5P.jQuery(previewContent)
-        );
-      } catch(e) {
+        }
+      })
 
-      }
     });
 
     // Create 'Back to Edit' button
@@ -106,8 +110,8 @@ H5PEditor.FullscreenBar = (function ($) {
     backToEditButton.style.display = 'none';
 
     $bar.append(proceedButton);
-    // $bar.append(previewButton);
-    // $bar.append(backToEditButton);
+    $bar.append(previewButton);
+    $bar.append(backToEditButton);
     $bar.append(fullscreenButton);
     $mainForm.prepend($bar);
 
@@ -157,5 +161,82 @@ H5PEditor.FullscreenBar = (function ($) {
     }
   };
 
+  const loadLibraryWithAllDependencies = function (libraryName, callback) {
+    switch (ns.libraryCache[libraryName]) {
+      default:
+        // Get semantics from cache.
+        ns.libraryRequested(libraryName, callback);
+        break;
+
+      case 0:
+        // Add to queue.
+        if (ns.loadedCallbacks[libraryName] === undefined) {
+          ns.loadedCallbacks[libraryName] = [];
+        }
+        ns.loadedCallbacks[libraryName].push(callback);
+        break;
+
+      case undefined:
+        // Load dependencies.
+        ns.libraryCache[libraryName] = 0; // Indicates that others should queue.
+        ns.loadedCallbacks[libraryName] = []; // Other callbacks to run once loaded.
+        const library = ns.libraryFromString(libraryName);
+
+        let url = ns.getAjaxUrl('libraries/load-all-dependencies', library);
+
+        // Add content language to URL
+        if (ns.contentLanguage !== undefined) {
+          url += (url.indexOf('?') === -1 ? '?' : '&') + 'language=' + ns.contentLanguage;
+        }
+        // Add common fields default lanuage to URL
+        const defaultLanguage = ns.defaultLanguage; // Avoid changes after sending AJAX
+        if (defaultLanguage !== undefined) {
+          url += (url.indexOf('?') === -1 ? '?' : '&') + 'default-language=' + defaultLanguage;
+        }
+
+        // Fire away!
+        ns.$.ajax({
+          url: url,
+          success: function (libraryData) {
+            libraryData.translation = { // Used to cache all the translations
+              en: libraryData.semantics
+            };
+            let languageSemantics = [];
+            if (libraryData.language !== null) {
+              languageSemantics = JSON.parse(libraryData.language).semantics;
+              delete libraryData.language; // Avoid caching a lot of unused data
+            }
+            var semantics = ns.$.extend(true, [], libraryData.semantics, languageSemantics);
+            if (libraryData.defaultLanguage !== null) {
+              libraryData.translation[defaultLanguage] = JSON.parse(libraryData.defaultLanguage).semantics;
+              delete libraryData.defaultLanguage; // Avoid caching a lot of unused data
+              ns.updateCommonFieldsDefault(semantics, libraryData.translation[defaultLanguage]);
+            }
+            libraryData.semantics = semantics;
+            ns.libraryCache[libraryName] = libraryData;
+
+            ns.libraryRequested(libraryName, function (semantics) {
+              callback(semantics);
+
+              // Run queue.
+              if (ns.loadedCallbacks[libraryName]) {
+                for (var i = 0; i < ns.loadedCallbacks[libraryName].length; i++) {
+                  ns.loadedCallbacks[libraryName][i](semantics);
+                }
+              }
+            });
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            if (window['console'] !== undefined) {
+              console.warn('Ajax request failed');
+              console.warn(jqXHR);
+              console.warn(textStatus);
+              console.warn(errorThrown);
+            }
+          },
+          dataType: 'json'
+        });
+    }
+  };
   return FullscreenBar;
 }(ns.jQuery));
