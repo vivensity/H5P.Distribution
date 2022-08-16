@@ -122,24 +122,7 @@ H5PEditor.FullscreenBar = (function ($) {
   };
 
   const loadLibraryWithAllDependencies = function (libraryName, callback) {
-    switch (ns.libraryCache[libraryName]) {
-      default:
-        // Get semantics from cache.
-        ns.libraryRequested(libraryName, callback);
-        break;
-
-      case 0:
-        // Add to queue.
-        if (ns.loadedCallbacks[libraryName] === undefined) {
-          ns.loadedCallbacks[libraryName] = [];
-        }
-        ns.loadedCallbacks[libraryName].push(callback);
-        break;
-
-      case undefined:
         // Load dependencies.
-        ns.libraryCache[libraryName] = 0; // Indicates that others should queue.
-        ns.loadedCallbacks[libraryName] = []; // Other callbacks to run once loaded.
         const library = ns.libraryFromString(libraryName);
 
         let url = ns.getAjaxUrl('libraries/load-all-dependencies', library);
@@ -158,33 +141,52 @@ H5PEditor.FullscreenBar = (function ($) {
         ns.$.ajax({
           url: url,
           success: function (libraryData) {
-            libraryData.translation = { // Used to cache all the translations
-              en: libraryData.semantics
-            };
-            let languageSemantics = [];
-            if (libraryData.language !== null) {
-              languageSemantics = JSON.parse(libraryData.language).semantics;
-              delete libraryData.language; // Avoid caching a lot of unused data
-            }
-            var semantics = ns.$.extend(true, [], libraryData.semantics, languageSemantics);
-            if (libraryData.defaultLanguage !== null) {
-              libraryData.translation[defaultLanguage] = JSON.parse(libraryData.defaultLanguage).semantics;
-              delete libraryData.defaultLanguage; // Avoid caching a lot of unused data
-              ns.updateCommonFieldsDefault(semantics, libraryData.translation[defaultLanguage]);
-            }
-            libraryData.semantics = semantics;
-            ns.libraryCache[libraryName] = libraryData;
-
-            ns.libraryRequested(libraryName, function (semantics) {
-              callback(semantics);
-
-              // Run queue.
-              if (ns.loadedCallbacks[libraryName]) {
-                for (var i = 0; i < ns.loadedCallbacks[libraryName].length; i++) {
-                  ns.loadedCallbacks[libraryName][i](semantics);
-                }
+              // Add CSS.
+              if (libraryData.css !== undefined) {
+                libraryData.css.forEach(function (path) {
+                  if (!H5P.cssLoaded(path)) {
+                    H5PIntegration.loadedCss.push(path);
+                    if (path) {
+                      ns.$('head').append('<link ' +
+                          'rel="stylesheet" ' +
+                          'href="' + path + '" ' +
+                          'type="text/css" ' +
+                          '/>');
+                    }
+                  }
+                });
               }
-            });
+
+              // Add JS
+              var loadingJs = false;
+              if (libraryData.javascript !== undefined && libraryData.javascript.length) {
+                libraryData.javascript.forEach(function (path) {
+                  if (!H5P.jsLoaded(path)) {
+                    loadingJs = true;
+                    ns.loadJs(path, function (err) {
+                      if (err) {
+                        console.error('Error while loading script', err);
+                        return;
+                      }
+
+                      var isFinishedLoading = libraryData.javascript.reduce(function (hasLoaded, jsPath) {
+                        return hasLoaded && H5P.jsLoaded(jsPath);
+                      }, true);
+
+                      if (isFinishedLoading) {
+                        callback();
+                      }
+                    });
+                  }
+                });
+              }
+              if (!loadingJs) {
+                callback();
+              }
+            else {
+              // Already loaded, run callback
+              callback();
+            }
           },
           error: function (jqXHR, textStatus, errorThrown) {
             if (window['console'] !== undefined) {
@@ -196,7 +198,6 @@ H5PEditor.FullscreenBar = (function ($) {
           },
           dataType: 'json'
         });
-    }
   };
 
     const previewHandler = function () {
