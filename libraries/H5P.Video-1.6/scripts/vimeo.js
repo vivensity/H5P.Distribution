@@ -712,6 +712,15 @@ H5P.VideoVimeo = (function ($) {
       });
     });
 
+    // play or pause on clicking video
+    video.addEventListener('click', function () {
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    });
+
     // Alternative to 'canplay' event
     /*self.on('resize', function () {
       if (video.offsetParent === null) {
