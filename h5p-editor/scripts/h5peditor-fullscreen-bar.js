@@ -174,18 +174,18 @@ H5PEditor.FullscreenBar = (function ($) {
                       }, true);
 
                       if (isFinishedLoading) {
-                        callback();
+                        callback(libraryName);
                       }
                     });
                   }
                 });
               }
               if (!loadingJs) {
-                callback();
+                callback(libraryName);
               }
             else {
               // Already loaded, run callback
-              callback();
+              callback(libraryName);
             }
           },
           error: function (jqXHR, textStatus, errorThrown) {
@@ -200,7 +200,7 @@ H5PEditor.FullscreenBar = (function ($) {
         });
   };
 
-    const previewHandler = function () {
+    const previewHandler = function (library) {
 
       // hide preview button
       H5P.jQuery('.h5peditor-form-manager-backToEdit').css('display', 'block');
@@ -240,7 +240,7 @@ H5PEditor.FullscreenBar = (function ($) {
             H5P.jQuery(previewContent)
         );
       } catch (e) {
-
+        console.error(e);
       }
     };
   return FullscreenBar;
