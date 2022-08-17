@@ -236,7 +236,7 @@ H5PEditor.FullscreenBar = (function ($) {
               // params: window.parent.h5peditor.current.h5pEditor.current.editorInstance.getParams(true).params
               params: window.parent.h5peditorCopy.getParams(true).params
             },
-            H5PEditor.contentId || 1,
+            undefined,
             H5P.jQuery(previewContent)
         );
       } catch (e) {
