@@ -255,7 +255,9 @@ H5PEditor.FullscreenBar = (function ($) {
             metadata: params.metadata
           },
           undefined,
-          previewContentElement
+          previewContentElement,
+          true,
+          undefined
       );
     } catch (e) {
       console.error(e);
