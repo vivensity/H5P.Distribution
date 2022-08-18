@@ -219,18 +219,19 @@ H5PEditor.FullscreenBar = (function ($) {
       previousPreviewWrapper.remove();
     }
 
+
     const previewWrapper = document.createElement('div');
     previewWrapper.classList.add('h5p-preview-wrapper');
     previewWrapper.classList.add('h5p-frame');
 
-    const previewIframeContainer = document.createElement('iframe');
-    previewIframeContainer.classList.add('preview-container');
+    const previewContainer = document.createElement('div');
+    previewContainer.classList.add('preview-container');
 
     const previewContent = document.createElement('div');
     previewContent.classList.add('preview-content');
 
-    previewIframeContainer.body.append(previewContent);
-    previewWrapper.append(previewIframeContainer);
+    previewContainer.append(previewContent);
+    previewWrapper.append(previewContainer);
 
     let $mainForm = H5P.jQuery('.h5peditor-form.h5peditor-form-manager');
     $mainForm.find('.tree').after(previewWrapper);
