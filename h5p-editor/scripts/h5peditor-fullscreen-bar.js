@@ -257,6 +257,7 @@ H5PEditor.FullscreenBar = (function ($) {
           previewContentElement
       );
     } catch (e) {
+      console.error(e);
     }
     previewContentElement.find('.h5p-throbber').remove();
   };
