@@ -126,7 +126,7 @@ H5PEditor.FullscreenBar = (function ($) {
   const loadLibraryWithAllDependencies = function (libraryName, params, callback) {
         // Load dependencies.
         let body = ns.libraryFromString(libraryName);
-        body['parameters'] = params;
+        body['parameters'] = JSON.stringify(params);
 
         let url = ns.getAjaxUrl('libraries/load-all-dependencies');
 
