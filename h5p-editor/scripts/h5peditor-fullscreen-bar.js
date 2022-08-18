@@ -126,7 +126,7 @@ H5PEditor.FullscreenBar = (function ($) {
   const loadLibraryWithAllDependencies = function (libraryName, params, callback) {
         // Load dependencies.
         let body = ns.libraryFromString(libraryName);
-        body['parameters'] = params;
+        body['parameters'] = JSON.stringify(params);
 
         let url = ns.getAjaxUrl('libraries/load-all-dependencies');
 
@@ -237,7 +237,7 @@ H5PEditor.FullscreenBar = (function ($) {
     // create Loading Message
     H5P.jQuery('<div/>', {
       class: 'h5p-throbber',
-      text: 'Loading',
+      text: 'Loading, please wait..',
       appendTo:  H5P.jQuery(previewContent)
     });
   };
