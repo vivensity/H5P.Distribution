@@ -222,10 +222,11 @@ H5PEditor.FullscreenBar = (function ($) {
       previousPreviewWrapper.remove();
     }
 
-    const previewWrapper = document.createElement('div');
+
+    /*const previewWrapper = document.createElement('div');
     previewWrapper.classList.add('h5p-preview-wrapper');
     previewWrapper.classList.add('h5p-frame');
-
+*/
     const previewContainer = document.createElement('div');
     previewContainer.classList.add('preview-container');
 
@@ -233,10 +234,16 @@ H5PEditor.FullscreenBar = (function ($) {
     previewContent.classList.add('preview-content');
 
     previewContainer.append(previewContent);
-    previewWrapper.append(previewContainer);
+    // previewWrapper.append(previewContainer);
 
     let $mainForm = H5P.jQuery('.h5peditor-form.h5peditor-form-manager');
-    $mainForm.find('.tree').after(previewWrapper);
+    // $mainForm.find('.tree').after(previewWrapper);
+
+    var $iframe = H5P.jQuery('<iframe/>', {
+      class: 'h5p-preview-wrapper h5p-iframe',
+    });
+    $mainForm.find('.tree').after($iframe);
+    $iframe.contents().find('body').append(previewContainer);
 
     // create Loading Message
     H5P.jQuery('<div/>', {
@@ -247,7 +254,8 @@ H5PEditor.FullscreenBar = (function ($) {
   };
 
   const renderPreview = function (library, params) {
-    const previewContentElement = H5P.jQuery('.h5p-preview-wrapper > .preview-container > .preview-content');
+    // const previewContentElement = H5P.jQuery('.h5p-preview-wrapper > .preview-container > .preview-content');
+    const previewContentElement = H5P.jQuery('.h5p-preview-wrapper.h5p-iframe').contents().find('body').find('.preview-content');
     try {
       H5P.newRunnable(
           {
