@@ -165,7 +165,7 @@ H5PEditor.FullscreenBar = (function ($) {
 
               // Add JS
             if (libraryData.javascript !== undefined && libraryData.javascript.length) {
-              libraryData.javascript.forEach(function (path) {
+              for (let path of libraryData.javascript) {
                 if (!H5P.jsLoaded(path)) {
                   ns.loadJs(path, function (err) {
                     if (err) {
@@ -182,15 +182,16 @@ H5PEditor.FullscreenBar = (function ($) {
                     }
                   });
                 } else {
-                    var isFinishedLoading = libraryData.javascript.reduce(function (hasLoaded, jsPath) {
-                      return hasLoaded && H5P.jsLoaded(jsPath);
-                    }, true);
+                  var isFinishedLoading = libraryData.javascript.reduce(function (hasLoaded, jsPath) {
+                    return hasLoaded && H5P.jsLoaded(jsPath);
+                  }, true);
 
-                    if (isFinishedLoading) {
-                      callback(libraryName, params);
-                    }
+                  if (isFinishedLoading) {
+                    callback(libraryName, params);
+                    break;
+                  }
                 }
-              });
+              }
             } else {
               // Already loaded, run callback
               callback(libraryName, params);
@@ -256,7 +257,7 @@ H5PEditor.FullscreenBar = (function ($) {
           },
           undefined,
           previewContentElement,
-          true,
+          undefined,
           undefined
       );
     } catch (e) {
