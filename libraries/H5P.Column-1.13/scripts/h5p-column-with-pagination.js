@@ -348,9 +348,9 @@ H5P.Column = (function (EventDispatcher) {
                   } else {
                     confirmationDialog.appendTo(parent.document.body);
                   }
-                  confirmationDialog.show();
-                  //H5P.jQuery(window.parent).scrollTop(0); 
-                  H5P.jQuery(".h5p-confirmation-dialog-popup").css("top", "80%");
+                //H5P.jQuery(window.parent).scrollTop(0);
+                H5P.jQuery(".h5p-confirmation-dialog-popup").css("top", "80%");
+                confirmationDialog.show();
               },
           },
           appendTo: document.body,
