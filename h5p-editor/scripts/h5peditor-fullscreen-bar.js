@@ -50,8 +50,10 @@ H5PEditor.FullscreenBar = (function ($) {
 
     // Create 'Preview to save' button
     const previewButton = createButton('preview', H5PEditor.t('core', 'previewButtonLabel'), function () {
-          const self = this;
-          loadLibraryWithAllDependencies(library, previewHandler);
+          const params = window.parent.h5peditorCopy.getParams(true).params
+          hideOrDisplayEditorForm('hide', $mainForm);
+          createPreviewContainer();
+          loadLibraryWithAllDependencies(library, params, renderPreview);
     });
 
     // Create 'Back to Edit' button
@@ -121,11 +123,12 @@ H5PEditor.FullscreenBar = (function ($) {
     }
   };
 
-  const loadLibraryWithAllDependencies = function (libraryName, callback) {
+  const loadLibraryWithAllDependencies = function (libraryName, params, callback) {
         // Load dependencies.
-        const library = ns.libraryFromString(libraryName);
+        let body = ns.libraryFromString(libraryName);
+        body['parameters'] = params;
 
-        let url = ns.getAjaxUrl('libraries/load-all-dependencies', library);
+        let url = ns.getAjaxUrl('libraries/load-all-dependencies');
 
         // Add content language to URL
         if (ns.contentLanguage !== undefined) {
@@ -140,6 +143,8 @@ H5PEditor.FullscreenBar = (function ($) {
         // Fire away!
         ns.$.ajax({
           url: url,
+          type: 'POST',
+          data: body,
           success: function (libraryData) {
               // Add CSS.
               if (libraryData.css !== undefined) {
@@ -174,18 +179,18 @@ H5PEditor.FullscreenBar = (function ($) {
                       }, true);
 
                       if (isFinishedLoading) {
-                        callback(libraryName);
+                        callback(libraryName, params);
                       }
                     });
                   }
                 });
               }
               if (!loadingJs) {
-                callback(libraryName);
+                callback(libraryName, params);
               }
             else {
               // Already loaded, run callback
-              callback(libraryName);
+              callback(libraryName, params);
             }
           },
           error: function (jqXHR, textStatus, errorThrown) {
@@ -200,48 +205,57 @@ H5PEditor.FullscreenBar = (function ($) {
         });
   };
 
-    const previewHandler = function (library) {
 
-      // hide preview button
-      H5P.jQuery('.h5peditor-form-manager-backToEdit').css('display', 'block');
-      H5P.jQuery('.h5peditor-form-manager-preview').css('display', 'none');
+  const createPreviewContainer = function() {
 
-      // remove previous container
-      const previousPreviewWrapper = document.querySelector(".h5p-preview-wrapper");
-      if (previousPreviewWrapper) {
-        previousPreviewWrapper.remove();
-      }
+    // hide preview button
+    H5P.jQuery('.h5peditor-form-manager-backToEdit').css('display', 'block');
+    H5P.jQuery('.h5peditor-form-manager-preview').css('display', 'none');
 
-      const previewWrapper = document.createElement('div');
-      previewWrapper.classList.add('h5p-preview-wrapper');
-      previewWrapper.classList.add('h5p-frame');
+    // remove previous container
+    const previousPreviewWrapper = document.querySelector(".h5p-preview-wrapper");
+    if (previousPreviewWrapper) {
+      previousPreviewWrapper.remove();
+    }
 
-      const previewContainer = document.createElement('div');
-      previewContainer.classList.add('preview-container');
+    const previewWrapper = document.createElement('div');
+    previewWrapper.classList.add('h5p-preview-wrapper');
+    previewWrapper.classList.add('h5p-frame');
 
-      const previewContent = document.createElement('div');
-      previewContent.classList.add('preview-content');
+    const previewContainer = document.createElement('div');
+    previewContainer.classList.add('preview-container');
 
-      previewContainer.append(previewContent);
-      previewWrapper.append(previewContainer);
+    const previewContent = document.createElement('div');
+    previewContent.classList.add('preview-content');
 
-      let $mainForm = H5P.jQuery('.h5peditor-form.h5peditor-form-manager');
-      $mainForm.find('.tree').after(previewWrapper);
+    previewContainer.append(previewContent);
+    previewWrapper.append(previewContainer);
 
-      hideOrDisplayEditorForm('hide', $mainForm);
-      try {
-        H5P.newRunnable(
-            {
-              library: library,
-              // params: window.parent.h5peditor.current.h5pEditor.current.editorInstance.getParams(true).params
-              params: window.parent.h5peditorCopy.getParams(true).params
-            },
-            undefined,
-            H5P.jQuery(previewContent)
-        );
-      } catch (e) {
-        console.error(e);
-      }
-    };
+    let $mainForm = H5P.jQuery('.h5peditor-form.h5peditor-form-manager');
+    $mainForm.find('.tree').after(previewWrapper);
+
+    // create Loading Message
+    $('<div/>', {
+      class: 'h5p-throbber',
+      text: 'Loading',
+      appendTo:  H5P.jQuery(previewContent)
+    });
+  };
+
+  const renderPreview = function (library, params) {
+    const previewContentElement = H5P.jQuery('.h5p-preview-wrapper > .preview-container > .preview-content');
+    try {
+      H5P.newRunnable(
+          {
+            library: library,
+            params: params
+          },
+          undefined,
+          previewContentElement
+      );
+    } catch (e) {
+    }
+    previewContentElement.find('.h5p-throbber').remove();
+  };
   return FullscreenBar;
 }(ns.jQuery));
