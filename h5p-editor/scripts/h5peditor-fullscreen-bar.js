@@ -51,7 +51,6 @@ H5PEditor.FullscreenBar = (function ($) {
     // Create 'Preview to save' button
     const previewButton = createButton('preview', H5PEditor.t('core', 'previewButtonLabel'), function () {
           const params = window.parent.h5peditorCopy.getParams(true);
-          params.params.metadata = params.metadata;
           hideOrDisplayEditorForm('hide', $mainForm);
           createPreviewContainer();
           loadLibraryWithAllDependencies(library, params, renderPreview);
@@ -252,7 +251,8 @@ H5PEditor.FullscreenBar = (function ($) {
       H5P.newRunnable(
           {
             library: library,
-            params: params.params
+            params: params.params,
+            metadata: params.metadata
           },
           undefined,
           previewContentElement
