@@ -164,32 +164,34 @@ H5PEditor.FullscreenBar = (function ($) {
               }
 
               // Add JS
-              var loadingJs = false;
-              if (libraryData.javascript !== undefined && libraryData.javascript.length) {
-                libraryData.javascript.forEach(function (path) {
-                  if (!H5P.jsLoaded(path)) {
-                    loadingJs = true;
-                    ns.loadJs(path, function (err) {
-                      if (err) {
-                        console.error('Error while loading script', err);
-                        return;
-                      }
+            if (libraryData.javascript !== undefined && libraryData.javascript.length) {
+              libraryData.javascript.forEach(function (path) {
+                if (!H5P.jsLoaded(path)) {
+                  ns.loadJs(path, function (err) {
+                    if (err) {
+                      console.error('Error while loading script', err);
+                      return;
+                    }
 
-                      var isFinishedLoading = libraryData.javascript.reduce(function (hasLoaded, jsPath) {
-                        return hasLoaded && H5P.jsLoaded(jsPath);
-                      }, true);
+                    var isFinishedLoading = libraryData.javascript.reduce(function (hasLoaded, jsPath) {
+                      return hasLoaded && H5P.jsLoaded(jsPath);
+                    }, true);
 
-                      if (isFinishedLoading) {
-                        callback(libraryName, params);
-                      }
-                    });
-                  }
-                });
-              }
-              if (!loadingJs) {
-                callback(libraryName, params);
-              }
-            else {
+                    if (isFinishedLoading) {
+                      callback(libraryName, params);
+                    }
+                  });
+                } else {
+                    var isFinishedLoading = libraryData.javascript.reduce(function (hasLoaded, jsPath) {
+                      return hasLoaded && H5P.jsLoaded(jsPath);
+                    }, true);
+
+                    if (isFinishedLoading) {
+                      callback(libraryName, params);
+                    }
+                }
+              });
+            } else {
               // Already loaded, run callback
               callback(libraryName, params);
             }
@@ -218,7 +220,6 @@ H5PEditor.FullscreenBar = (function ($) {
     if (previousPreviewWrapper) {
       previousPreviewWrapper.remove();
     }
-
 
     const previewWrapper = document.createElement('div');
     previewWrapper.classList.add('h5p-preview-wrapper');
