@@ -229,7 +229,7 @@ H5PEditor.FullscreenBar = (function ($) {
     const previewContent = document.createElement('div');
     previewContent.classList.add('preview-content');
 
-    previewIframeContainer.append(previewContent);
+    previewIframeContainer.body.append(previewContent);
     previewWrapper.append(previewIframeContainer);
 
     let $mainForm = H5P.jQuery('.h5peditor-form.h5peditor-form-manager');
