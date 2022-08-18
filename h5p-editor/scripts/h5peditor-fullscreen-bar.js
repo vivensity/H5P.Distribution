@@ -235,7 +235,7 @@ H5PEditor.FullscreenBar = (function ($) {
     $mainForm.find('.tree').after(previewWrapper);
 
     // create Loading Message
-    $('<div/>', {
+    H5P.jQuery('<div/>', {
       class: 'h5p-throbber',
       text: 'Loading',
       appendTo:  H5P.jQuery(previewContent)
