@@ -249,7 +249,7 @@ H5PEditor.FullscreenBar = (function ($) {
       H5P.newRunnable(
           {
             library: library,
-            params: params
+            params: params.params
           },
           undefined,
           previewContentElement
