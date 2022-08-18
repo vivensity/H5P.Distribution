@@ -352,9 +352,9 @@ H5P.Column = (function (EventDispatcher) {
                   });
 
                   // if editor then show confirm only inside editor window
-                  const editor = document.querySelector('.h5peditor');
+                  const editor = H5P.jQuery('h5p-editor-iframe');
                   if(editor) {
-                    confirmationDialog.appendTo(editor);
+                    confirmationDialog.appendTo(editor.contents().find('body')[0]);
                   } else {
                     confirmationDialog.appendTo(parent.document.body);
                   }
