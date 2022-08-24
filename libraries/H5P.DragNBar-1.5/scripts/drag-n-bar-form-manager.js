@@ -148,10 +148,10 @@
         // Create 'Preview' button
         const previewButton = createButton('preview', H5PEditor.t('core', 'previewButtonLabel'), function () {
           const params = window.parent.h5peditorCopy.getParams(true);
-          let $mainForm = H5P.jQuery('.h5peditor-form.h5peditor-form-manager');
+          let $mainForm = H5P.jQuery('.h5peditor-form.form-manager');
           hideOrDisplayEditorForm('hide', $mainForm);
           createPreviewContainer();
-          loadLibraryWithAllDependencies(library, params, renderPreview);
+          loadLibraryWithAllDependencies(parent.currentLibrary, params, renderPreview);
         });
 
         // Create 'Back to Edit' button
@@ -161,6 +161,7 @@
           if(previousPreviewWrapper) {
             previousPreviewWrapper.remove();
           }
+          let $mainForm = H5P.jQuery('.h5peditor-form.form-manager');
           hideOrDisplayEditorForm('display', $mainForm);
 
           previewButton.style.display = 'block';
@@ -547,7 +548,7 @@
       previewContainer.append(previewContent);
       previewWrapper.append(previewContainer);
 
-      let $mainForm = H5P.jQuery('.h5peditor-form.h5peditor-form-manager');
+      let $mainForm = H5P.jQuery('.h5peditor-form.form-manager');
       $mainForm.find('.tree').after(previewWrapper);
 
       // create Loading Message
