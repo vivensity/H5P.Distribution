@@ -420,10 +420,10 @@
     const hideOrDisplayEditorForm = function (action, $mainForm) {
       if (action === 'hide') {
         $mainForm.find('.tree').css('display', 'none');
-        H5P.jQuery('.h5peditor-form.h5peditor-form-manager>.common').css('display', 'none');
+        H5P.jQuery('.h5peditor-form.form-manager>.common').css('display', 'none');
       } else if (action === 'display') {
         $mainForm.find('.tree').css('display', 'block');
-        H5P.jQuery('.h5peditor-form.h5peditor-form-manager>.common').css('display', 'block');
+        H5P.jQuery('.h5peditor-form.form-manager>.common').css('display', 'block');
       }
     };
 
