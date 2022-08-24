@@ -48,7 +48,7 @@ H5PEditor.FullscreenBar = (function ($) {
       exitSemiFullscreen();
     });
 
-    // Create 'Preview to save' button
+    // Create 'Preview' button
     const previewButton = createButton('preview', H5PEditor.t('core', 'previewButtonLabel'), function () {
           const params = window.parent.h5peditorCopy.getParams(true);
           hideOrDisplayEditorForm('hide', $mainForm);

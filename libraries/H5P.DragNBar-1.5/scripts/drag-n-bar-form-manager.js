@@ -144,6 +144,32 @@
           }
         });
         toggleFullscreenButtonState(fullscreenButton);
+
+        // Create 'Preview' button
+        const previewButton = createButton('preview', H5PEditor.t('core', 'previewButtonLabel'), function () {
+          const params = window.parent.h5peditorCopy.getParams(true);
+          let $mainForm = H5P.jQuery('.h5peditor-form.h5peditor-form-manager');
+          hideOrDisplayEditorForm('hide', $mainForm);
+          createPreviewContainer();
+          loadLibraryWithAllDependencies(library, params, renderPreview);
+        });
+
+        // Create 'Back to Edit' button
+        const backToEditButton = createButton('backToEdit', H5PEditor.t('core', 'backToEditLabel'), function () {
+
+          const  previousPreviewWrapper = document.querySelector(".h5p-preview-wrapper");
+          if(previousPreviewWrapper) {
+            previousPreviewWrapper.remove();
+          }
+          hideOrDisplayEditorForm('display', $mainForm);
+
+          previewButton.style.display = 'block';
+          this.style.display = 'none';
+        });
+
+        backToEditButton.style.display = 'none';
+        head.append(previewButton);
+        head.append(backToEditButton);
         head.appendChild(fullscreenButton);
       }
 
@@ -388,6 +414,173 @@
         element.setAttribute('aria-label', H5PEditor.t('core', 'enterFullscreenButtonLabel'));
         element.classList.remove('form-manager-exit');
       }
+    };
+
+    const hideOrDisplayEditorForm = function (action, $mainForm) {
+      if (action === 'hide') {
+        $mainForm.find('.tree').css('display', 'none');
+        H5P.jQuery('.h5peditor-form.h5peditor-form-manager>.common').css('display', 'none');
+      } else if (action === 'display') {
+        $mainForm.find('.tree').css('display', 'block');
+        H5P.jQuery('.h5peditor-form.h5peditor-form-manager>.common').css('display', 'block');
+      }
+    };
+
+    /**
+     * Load all preloaded dependencies
+     * @param libraryName
+     * @param params
+     * @param callback
+     */
+    const loadLibraryWithAllDependencies = function (libraryName, params, callback) {
+      // Load dependencies.
+      let body = ns.libraryFromString(libraryName);
+      body['parameters'] = JSON.stringify(params);
+
+      let url = ns.getAjaxUrl('libraries/load-all-dependencies');
+
+      // Add content language to URL
+      if (ns.contentLanguage !== undefined) {
+        url += (url.indexOf('?') === -1 ? '?' : '&') + 'language=' + ns.contentLanguage;
+      }
+      // Add common fields default lanuage to URL
+      const defaultLanguage = ns.defaultLanguage; // Avoid changes after sending AJAX
+      if (defaultLanguage !== undefined) {
+        url += (url.indexOf('?') === -1 ? '?' : '&') + 'default-language=' + defaultLanguage;
+      }
+
+      // Fire away!
+      ns.$.ajax({
+        url: url,
+        type: 'POST',
+        data: JSON.stringify(body),
+        contentType: "application/json; charset=utf-8",
+        success: function (libraryData) {
+          // Add CSS.
+          if (libraryData.css !== undefined) {
+            libraryData.css.forEach(function (path) {
+              if (!H5P.cssLoaded(path)) {
+                H5PIntegration.loadedCss.push(path);
+                if (path) {
+                  ns.$('head').append('<link ' +
+                      'rel="stylesheet" ' +
+                      'href="' + path + '" ' +
+                      'type="text/css" ' +
+                      '/>');
+                }
+              }
+            });
+          }
+
+          // Add JS
+          if (libraryData.javascript !== undefined && libraryData.javascript.length) {
+            for (let path of libraryData.javascript) {
+              if (!H5P.jsLoaded(path)) {
+                ns.loadJs(path, function (err) {
+                  if (err) {
+                    console.error('Error while loading script', err);
+                    return;
+                  }
+
+                  var isFinishedLoading = libraryData.javascript.reduce(function (hasLoaded, jsPath) {
+                    return hasLoaded && H5P.jsLoaded(jsPath);
+                  }, true);
+
+                  if (isFinishedLoading) {
+                    callback(libraryName, params);
+                  }
+                });
+              } else {
+                var isFinishedLoading = libraryData.javascript.reduce(function (hasLoaded, jsPath) {
+                  return hasLoaded && H5P.jsLoaded(jsPath);
+                }, true);
+
+                if (isFinishedLoading) {
+                  callback(libraryName, params);
+                  break;
+                }
+              }
+            }
+          } else {
+            // Already loaded, run callback
+            callback(libraryName, params);
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          if (window['console'] !== undefined) {
+            console.warn('Ajax request failed');
+            console.warn(jqXHR);
+            console.warn(textStatus);
+            console.warn(errorThrown);
+          }
+        },
+        dataType: 'json'
+      });
+    };
+
+
+    /**
+     * Create Preview Container
+     */
+    const createPreviewContainer = function() {
+
+      // hide preview button
+      H5P.jQuery('.form-manager-backToEdit').css('display', 'block');
+      H5P.jQuery('.form-manager-preview').css('display', 'none');
+
+      // remove previous container
+      const previousPreviewWrapper = document.querySelector(".h5p-preview-wrapper");
+      if (previousPreviewWrapper) {
+        previousPreviewWrapper.remove();
+      }
+
+      const previewWrapper = document.createElement('div');
+      previewWrapper.classList.add('h5p-preview-wrapper');
+      previewWrapper.classList.add('h5p-frame');
+
+      const previewContainer = document.createElement('div');
+      previewContainer.classList.add('preview-container');
+
+      const previewContent = document.createElement('div');
+      previewContent.classList.add('preview-content');
+
+      previewContainer.append(previewContent);
+      previewWrapper.append(previewContainer);
+
+      let $mainForm = H5P.jQuery('.h5peditor-form.h5peditor-form-manager');
+      $mainForm.find('.tree').after(previewWrapper);
+
+      // create Loading Message
+      H5P.jQuery('<div/>', {
+        class: 'h5p-throbber',
+        text: 'Loading, please wait..',
+        appendTo:  H5P.jQuery(previewContent)
+      });
+    };
+
+    /**
+     * Render Preview
+     * @param library
+     * @param params
+     */
+    const renderPreview = function (library, params) {
+      const previewContentElement = H5P.jQuery('.h5p-preview-wrapper > .preview-container > .preview-content');
+      try {
+        H5P.newRunnable(
+            {
+              library: library,
+              params: params.params,
+              metadata: params.metadata
+            },
+            undefined,
+            previewContentElement,
+            undefined,
+            undefined
+        );
+      } catch (e) {
+        console.error(e);
+      }
+      previewContentElement.find('.h5p-throbber').remove();
     };
 
     /**
