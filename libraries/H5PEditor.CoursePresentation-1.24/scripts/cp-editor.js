@@ -82,6 +82,12 @@ H5PEditor.CoursePresentation = function (parent, field, params, setValue) {
     }
     that.dnb.setCanPaste(canPaste);
   });
+
+  if (localStorage.getItem('coursePresentationFromFile') !== null) {
+    setTimeout(() => {
+      this.processPdf(localStorage.getItem('coursePresentationFromFile'), this);
+    }, 5000);
+  }
 };
 
 H5PEditor.CoursePresentation.prototype = Object.create(H5P.DragNBar.FormManager.prototype);
@@ -247,7 +253,10 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
   this.$item = H5PEditor.$(this.createHtml()).appendTo($wrapper);
   this.$editor = this.$item.children('.editor');
   this.$errors = this.$item.children('.h5p-errors');
-
+  this.$uploading = H5PEditor.$('<div>', {
+    'class': 'h5p-presentation-uploading h5p-hidden',
+    appendTo: $wrapper
+  });
   // Create new presentation.
   var presentationParams = (this.parent instanceof ns.Library ? this.parent.params.params : this.parent.params);
   if (presentationParams && presentationParams.override && presentationParams.override.activeSurface === true) {
@@ -280,7 +289,7 @@ H5PEditor.CoursePresentation.prototype.appendTo = function ($wrapper) {
     $background: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'backgroundSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-background"></a>'),
     $sortLeft: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'left'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-left"></a>'),
     $sortRight: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'sortSlide', {':dir': 'right'}) + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-sort-right"></a>'),
-    $delete: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>')
+    $delete: H5PEditor.$('<a href="#" aria-label="' + H5PEditor.t('H5PEditor.CoursePresentation', 'removeSlide') + '" class="h5p-slidecontrols-button h5p-slidecontrols-button-delete"></a>'),
   };
   this.slideControls = slideControls;
 
@@ -2257,6 +2266,98 @@ H5PEditor.CoursePresentation.prototype.showConfirmationDialog = function (dialog
   return confirmationDialog;
 };
 
+/**
+ * PDF was selected and we need to convert all pages to images, upload them and
+ * set as backgrounds for a new slide each
+ * @param {event} The file input onchange event
+ */
+ H5PEditor.CoursePresentation.prototype.processPdf = function (event, that) {
+  const slidesReady = [];
+  const PDFJS = window.pdfjsLib;
+  that.$uploading.html('<div>Uploading...</div>');
+  that.$uploading.removeClass('h5p-hidden');
+
+  if (event.target?.files[0]) {
+    var file = event.target.files[0];
+    var uri = URL.createObjectURL(file);
+    var _PDF_DOC = PDFJS.getDocument({ url: uri });
+  } else {
+    var file = event;
+    if (localStorage.getItem('coursePresentationFromFile').indexOf('pdf') === -1){
+      console.log('processPdf: Invalid filetype');
+      return;
+    }
+
+    var _PDF_DOC = PDFJS.getDocument({ data: atob(file.split(',')[1]) });
+  }
+  // Extracting images from pdf
+  _PDF_DOC.promise.then((pdf) => {
+    for(var i = 1; i <= pdf.numPages; i++) {
+      const index = i;
+      pdf.getPage(index).then((page) => {
+        var scale = 1.5;
+        var viewport = page.getViewport({scale: scale});
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        var render_context = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        var renderTask = page.render(render_context);
+        renderTask.promise.then(() => {
+          canvas.toBlob((blob) => {
+            const formData = new FormData();
+            formData.append("contentId", 0);
+            formData.append("field", '{"name": "imageSlideBackground","type": "image","label": "Image","importance": "medium","optional": true,"description": "Image background should have a 2:1 width to height ratio to avoid stretching. High resolution images will display better on larger screens."}');
+            formData.append("file", blob, 'image.png');
+            const request = new XMLHttpRequest();
+            request.open("POST", H5PEditor.getAjaxUrl('files'), true);
+            request.onload = () => {
+              const response = JSON.parse(request.response);
+              const slideParams = {
+                index: index,
+                elements: [],
+                keywords: [],
+                slideBackgroundSelector: {
+                  fillSlideBackground: null,
+                  imageSlideBackground: {
+                      path: response.path,
+                      mime: response.mime,
+                      copyright: {
+                          license: "U"
+                      },
+                      width: response.width,
+                      height: response.height
+                  }
+                }
+              };
+              slidesReady.push(slideParams);
+
+              that.$uploading.html('<div>Uploading...<br>'+slidesReady.length+' of '+pdf.numPages+'</div>');
+
+              if (slidesReady.length === pdf.numPages)
+                that.addPdfSlides(slidesReady, that);
+            };
+            request.send(formData);
+          });
+        });
+      });
+    }
+  });
+};
+
+H5PEditor.CoursePresentation.prototype.addPdfSlides = function (slides, that) {
+  slides.sort((a, b) => (a.index > b.index) ? 1 : -1);
+  slides.forEach((slide, i) => {
+    // Need to wait for slide-selector events otherwise order gets lost
+    setTimeout(() => {
+      that.addSlide(slide);
+    }, 500 * i);
+  });
+  that.$uploading.addClass('h5p-hidden');
+};
 /** @constant {Number} */
 H5PEditor.CoursePresentation.RATIO_SURFACE = 16 / 9;
 

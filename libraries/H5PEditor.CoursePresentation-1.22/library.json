@@ -12,6 +12,9 @@
   },
   "preloadedJs": [
     {
+      "path": "scripts/pdfjs/build/pdf.js"
+    },
+    {
       "path": "scripts/disposable-boolean.js"
     },
     {
