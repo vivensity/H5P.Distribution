@@ -148,10 +148,12 @@
         // Create 'Preview' button
         const previewButton = createButton('preview', H5PEditor.t('core', 'previewButtonLabel'), function () {
           const params = window.parent.h5peditorCopy.getParams(true);
+          const contentId = window.parent.h5peditorCopy.contentId;
+          const brightcoveApiSettingId = window.parent.h5peditorCopy.brightcoveApiSettingId;
           let $mainForm = H5P.jQuery('.h5peditor-form.form-manager');
           hideOrDisplayEditorForm('hide', $mainForm);
           createPreviewContainer();
-          loadLibraryWithAllDependencies(parent.currentLibrary, params, renderPreview);
+          loadLibraryWithAllDependencies(parent.currentLibrary, params, contentId, brightcoveApiSettingId, renderPreview);
         });
 
         // Create 'Back to Edit' button
@@ -433,15 +435,15 @@
      * @param params
      * @param callback
      */
-    const loadLibraryWithAllDependencies = function (libraryName, params, callback) {
+    const loadLibraryWithAllDependencies = function (libraryName, params, contentId, brightcoveApiSettingId, callback) {
       // Load dependencies.
       let body = ns.libraryFromString(libraryName);
       body['parameters'] = JSON.stringify(params);
-      if(H5PEditor.previewContentId) {
-        body['contentId'] = H5PEditor.previewContentId;
+      if(contentId) {
+        body['contentId'] = contentId;
       }
-      if(H5PEditor.previewBrightcoveApiSettingId) {
-        body['brightcoveApiSettingId'] = H5PEditor.previewBrightcoveApiSettingId;
+      if(brightcoveApiSettingId) {
+        body['brightcoveApiSettingId'] = brightcoveApiSettingId;
       }
 
       let url = ns.getAjaxUrl('libraries/load-all-dependencies');

@@ -36,13 +36,6 @@ var ns = H5PEditor;
       H5PEditor.contentId = H5PIntegration.editor.nodeVersionId;
     }
 
-    // add attributes for preview
-    var previewContentId = $('#laravel-h5p-contentId').val();
-    var previewBrightcoveApiSettingId = $('#laravel-h5p-brightcove-api-settingId').val();
-    H5PEditor.previewContentId = previewContentId;
-    H5PEditor.previewBrightcoveApiSettingId = previewBrightcoveApiSettingId;
-
-
     var h5peditor;
     var $upload = $('.laravel-h5p-upload').parents('.laravel-h5p-upload-container');
     var $editor = $('#laravel-h5p-editor');
@@ -66,6 +59,12 @@ var ns = H5PEditor;
         }
         $create.show();
       }
+
+      // add attributes for preview
+      var contentId = $('#laravel-h5p-contentId').val();
+      var brightcoveApiSettingId = $('#laravel-h5p-brightcove-api-settingId').val();
+      h5peditor.contentId = contentId;
+      h5peditor.contentId = brightcoveApiSettingId;
 
     });
 
