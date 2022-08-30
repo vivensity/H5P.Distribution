@@ -36,6 +36,13 @@ var ns = H5PEditor;
       H5PEditor.contentId = H5PIntegration.editor.nodeVersionId;
     }
 
+    // add attributes for preview
+    var previewContentId = $('#laravel-h5p-contentId').val();
+    var previewBrightcoveApiSettingId = $('#laravel-h5p-brightcove-api-settingId').val();
+    H5PEditor.previewContentId = previewContentId;
+    H5PEditor.previewBrightcoveApiSettingId = previewBrightcoveApiSettingId;
+
+
     var h5peditor;
     var $upload = $('.laravel-h5p-upload').parents('.laravel-h5p-upload-container');
     var $editor = $('#laravel-h5p-editor');
@@ -44,6 +51,7 @@ var ns = H5PEditor;
     var $params = $('#laravel-h5p-parameters');
     var $library = $('#laravel-h5p-library');
     var library = $library.val();
+
 
     $type.change(function () {
       if ($type.filter(':checked').val() === 'upload') {
@@ -58,6 +66,7 @@ var ns = H5PEditor;
         }
         $create.show();
       }
+
     });
 
     if ($type.filter(':checked').val() === 'upload') {
