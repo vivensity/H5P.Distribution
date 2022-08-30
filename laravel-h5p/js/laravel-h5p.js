@@ -64,7 +64,7 @@ var ns = H5PEditor;
       var contentId = $('#laravel-h5p-contentId').val();
       var brightcoveApiSettingId = $('#laravel-h5p-brightcove-api-settingId').val();
       h5peditor.contentId = contentId;
-      h5peditor.contentId = brightcoveApiSettingId;
+      h5peditor.brightcoveApiSettingId = brightcoveApiSettingId;
 
     });
 
