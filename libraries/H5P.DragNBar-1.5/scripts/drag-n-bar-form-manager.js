@@ -437,6 +437,12 @@
       // Load dependencies.
       let body = ns.libraryFromString(libraryName);
       body['parameters'] = JSON.stringify(params);
+      if(H5PEditor.previewContentId) {
+        body['contentId'] = H5PEditor.previewContentId;
+      }
+      if(H5PEditor.previewBrightcoveApiSettingId) {
+        body['brightcoveApiSettingId'] = H5PEditor.previewBrightcoveApiSettingId;
+      }
 
       let url = ns.getAjaxUrl('libraries/load-all-dependencies');
 
