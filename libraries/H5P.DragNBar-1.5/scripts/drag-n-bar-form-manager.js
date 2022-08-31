@@ -170,6 +170,9 @@
           this.style.display = 'none';
         });
 
+        self.previewButton = previewButton;
+        self.backToEditButton = backToEditButton;
+
         backToEditButton.style.display = 'none';
         head.append(previewButton);
         head.append(backToEditButton);
@@ -657,6 +660,10 @@
           hideElement(manager.footer);
         }
 
+        // show preview button
+        if(manager.previewButton) {
+          showElement(manager.previewButton);
+        }
         manager.formContainer.classList.add('root-form');
       }
 
@@ -833,6 +840,11 @@
       showElement(manager.formButtons);
       showElement(manager.footerFormButtons);
       showElement(manager.footer);
+
+      // hide preview button
+      if(manager.previewButton) {
+        hideElement(manager.previewButton);
+      }
 
       // Ensure footer is at the bottom of the form
       manager.formContainer.appendChild(manager.footer);
