@@ -158,7 +158,7 @@
               console.error('Error while loading script', err);
               return;
             }
-            // to avoid editor and preview objects
+            // to avoid editor and preview objects conflicts
             const clonedParams = _.cloneDeep(params);
             loadLibraryWithAllDependencies(parent.currentLibrary, clonedParams, contentId, brightcoveApiSettingId, renderPreview);
           });

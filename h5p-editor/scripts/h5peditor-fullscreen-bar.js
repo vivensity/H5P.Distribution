@@ -55,7 +55,16 @@ H5PEditor.FullscreenBar = (function ($) {
           const brightcoveApiSettingId = window.parent.h5peditorCopy.brightcoveApiSettingId;
           hideOrDisplayEditorForm('hide', $mainForm);
           createPreviewContainer();
-          loadLibraryWithAllDependencies(library, params, contentId, brightcoveApiSettingId, renderPreview);
+          ns.loadJs('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js', function (err) {
+            if (err) {
+              console.error('Error while loading script', err);
+              return;
+            }
+            // to avoid editor and preview objects conflicts
+            const clonedParams = _.cloneDeep(params);
+            loadLibraryWithAllDependencies(library, clonedParams, contentId, brightcoveApiSettingId, renderPreview);
+          });
+
     });
 
     // Create 'Back to Edit' button
