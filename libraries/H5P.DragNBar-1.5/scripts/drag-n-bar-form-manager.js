@@ -153,7 +153,15 @@
           let $mainForm = H5P.jQuery('.h5peditor-form.form-manager');
           hideOrDisplayEditorForm('hide', $mainForm);
           createPreviewContainer();
-          loadLibraryWithAllDependencies(parent.currentLibrary, params, contentId, brightcoveApiSettingId, renderPreview);
+          ns.loadJs('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js', function (err) {
+            if (err) {
+              console.error('Error while loading script', err);
+              return;
+            }
+            // to avoid editor and preview objects
+            const clonedParams = _.cloneDeep(params);
+            loadLibraryWithAllDependencies(parent.currentLibrary, clonedParams, contentId, brightcoveApiSettingId, renderPreview);
+          });
         });
 
         // Create 'Back to Edit' button
