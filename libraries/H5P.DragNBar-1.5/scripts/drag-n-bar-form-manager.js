@@ -595,7 +595,9 @@
             undefined,
             previewContentElement,
             undefined,
-            undefined
+            {
+              standalone: true
+            }
         );
       } catch (e) {
         console.error(e);
