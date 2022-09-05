@@ -118,6 +118,9 @@ H5P.Column = (function (EventDispatcher) {
 
       // Content overrides
       var library = content.library.split(' ')[0];
+      if (library === 'H5P.StarRating') {
+        window.StarRating = true;
+      }
       if (library === 'H5P.Video') {
         // Prevent video from growing endlessly since height is unlimited.
         content.params.visuals.fit = false;

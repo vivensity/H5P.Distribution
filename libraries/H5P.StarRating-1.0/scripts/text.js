@@ -25,7 +25,7 @@ H5P.StarRating  = (function (EventDispatcher, $) {
      * @param {H5P.jQuery} $container
      */
     function ratingStar(event){
-      console.log(event)
+      window.UserRating = event.target.id;
       var checkValue = event.target.parentNode.parentNode.querySelectorAll(".star-rating input.checkbox-class");
       var checkStar =  event.target.parentNode.parentNode.querySelectorAll(".star-rating label");
   
